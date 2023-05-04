@@ -1,30 +1,27 @@
-Título:
-**La web del cafe**
+# Hjapp
 
-**Insignias:**
-[ a rellenar]
-**Índice:**
-[ a rellenar]
-**Descripción del Proyecto:**
-El proyecto _La web del cafe_ es una aplicacion web de comercio electronico con una arquitectura MVC que nos permite realizar la compra de productos, asi como registrar productos y gestionarlos. Los roles en este proyecto tambien están incluidos, la diferencia de opciones entre un catalogo de productos y un administrador.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.0.
 
-**Demostración de funciones y aplicaciones:**
-Es una aplicacion SPA de comercio electronico con _Angular_ consumo de API, y *POO* con _Django y Python_.
-Dedicada a la comercializacion de cafe y otras bebidas, incluidos aperitivos.
+## Development server
 
-**Acceso al Proyecto:**
-[ a rellenar]
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-**Tecnologías utilizadas:**
-Se desarrollo en el Ide _Visual studio code_. El código fuente del sistema ha sido desarrollado con el lenguaje de programación _Javascript_. Y en una base de datos en _mySQL_ con el lenguaje de SQL.
+## Code scaffolding
 
-**Personas Desarrolladoras del Proyecto**
--Lucas Emir Sanchez
--Danilo Oviedo
--Daniel Aranda
--Grecia Azul Lossani
--Eduardo Nicolas Zurbriggen
--Jose Martin Oviedo
--Damian Emiliano Ledesma
--Fernando Esteban Juarez
--Hernan Ezequiel Juarez
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
