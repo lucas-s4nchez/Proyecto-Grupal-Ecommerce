@@ -1,1 +1,33 @@
-<p>header works!</p>
+<header class="header">
+  <nav class="navbar">
+    <div class="logo">
+      <img class="logo__img" src="assets/Logo-white.png" alt="Logo de la aplicación">
+    </div>
+    <button class="toggle-button" (click)="toggleMenu()">
+      <i [class]="isMenuOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'"></i>
+    </button>
+    <ul [class.menu--active]="isMenuOpen" class="menu">
+      <li class="menu__item">
+        <a routerLink="/home" routerLinkActive="menu__link--active" class="menu__link">Inicio</a>
+      </li>
+      <li class="menu__item">
+        <a routerLink="/about" routerLinkActive="menu__link--active" class="menu__link">Nosotros</a>
+      </li>
+      <li class="menu__item">
+        <a routerLink="/products" routerLinkActive="menu__link--active" class="menu__link">Productos</a>
+      </li>
+      <li class="menu__item">
+        <a routerLink="/cart" routerLinkActive="menu__link--active" class="menu__link">Carrito <i
+            class="fa-solid fa-cart-shopping"></i></a>
+      </li>
+      <li class="menu__item">
+        <a routerLink="/auth/login" routerLinkActive="menu__link--active" class="menu__link">Ingresar <i
+            class="fa-solid fa-arrow-right-to-bracket"></i></a>
+      </li>
+      <li class="menu__item">
+        <a routerLink="/auth/register" routerLinkActive="menu__link--active" class="menu__link">Registrarse <i
+            class="fa-solid fa-user-plus"></i></a>
+      </li>
+    </ul>
+  </nav>
+</header>
