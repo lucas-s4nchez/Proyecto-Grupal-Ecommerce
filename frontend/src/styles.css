@@ -16,6 +16,7 @@ html {
 body {
   font-size: 1.6rem;
   line-height: 1.5;
+  color: var(--dark);
 }
 img {
   max-width: 100%;
@@ -40,4 +41,7 @@ a {
   max-width: 120rem;
   margin: 0 auto;
   padding-top: 12rem;
+}
+[class*="section"] {
+  margin-block: 5rem;
 }

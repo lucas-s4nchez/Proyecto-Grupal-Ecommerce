@@ -1,0 +1,56 @@
+/* seccion de iconos */
+.icons {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.icon {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.icon__img {
+  width: 8rem;
+  margin: auto;
+}
+
+@media (min-width: 768px) {
+  .icons {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+/* seccion contacto */
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 4rem;
+}
+.contact__map {
+  width: 100%;
+}
+.contact__title {
+  font-weight: 700;
+  font-size: 2.4rem;
+  margin-bottom: 2rem;
+}
+.contact__span {
+  font-weight: 700;
+}
+@media (min-width: 992px) {
+  .contact {
+    flex-direction: row-reverse;
+    align-items: center;
+  }
+  .contact__map {
+    max-width: 50rem;
+  }
+}
