@@ -5,6 +5,7 @@
   display: flex;
   position: fixed;
   margin-bottom: 5rem;
+  z-index: 999;
 }
 .navbar {
   width: 95%;
