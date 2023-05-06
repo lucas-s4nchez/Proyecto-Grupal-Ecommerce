@@ -1,0 +1,12 @@
+<app-header></app-header>
+<div class="page">
+  <div>
+    <img [src]="product.img" alt="">
+    <h2>nombre: {{ product.name }}</h2>
+    <p>descripcion: {{ product.description }}</p>
+    <p>precio: {{ product.price }}</p>
+    <p *ngIf="product.discount">descuento: {{ product.discount }}</p>
+    <p>categoria: {{product.category}}</p>
+  </div>
+</div>
+<app-footer></app-footer>
