@@ -1,0 +1,14 @@
+<app-header></app-header>
+<div class="page">
+  <div class="product-card">
+    <img [src]="product.img" class="product-img" alt="">
+    <div class="product-details">
+      <h2 class="product-name">{{ product.name }}</h2>
+      <p class="product-description">{{ product.description }}</p>
+      <p class="product-price">{{ product.formattedPrice }}</p>
+      <p *ngIf="product.discount" class="product-discount">Descuento: {{ product.discount }}</p>
+      <p class="product-category">Categoría: {{ product.category }}</p>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
