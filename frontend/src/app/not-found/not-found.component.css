@@ -1,0 +1,51 @@
+.not-found {
+    position: relative;
+    top: 9.5rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    max-width: 500px;
+    padding: 2rem;
+    box-sizing: border-box;
+    border-style: solid;
+    border-width: 15px;
+    border-image: url('https://cdn.imgbin.com/3/6/15/imgbin-coffee-bean-hand-painted-coffee-beans-background-coffee-cup-and-pot-illustrations-jvYw74Jwk7sTCL9MEgkpYA5Lw.jpg') 30 repeat;
+    background-color: #FFF8DC;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-size: 1.5rem;
+    text-align: center;
+    color: #131010;
+    font-family: "Segoe UI", sans-serif;
+  }
+  
+  
+  .planta {
+    position: relative;
+    top: 9.5rem;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    background-image: url('https://cdn-icons-png.flaticon.com/512/827/827301.png');
+    background-size: contain;
+    animation: mover 20s linear infinite;
+  }
+  
+  @keyframes mover {
+    0% {
+      transform: translateX(-50px);
+    }
+    100% {
+      transform: translateX(100vw);
+    }
+  }
+  
+
+
+
+
+
+
