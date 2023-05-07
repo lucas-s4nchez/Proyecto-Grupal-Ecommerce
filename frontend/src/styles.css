@@ -1,0 +1,47 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --primary: #dfab60;
+  --dark: #131010;
+  --white: #fff;
+}
+html {
+  font-size: 62.5%; /*Con esto 1rem es igual a 10px */
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+body {
+  font-size: 1.6rem;
+  line-height: 1.5;
+  color: var(--dark);
+}
+img {
+  max-width: 100%;
+}
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+}
+
+/* A toda clase que termine en "container" se le aplicaran estos estilos */
+[class*="container"] {
+  width: 95%;
+  max-width: 120rem;
+  margin: 0 auto;
+}
+[class*="page"] {
+  width: 95%;
+  max-width: 120rem;
+  margin: 0 auto;
+  padding-top: 12rem;
+}
+[class*="section"] {
+  margin-block: 5rem;
+}
