@@ -4,7 +4,7 @@
     <img [src]="product.img" alt="">
     <h2>nombre: {{ product.name }}</h2>
     <p>descripcion: {{ product.description }}</p>
-    <p>precio: {{ product.price }}</p>
+    <p>precio: {{ product.formattedPrice }}</p>
     <p *ngIf="product.discount">descuento: {{ product.discount }}</p>
     <p>categoria: {{product.category}}</p>
   </div>

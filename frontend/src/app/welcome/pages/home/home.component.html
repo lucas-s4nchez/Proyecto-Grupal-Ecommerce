@@ -19,49 +19,45 @@
     <span>Haciendo de cada taza que bebes un nuevo descubrimiento</span>
   </div>
 </section>
-<section class="container section">
+
+<section class="section container">
   <h2>Productos destacados</h2>
-  <div>
-    <div>
-      <span>Producto</span>
-    </div>
-    <div>
-      <span>Producto</span>
-    </div>
-    <div>
-      <span>Producto</span>
-    </div>
-    <div>
-      <span>Producto</span>
-    </div>
-    <div>
-      <span>Producto</span>
-    </div>
-    <div>
-      <span>Producto</span>
+  <div class="box">
+    <div *ngFor="let product of featuredProducts">
+      <div class="card">
+        <div class="card__img-box">
+          <img [src]="product.img" alt="{{product.name}}">
+        </div>
+        <div class="card__info">
+          <h2 class="card__title">{{ product.name }}</h2>
+          <div class="card__price-details">
+            <p class="card__price">{{ product.formattedPrice }}</p>
+            <span class="card__discount" *ngIf="product.discount">{{product.discount}}% off</span>
+          </div>
+          <button class="card__button" (click)="goToProductDetails(product.id)">Ver más</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
+
 <section class="container section">
   <h2>Productos en oferta</h2>
-  <div>
-    <div>
-      <span>Producto</span>
-    </div>
-    <div>
-      <span>Producto</span>
-    </div>
-    <div>
-      <span>Producto</span>
-    </div>
-    <div>
-      <span>Producto</span>
-    </div>
-    <div>
-      <span>Producto</span>
-    </div>
-    <div>
-      <span>Producto</span>
+  <div class="box">
+    <div *ngFor="let product of discountedProducts">
+      <div class="card">
+        <div class="card__img-box">
+          <img [src]="product.img" alt="{{product.name}}">
+        </div>
+        <div class="card__info">
+          <h2 class="card__title">{{ product.name }}</h2>
+          <div class="card__price-details">
+            <p class="card__price">{{ product.formattedPrice }}</p>
+            <span class="card__discount" *ngIf="product.discount">{{product.discount}}% off</span>
+          </div>
+          <button class="card__button" (click)="goToProductDetails(product.id)">Ver más</button>
+        </div>
+      </div>
     </div>
   </div>
 </section>
