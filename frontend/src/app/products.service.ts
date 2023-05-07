@@ -256,11 +256,63 @@ export class ProductsService {
     },
   ];
 
+  priceFormatterProducts(products: Product[]) {
+    const formatter = new Intl.NumberFormat('es-AR', {
+      style: 'currency',
+      currency: 'ARS',
+      minimumFractionDigits: 2,
+    });
+    return products.map((product) => {
+      if (product.discount) {
+        const formattedPrice = formatter.format(
+          product.price - (product.price * product.discount) / 100
+        );
+        product.formattedPrice = formattedPrice;
+      } else {
+        const formattedPrice = formatter.format(product.price);
+        product.formattedPrice = formattedPrice;
+      }
+      return product;
+    });
+  }
+  priceFormatterProduct(product: Product) {
+    const formatter = new Intl.NumberFormat('es-AR', {
+      style: 'currency',
+      currency: 'ARS',
+      minimumFractionDigits: 2,
+    });
+    if (product.discount) {
+      const formattedPrice = formatter.format(
+        product.price - (product.price * product.discount) / 100
+      );
+      product.formattedPrice = formattedPrice;
+    } else {
+      const formattedPrice = formatter.format(product.price);
+      product.formattedPrice = formattedPrice;
+    }
+    return product;
+  }
+
   getProducts() {
-    return this.products;
+    return this.priceFormatterProducts(this.products);
+  }
+
+  getFeaturedProducts() {
+    const featuredProducts = this.products.filter(
+      (product) => product.featured
+    );
+    return this.priceFormatterProducts(featuredProducts);
+  }
+
+  getDiscountedProducts() {
+    const discountedProducts = this.products.filter(
+      (product) => product.discount
+    );
+    return this.priceFormatterProducts(discountedProducts);
   }
 
   getProductById(id: number) {
-    return this.products.find((p) => p.id === id);
+    const currentProduct = this.products.find((p) => p.id === id);
+    return this.priceFormatterProduct(currentProduct!);
   }
 }
