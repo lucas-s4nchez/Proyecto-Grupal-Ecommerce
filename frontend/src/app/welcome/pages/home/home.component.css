@@ -4,7 +4,6 @@
   flex-direction: column;
   gap: 2rem;
 }
-
 .icon {
   width: 100%;
   display: flex;
@@ -53,4 +52,75 @@
   .contact__map {
     max-width: 50rem;
   }
+}
+
+/* Productos */
+.box {
+  display: flex;
+  width: 100%;
+  flex-wrap: nowrap;
+  gap: 2rem;
+  overflow: hidden;
+  overflow-x: scroll;
+  padding: 2rem;
+}
+.card {
+  width: 100%;
+  min-width: 25rem;
+  max-width: 30rem;
+  background-color: var(--white);
+  border-radius: 1rem;
+  border: none;
+  overflow: hidden;
+  box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.21);
+  transition: transform 0.3s;
+}
+.card:hover {
+  transform: scale(1.02);
+}
+.card__img-box {
+  margin: auto;
+}
+.card__info {
+  padding: 1rem;
+}
+.card__title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+.card__price-details {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-block: 1rem;
+}
+.card__price {
+  margin: 0;
+}
+.card__discount {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  padding: 0 1rem;
+  background-color: var(--dark);
+  color: var(--white);
+  text-transform: uppercase;
+}
+.card__button {
+  width: 100%;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  outline: none;
+  border: none;
+  background-color: var(--dark);
+  color: var(--white);
+  font-size: 1.4rem;
+  text-transform: uppercase;
 }
