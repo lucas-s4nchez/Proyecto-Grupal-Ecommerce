@@ -1,0 +1,22 @@
+:after, :before {
+  box-sizing: border-box;
+}
+
+hr {
+  border-top: 1px solid red;
+}
+
+.text-bold {
+  font-weight: 700;
+}
+
+div {
+  display: block;
+}
+
+@media (max-width: 1200px)
+.text-paragraph
+
+p {
+    font-size: calc(1.025rem + .3vw);
+}
