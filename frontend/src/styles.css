@@ -39,8 +39,10 @@ a {
 [class*="page"] {
   width: 95%;
   max-width: 120rem;
-  margin: 0 auto;
+  margin: auto;
   padding-top: 12rem;
+  min-height: 80vh;
+  display: flex;
 }
 [class*="section"] {
   margin-block: 5rem;
