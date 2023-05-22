@@ -10,20 +10,27 @@ import { ProductsService } from 'src/app/products.service';
 })
 export class ProductDetailsComponent {
   productId: number = 0;
-  product!: Product;
+  product: Product | null = null;
+  productNotFound: String | null = null;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private productService: ProductsService
-  ) {}
-  ngOnInit(): void {
+  ) {
     this.route.params.subscribe((params: Params) => {
       this.productId = +params['id'];
     });
-    this.product = this.productService.getProductById(this.productId)!;
-    if (!this.product) {
-      // Si no existe un producto con el ID especificado, redirigir a una página de error
-      this.router.navigateByUrl('/not-found');
-    }
+    this.productService.getProductById(this.productId).subscribe({
+      next: (data: Product) => {
+        this.product = data;
+      },
+      error: (errors) => {
+        console.error(errors.message);
+        if (errors.status === 404) {
+          this.productNotFound = 'El producto que buscas no existe.';
+        }
+      },
+    });
   }
+  ngOnInit(): void {}
 }

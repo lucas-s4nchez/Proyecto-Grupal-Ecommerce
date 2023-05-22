@@ -11,14 +11,18 @@ import { ProductsService } from 'src/app/products.service';
 export class ProductsComponent {
   products: Product[] = [];
 
-  constructor(
-    private router: Router,
-    private productService: ProductsService
-  ) {}
-
-  ngOnInit() {
-    this.products = this.productService.getProducts();
+  constructor(private router: Router, private productService: ProductsService) {
+    this.productService.getProducts().subscribe({
+      next: (data) => {
+        this.products = data;
+      },
+      error: (errors) => {
+        console.log(errors);
+      },
+    });
   }
+
+  ngOnInit() {}
 
   goToProductDetails(productId: number) {
     this.router.navigate(['/products', productId]);
