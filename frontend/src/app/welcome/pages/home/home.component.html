@@ -31,7 +31,8 @@
         <div class="card__info">
           <h2 class="card__title">{{ product.name }}</h2>
           <div class="card__price-details">
-            <p class="card__price">{{ product.formattedPrice }}</p>
+            <p *ngIf="product.discount" class="card__price">precio: {{ product.discountedPrice|currency }}</p>
+            <p *ngIf="!product.discount" class="card__price">precio: {{ product.price|currency }}</p>
             <span class="card__discount" *ngIf="product.discount">{{product.discount}}% off</span>
           </div>
           <button class="card__button" (click)="goToProductDetails(product.id)">Ver más</button>
@@ -52,7 +53,7 @@
         <div class="card__info">
           <h2 class="card__title">{{ product.name }}</h2>
           <div class="card__price-details">
-            <p class="card__price">{{ product.formattedPrice }}</p>
+            <p *ngIf="product.discount" class="card__price">precio: {{ product.discountedPrice|currency }}</p>
             <span class="card__discount" *ngIf="product.discount">{{product.discount}}% off</span>
           </div>
           <button class="card__button" (click)="goToProductDetails(product.id)">Ver más</button>
