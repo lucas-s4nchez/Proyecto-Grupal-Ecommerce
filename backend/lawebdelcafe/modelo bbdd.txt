@@ -1,8 +1,8 @@
 class Usuario(models.Model):
-    id_suaurio = models.AutoField(primary_key=True)
+    id_usuario = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=30, blank=False,)
     apellido = models.CharField(max_length=30, blank=False)
-    dni= models.IntegerField(max_length=8, blank=False)
+    dni= models.IntegerField(blank=False)
     email = models.CharField(max_length= 30, blank=False)
     password = models.CharField(max_length= 15, blank=False)
     tipo_usuario = models.CharField(max_length=15, blank=False)
@@ -13,7 +13,7 @@ class Usuario(models.Model):
         verbose_name_plural = "Usuarios"
 
     def __str__(self):
-        return "{} {} {} {}".format(self.id_suaurio, self.tipo_usuario, self.apellido, self.nombre)
+        return "{} {} {} {}".format(self.id_usuario, self.tipo_usuario, self.apellido, self.nombre)
     
 
 
@@ -79,7 +79,7 @@ class MetodoPago(models.Model):
 
 class Prod_carrito(models.Model):
     id_prod_carrito = models.AutoField(primary_key=True)
-    cantidad = models.IntegerField(blank=False, max_length=10 )
+    cantidad = models.IntegerField(blank=False)
     id_producto = models.ForeignKey(Producto, to_field="id_producto", on_delete=models.CASCADE)
     id_carrito = models.ForeignKey(Carrito, to_field="id_carrito", on_delete=models.CASCADE)
 
@@ -109,7 +109,7 @@ class Orden(models.Model):
 class DetalleOrden(models.Model):
     id_detalleOrden = models.AutoField(primary_key=True)
     precio_producto = models.DecimalField(blank=False, decimal_places=2, max_digits=10)
-    cantidad = models.IntegerField(blank=False, max_length=10)
+    cantidad = models.IntegerField(blank=False)
     subTotal = models.DecimalField(blank=False, max_digits=10, decimal_places=2)
     id_orden = models.ForeignKey(Orden, to_field="id_orden", on_delete=models.CASCADE) 
 
