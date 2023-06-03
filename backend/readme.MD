@@ -1,4 +1,4 @@
-## Crear entorno virual
+## Crear entorno virtual
 
 Instalar virtualenv en tu pc `pip install virtualenv`.
 
