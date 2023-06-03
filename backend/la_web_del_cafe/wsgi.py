@@ -1,5 +1,5 @@
 """
-WSGI config for lawebdelcafe project.
+WSGI config for la_web_del_cafe project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'lawebdelcafe.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'la_web_del_cafe.settings.local')
 
 application = get_wsgi_application()
