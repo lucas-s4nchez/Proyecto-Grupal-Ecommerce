@@ -3,6 +3,11 @@ from rest_framework import serializers
 from apps.users.models import CustomUser
 
 
+class CustomUserTokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('email',)
+
 class CustomUserListSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
