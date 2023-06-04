@@ -26,7 +26,7 @@ class UserViewSet(viewsets.GenericViewSet):
 
     def get_queryset(self):
         if self.queryset is None:
-            self.queryset = self.model.objects.filter(is_active=True).values('id', 'email','password','is_staff','is_active')
+            self.queryset = self.model.objects.filter(is_active=True).values('id', 'email','name', 'last_name','password','is_staff','is_active')
         return self.queryset
 
     def list(self, request):

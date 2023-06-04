@@ -16,6 +16,8 @@ class CustomUserListSerializer(serializers.ModelSerializer):
         return {
             'id': instance['id'],
             'email': instance['email'],
+            'name': instance['name'],
+            'last_name': instance['last_name'],
             'password': instance['password'],
             'is_staff': instance['is_staff'],
             'is_active': instance['is_active'],
@@ -24,7 +26,7 @@ class CustomUserListSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('email','password','is_staff','is_active')
+        fields = ('email','password','is_staff','is_active','name', 'last_name')
     
     def create(self,validated_data):
         user = CustomUser(**validated_data)
