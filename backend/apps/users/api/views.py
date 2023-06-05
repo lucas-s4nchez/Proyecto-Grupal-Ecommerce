@@ -117,6 +117,21 @@ class Login(ObtainAuthToken):
             return Response({'message': 'Email o contraseña incorrectos.'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'message': 'Hola desde response'}, status=status.HTTP_200_OK)
 
+class Register(APIView):
+    model = CustomUser
+    serializer_class = CustomUserSerializer
+    
+    def post(self, request):
+        user_serializer =self.serializer_class(data=request.data)
+        if user_serializer.is_valid():
+            user_serializer.save()
+            return Response({
+                'message': 'Usuario registrado correctamente.'
+            }, status=status.HTTP_201_CREATED)
+        return Response({
+            'message': 'Hay errores en el registro',
+            'errors': user_serializer.errors
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 class Logout(APIView):
     def post(self, request, *args, **kwargs):
