@@ -48,3 +48,7 @@ a {
 [class*="section"] {
   margin-block: 5rem;
 }
+
+.text-md {
+  font-size: 1.6rem;
+}
