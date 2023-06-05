@@ -68,11 +68,6 @@ input:focus {
   border: 2px solid #f2796e;
 }
 
-span {
-  color: #e75656;
-  cursor: pointer;
-}
-
 form div i {
   position: absolute;
   padding: 10px;
@@ -81,7 +76,7 @@ form div i {
 .success-icon,
 .failure-icon {
   right: 0;
-  opacity: 0;
+  opacity: 1;
 }
 
 .failure-icon,
