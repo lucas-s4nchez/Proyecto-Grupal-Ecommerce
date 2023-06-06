@@ -47,14 +47,12 @@ export class LoginComponent {
 
           this.isLoading = false;
           localStorage.setItem('token', token);
-          localStorage.setItem('user', user);
+          localStorage.setItem('user', JSON.stringify(user));
           this.toastr.success(message);
           this.router.navigate(['/home']);
-          console.log(data);
         },
         error: (errors) => {
           this.isLoading = false;
-          console.log(errors);
           this.toastr.error(errors.error.message);
         },
       });
