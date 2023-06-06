@@ -1,6 +1,6 @@
 from apps.base.api import GeneralListApiView
 from apps.products.api.serializers.general_serializers import CategorySerializer
-
+from apps.products.models import Category
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.response import Response
@@ -9,7 +9,9 @@ class CategoryListAPIView(GeneralListApiView):
 
     serializer_class = CategorySerializer
 
-
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.filter(state= True)
+    serializer_class = CategorySerializer
 
 
     

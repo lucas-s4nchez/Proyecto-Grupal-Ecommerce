@@ -39,7 +39,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             
             return Response(product_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-    def delete(self, request, pk= None):
+    def destroy(self, request, pk= None):
         product = self.get_queryset().filter(id=pk).first()
         if product:
             product.state = False
