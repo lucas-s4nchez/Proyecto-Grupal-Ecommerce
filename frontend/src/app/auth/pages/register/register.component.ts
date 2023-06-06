@@ -6,6 +6,8 @@ import {
   FormGroup,
   FormBuilder,
 } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -13,9 +15,15 @@ import {
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-  constructor(private authService: AuthService, private fb: FormBuilder) {}
+  constructor(
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
 
-  formLogin = this.fb.group({
+  isLoading: boolean = false;
+  formRegister = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     name: ['', [Validators.required]],
     last_name: ['', [Validators.required]],
@@ -25,29 +33,37 @@ export class RegisterComponent {
     ],
   });
 
-  get formLoginState() {
+  get formRegisterState() {
     return {
-      email: this.formLogin.get('email') as FormControl,
-      name: this.formLogin.get('name') as FormControl,
-      last_name: this.formLogin.get('last_name') as FormControl,
-      password: this.formLogin.get('password') as FormControl,
+      email: this.formRegister.get('email') as FormControl,
+      name: this.formRegister.get('name') as FormControl,
+      last_name: this.formRegister.get('last_name') as FormControl,
+      password: this.formRegister.get('password') as FormControl,
     };
   }
 
   registerUser() {
+    this.isLoading = true;
     this.authService
       .startRegister(
-        this.formLoginState.email.value,
-        this.formLoginState.name.value,
-        this.formLoginState.last_name.value,
-        this.formLoginState.password.value
+        this.formRegisterState.email.value,
+        this.formRegisterState.name.value,
+        this.formRegisterState.last_name.value,
+        this.formRegisterState.password.value
       )
       .subscribe({
         next: (data) => {
-          console.log(data);
+          this.isLoading = false;
+          this.toastr.success(data?.message);
+          this.router.navigate(['/auth/login']);
         },
         error: (errors) => {
-          console.log(errors);
+          this.isLoading = false;
+          Object.values(errors.error.errors).forEach((error: any) =>
+            error.forEach((message: any) => {
+              this.toastr.error(message);
+            })
+          );
         },
       });
   }

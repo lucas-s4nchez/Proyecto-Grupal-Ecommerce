@@ -6,7 +6,7 @@ from apps.users.models import CustomUser
 class CustomUserTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('email',)
+        fields = ('email','name','last_name','is_staff')
 
 class CustomUserListSerializer(serializers.ModelSerializer):
     class Meta:

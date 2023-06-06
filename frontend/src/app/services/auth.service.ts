@@ -10,10 +10,12 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  startLogin(): Observable<any> {
+  startLogin(email: string, password: string): Observable<any> {
+    console.log(email);
+    console.log(password);
     return this.http.post(this.url + 'api/v1/auth/login', {
-      email: 'asdas@dada.com',
-      password: '123123123',
+      username: email,
+      password: password,
     });
   }
   startRegister(

@@ -19,11 +19,7 @@ class Migration(migrations.Migration):
             old_name='state',
             new_name='status',
         ),
-        migrations.RenameField(
-            model_name='historicalproduct',
-            old_name='state',
-            new_name='status',
-        ),
+        
         migrations.RenameField(
             model_name='product',
             old_name='state',

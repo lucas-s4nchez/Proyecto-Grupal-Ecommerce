@@ -4,28 +4,42 @@
     <div class="content">
       <div class="image"></div>
     </div>
-    <form id="form">
+    <form id="form" [formGroup]="formLogin" (ngSubmit)="loginUser()">
       <div class="title">Iniciar sesión</div>
 
       <div>
         <label for="email">Correo electrónico</label>
         <i class="far fa-envelope"></i>
-        <input type="email" name="email" id="email" placeholder="Ingresa tu correo electrónico" />
-        <i class="fas fa-exclamation-circle failure-icon"></i>
-        <i class="far fa-check-circle success-icon"></i>
-        <div class="error"></div>
+        <input type="email" formControlName="email" name="email" id="email"
+          placeholder="Ingresa tu correo electrónico" />
+        <i class="fas fa-exclamation-circle failure-icon"
+          [hidden]="formLoginState.email.valid || formLoginState.email.pristine"></i>
+        <i class="far fa-check-circle success-icon" [hidden]="!formLoginState.email.valid"></i>
+        <div class="error" [hidden]="formLoginState.email.valid || formLoginState.email.pristine">
+          <span *ngIf="formLoginState.email.errors?.['required']">El correo electrónico es obligatorio</span>
+          <span *ngIf="formLoginState.email.errors?.['email']">El correo electrónico no es válido</span>
+        </div>
       </div>
 
       <div>
         <label for="password">Contraseña</label>
         <i class="fas fa-lock"></i>
-        <input type="password" name="password" id="password" placeholder="Ingresa tu contraseña" />
-        <i class="fas fa-exclamation-circle failure-icon"></i>
-        <i class="far fa-check-circle success-icon"></i>
-        <div class="error"></div>
+        <input type="password" formControlName="password" name="password" id="password"
+          placeholder="Ingresa tu contraseña" />
+        <i class="fas fa-exclamation-circle failure-icon"
+          [hidden]="formLoginState.password.valid || formLoginState.password.pristine"></i>
+        <i class="far fa-check-circle success-icon" [hidden]="!formLoginState.password.valid"></i>
+        <div class="error" [hidden]="formLoginState.password.valid || formLoginState.password.pristine">
+          <span *ngIf="formLoginState.password.errors?.['required']">La contraseña es obligatoria</span>
+          <span *ngIf="formLoginState.password.errors?.['minlength']">La contraseña debe tener entre 6 y 20
+            caracteres</span>
+          <span *ngIf="formLoginState.password.errors?.['maxlength']">La contraseña debe tener entre 6 y 20
+            caracteres</span>
+        </div>
       </div>
 
-      <button class="btn btn-primary text-md" disabled type="submit" id="submit">Iniciar sesión</button>
+      <button class="btn btn-primary text-md" [disabled]="formLogin.invalid || isLoading" type="submit"
+        id="submit">Iniciar sesión</button>
     </form>
   </div>
 </div>

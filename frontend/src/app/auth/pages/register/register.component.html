@@ -4,7 +4,7 @@
     <div class="content">
       <div class="image"></div>
     </div>
-    <form id="form" [formGroup]="formLogin" (ngSubmit)="registerUser()">
+    <form id="form" [formGroup]="formRegister" (ngSubmit)="registerUser()">
       <div class="title">Registrarse</div>
 
       <div>
@@ -13,11 +13,11 @@
         <input type="email" formControlName="email" name="email" id="email"
           placeholder="Ingresa tu correo electrónico" />
         <i class="fas fa-exclamation-circle failure-icon"
-          [hidden]="formLoginState.email.valid || formLoginState.email.pristine"></i>
-        <i class="far fa-check-circle success-icon" [hidden]="!formLoginState.email.valid"></i>
-        <div class="error" [hidden]="formLoginState.email.valid || formLoginState.email.pristine">
-          <span *ngIf="formLoginState.email.errors?.['required']">El correo electrónico es obligatorio</span>
-          <span *ngIf="formLoginState.email.errors?.['email']">El correo electrónico no es válido</span>
+          [hidden]="formRegisterState.email.valid || formRegisterState.email.pristine"></i>
+        <i class="far fa-check-circle success-icon" [hidden]="!formRegisterState.email.valid"></i>
+        <div class="error" [hidden]="formRegisterState.email.valid || formRegisterState.email.pristine">
+          <span *ngIf="formRegisterState.email.errors?.['required']">El correo electrónico es obligatorio</span>
+          <span *ngIf="formRegisterState.email.errors?.['email']">El correo electrónico no es válido</span>
         </div>
       </div>
 
@@ -26,10 +26,10 @@
         <i class="fa-solid fa-user"></i>
         <input type="name" formControlName="name" name="name" id="name" placeholder="Ingresa tu nombre" />
         <i class="fas fa-exclamation-circle failure-icon"
-          [hidden]="formLoginState.name.valid || formLoginState.name.pristine"></i>
-        <i class="far fa-check-circle success-icon" [hidden]="!formLoginState.name.valid"></i>
-        <div class="error" [hidden]="formLoginState.name.valid || formLoginState.name.pristine">
-          <span *ngIf="formLoginState.name.errors?.['required']">El nombre es obligatorio</span>
+          [hidden]="formRegisterState.name.valid || formRegisterState.name.pristine"></i>
+        <i class="far fa-check-circle success-icon" [hidden]="!formRegisterState.name.valid"></i>
+        <div class="error" [hidden]="formRegisterState.name.valid || formRegisterState.name.pristine">
+          <span *ngIf="formRegisterState.name.errors?.['required']">El nombre es obligatorio</span>
         </div>
       </div>
 
@@ -39,10 +39,10 @@
         <input type="last_name" formControlName="last_name" name="last_name" id="last_name"
           placeholder="Ingresa tu apellido" />
         <i class="fas fa-exclamation-circle failure-icon"
-          [hidden]="formLoginState.last_name.valid || formLoginState.last_name.pristine"></i>
-        <i class="far fa-check-circle success-icon" [hidden]="!formLoginState.last_name.valid"></i>
-        <div class="error" [hidden]="formLoginState.last_name.valid || formLoginState.last_name.pristine">
-          <span *ngIf="formLoginState.last_name.errors?.['required']">El apellido es obligatorio</span>
+          [hidden]="formRegisterState.last_name.valid || formRegisterState.last_name.pristine"></i>
+        <i class="far fa-check-circle success-icon" [hidden]="!formRegisterState.last_name.valid"></i>
+        <div class="error" [hidden]="formRegisterState.last_name.valid || formRegisterState.last_name.pristine">
+          <span *ngIf="formRegisterState.last_name.errors?.['required']">El apellido es obligatorio</span>
         </div>
       </div>
 
@@ -52,18 +52,18 @@
         <input type="password" formControlName="password" name="password" id="password"
           placeholder="Ingresa tu contraseña" />
         <i class="fas fa-exclamation-circle failure-icon"
-          [hidden]="formLoginState.password.valid || formLoginState.password.pristine"></i>
-        <i class="far fa-check-circle success-icon" [hidden]="!formLoginState.password.valid"></i>
-        <div class="error" [hidden]="formLoginState.password.valid || formLoginState.password.pristine">
-          <span *ngIf="formLoginState.password.errors?.['required']">La contraseña es obligatoria</span>
-          <span *ngIf="formLoginState.password.errors?.['minlength']">La contraseña debe tener entre 6 y 20
+          [hidden]="formRegisterState.password.valid || formRegisterState.password.pristine"></i>
+        <i class="far fa-check-circle success-icon" [hidden]="!formRegisterState.password.valid"></i>
+        <div class="error" [hidden]="formRegisterState.password.valid || formRegisterState.password.pristine">
+          <span *ngIf="formRegisterState.password.errors?.['required']">La contraseña es obligatoria</span>
+          <span *ngIf="formRegisterState.password.errors?.['minlength']">La contraseña debe tener entre 6 y 20
             caracteres</span>
-          <span *ngIf="formLoginState.password.errors?.['maxlength']">La contraseña debe tener entre 6 y 20
+          <span *ngIf="formRegisterState.password.errors?.['maxlength']">La contraseña debe tener entre 6 y 20
             caracteres</span>
         </div>
       </div>
 
-      <button class="btn btn-primary text-md" [disabled]="formLogin.invalid" type="submit"
+      <button class="btn btn-primary text-md" [disabled]="formRegister.invalid || isLoading" type="submit"
         id="submit">Registrarse</button>
     </form>
   </div>

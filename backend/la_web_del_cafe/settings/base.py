@@ -35,12 +35,7 @@ LOCAL_APPS = [
 THIRD_APPS = [
     'corsheaders',
     'rest_framework',
-<<<<<<< HEAD
     'rest_framework.authtoken',
-    'simple_history',
-=======
-    'rest_framework.authtoken'
->>>>>>> 7c2a1db3b6c572c101cec6db9eb5fc3b0d11d737
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS

@@ -3,7 +3,6 @@
 from django.conf import settings
 from django.db import migrations, models
 import django.db.models.deletion
-import simple_history.models
 
 
 class Migration(migrations.Migration):
@@ -51,32 +50,5 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'Productos',
                 'db_table': 'Producto',
             },
-        ),
-        migrations.CreateModel(
-            name='HistoricalProduct',
-            fields=[
-                ('id', models.IntegerField(blank=True, db_index=True)),
-                ('state', models.BooleanField(default=True, verbose_name='estado')),
-                ('created_date', models.DateField(blank=True, editable=False, verbose_name='fecha de creacion')),
-                ('modified_date', models.DateField(verbose_name='fecha modificacion')),
-                ('deleted_date', models.DateField(blank=True, editable=False, verbose_name='fecha eliminacion')),
-                ('name', models.CharField(max_length=150)),
-                ('description', models.TextField(max_length=250)),
-                ('price', models.DecimalField(decimal_places=2, max_digits=4)),
-                ('stock', models.IntegerField(default=0)),
-                ('history_id', models.AutoField(primary_key=True, serialize=False)),
-                ('history_date', models.DateTimeField(db_index=True)),
-                ('history_change_reason', models.CharField(max_length=100, null=True)),
-                ('history_type', models.CharField(choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')], max_length=1)),
-                ('category_product', models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='products.category', verbose_name='Categoria de producto')),
-                ('history_user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to=settings.AUTH_USER_MODEL)),
-            ],
-            options={
-                'verbose_name': 'historical Producto',
-                'verbose_name_plural': 'historical Productos',
-                'ordering': ('-history_date', '-history_id'),
-                'get_latest_by': ('history_date', 'history_id'),
-            },
-            bases=(simple_history.models.HistoricalChanges, models.Model),
-        ),
+        )
     ]
