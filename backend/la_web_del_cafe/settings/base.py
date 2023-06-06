@@ -27,12 +27,15 @@ BASE_APPS = [
 ]
 
 LOCAL_APPS = [
-    'apps.users'
+    'apps.base',
+    'apps.users',
+    'apps.products',
 ]
 
 THIRD_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
+    'simple_history',
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
