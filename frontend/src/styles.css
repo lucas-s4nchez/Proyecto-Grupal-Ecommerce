@@ -1,3 +1,5 @@
+@import "ngx-toastr/toastr";
+
 /* You can add global styles to this file, and also import other style files */
 :root {
   --primary: #dfab60;
@@ -17,6 +19,7 @@ body {
   font-size: 1.6rem;
   line-height: 1.5;
   color: var(--dark);
+  overflow-x: hidden;
 }
 img {
   max-width: 100%;
@@ -46,4 +49,8 @@ a {
 }
 [class*="section"] {
   margin-block: 5rem;
+}
+
+.text-md {
+  font-size: 1.6rem;
 }

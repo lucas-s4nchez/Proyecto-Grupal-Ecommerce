@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +8,24 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
   isMenuOpen = false;
+  constructor(public authService: AuthService) {}
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+  startLogout() {
+    this.authService
+      .startLogout(localStorage.getItem('token') ?? '')
+      .subscribe({
+        next: (data) => {
+          this.authService.isAuthenticated = false;
+          this.authService.user = null;
+          this.authService.isAdmin = false;
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+        },
+        error: (errors) => {
+          console.log(errors);
+        },
+      });
   }
 }
