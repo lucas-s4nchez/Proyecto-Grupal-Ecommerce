@@ -17,7 +17,6 @@ export class HeaderComponent {
       .startLogout(localStorage.getItem('token') ?? '')
       .subscribe({
         next: (data) => {
-          console.log(data);
           this.authService.isAuthenticated = false;
           this.authService.user = null;
           this.authService.isAdmin = false;

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { IsAdminGuard } from './guards/is-admin.guard';
+import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
 
 const routes: Routes = [
   {
@@ -25,11 +27,13 @@ const routes: Routes = [
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+    canActivate: [IsAuthenticatedGuard],
   },
   {
     path: 'admin',
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+    canActivate: [IsAdminGuard],
   },
   { path: '**', component: NotFoundComponent },
 ];
