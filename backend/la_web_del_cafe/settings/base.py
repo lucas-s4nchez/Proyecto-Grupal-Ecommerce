@@ -33,14 +33,20 @@ LOCAL_APPS = [
 ]
 
 THIRD_APPS = [
+    'corsheaders',
     'rest_framework',
+<<<<<<< HEAD
     'rest_framework.authtoken',
     'simple_history',
+=======
+    'rest_framework.authtoken'
+>>>>>>> 7c2a1db3b6c572c101cec6db9eb5fc3b0d11d737
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -91,11 +97,18 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 TOKEN_EXPIRED_AFTER_SECONDS = 25
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:4200",
+]
+CORS_ORIGINS_WHITELIST = [
+    "http://localhost:4200",
+]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 

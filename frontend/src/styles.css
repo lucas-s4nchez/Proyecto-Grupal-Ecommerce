@@ -17,6 +17,7 @@ body {
   font-size: 1.6rem;
   line-height: 1.5;
   color: var(--dark);
+  overflow-x: hidden;
 }
 img {
   max-width: 100%;
@@ -46,4 +47,8 @@ a {
 }
 [class*="section"] {
   margin-block: 5rem;
+}
+
+.text-md {
+  font-size: 1.6rem;
 }
