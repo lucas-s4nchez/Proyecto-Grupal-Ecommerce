@@ -46,6 +46,11 @@ export class LoginComponent {
           const { message, token, user } = data;
 
           this.isLoading = false;
+          this.authService.isAuthenticated = true;
+          this.authService.user = user;
+          if (user.is_staff) {
+            this.authService.isAdmin = true;
+          }
           localStorage.setItem('token', token);
           localStorage.setItem('user', JSON.stringify(user));
           this.toastr.success(message);
