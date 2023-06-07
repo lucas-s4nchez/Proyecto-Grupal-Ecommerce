@@ -1,3 +1,8 @@
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
 :after, :before {
   box-sizing: border-box;
 }
@@ -19,4 +24,38 @@ div {
 
 p {
     font-size: calc(1.025rem + .3vw);
+}
+
+h1 {
+  color: #424242;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.hero__img-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.hero__img {
+  max-width: 100%;
+  margin-bottom: 1rem;
+}
+
+.hero__img img {
+  max-width: 100%;
+  height: auto;
+}
+
+hr {
+  border: 1px solid #424242;
+}
+
+.nosotros h1 {
+  color: #2c3e50;
+}
+
+.nosotros p {
+  color: #6c757d;
+  font-size: 1.2rem;
 }
