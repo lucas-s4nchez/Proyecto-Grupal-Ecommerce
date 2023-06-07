@@ -23,6 +23,7 @@ class Category(BaseModel):
 class Product(BaseModel):
     name = models.CharField(max_length=150, blank= False, null=False)
     description = models.TextField(max_length=250, blank=False, null=False)
+    image = models.ImageField(upload_to='lawebdelcafe/products', blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
     stock = models.IntegerField(default=0, blank=False)
     category_product = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Categoria de producto')

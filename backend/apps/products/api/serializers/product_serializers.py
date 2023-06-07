@@ -16,6 +16,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'id': instance.id,
             "name": instance.name,
             "description": instance.description,
+            "image": instance.image.url,
             "price": instance.price,
             "stock": instance.stock,
             "category_product": instance.category_product.name if instance.category_product is not None else '',
