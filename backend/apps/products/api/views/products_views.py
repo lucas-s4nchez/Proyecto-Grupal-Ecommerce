@@ -38,7 +38,7 @@ class ProductViewSet(viewsets.ModelViewSet):
                 return Response(product_serializer.data, status= status.HTTP_200_OK)
             
             return Response(product_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+        return Response({'mensaje': 'No hay un producto con ese id'})
     def destroy(self, request, pk= None):
         product = self.get_queryset().filter(id=pk).first()
         if product:
@@ -46,7 +46,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             product.save()
             return Response({'mensaje': 'Producto eliminado'}, status=status.HTTP_200_OK)
         
-        return Response({'Error': 'No existe producto que coincida con esos datos'}, status= status.HTTP_400_BAD_REQUEST)
+        return Response({'mensaje': 'No hay un producto con ese id'}, status= status.HTTP_400_BAD_REQUEST)
 
 
 
