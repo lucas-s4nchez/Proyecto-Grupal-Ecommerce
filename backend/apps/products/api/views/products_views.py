@@ -4,7 +4,9 @@ from apps.base.api import GeneralListApiView
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated,AllowAny
 from rest_framework import viewsets
+from rest_framework.decorators import action
 
 # class ProductListApiView(GeneralListApiView):
 #     serializer_class = ProductSerializer
@@ -13,11 +15,27 @@ from rest_framework import viewsets
 
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self , pk= None):
         if pk is None:
             return self.get_serializer().Meta.model.objects.filter(state= True)
         return self.get_serializer().Meta.model.objects.filter(id=pk, state=True).first()
+    
+    # Endpoint para obtener los productos sin autenticación (/api/v1/products/products/get_products/)
+    @action(detail=False, methods=['get'],permission_classes=[AllowAny])
+    def get_products(self, request):
+        product_serializer = self.get_serializer(self.get_queryset(), many = True)
+        return Response( product_serializer.data, status= status.HTTP_200_OK)
+    
+    # Endpoint para obtener un solo producto por pk sin autenticación (/api/v1/products/products/1/get_product/)
+    @action(detail=True, methods=['get'], permission_classes=[AllowAny])
+    def get_product(self, request, pk=None):
+        product = self.get_queryset(pk)
+        if product:
+            product_serializer = self.serializer_class(product)
+            return Response(product_serializer.data, status=status.HTTP_200_OK)
+        return Response({'mensaje': 'No hay un producto con ese id'}, status=status.HTTP_404_NOT_FOUND)
     
     def list(self , request):
         product_serializer = self.get_serializer(self.get_queryset(), many = True)
