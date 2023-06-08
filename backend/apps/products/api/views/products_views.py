@@ -4,7 +4,7 @@ from apps.base.api import GeneralListApiView
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated,AllowAny
+from rest_framework.permissions import AllowAny
 from rest_framework import viewsets
 from rest_framework.decorators import action
 
@@ -15,7 +15,6 @@ from rest_framework.decorators import action
 
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
-    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self , pk= None):
         if pk is None:
