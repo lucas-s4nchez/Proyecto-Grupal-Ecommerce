@@ -1,6 +1,20 @@
 <app-header></app-header>
-<div class="page">
-  <main class="container py-5">
+<div class="page overflow-hidden">
+  <div class="d-flex flex-column w-100">
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink="/admin/users">Usuarios</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink="/admin/products">Productos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" routerLink="/admin/categories">Categorias</a>
+      </li>
+    </ul>
+    <router-outlet></router-outlet>
+  </div>
+  <!-- <main class="container py-5">
     <div class="overflow-scroll">
       <div class="d-flex gap-4 mb-3 ">
         <h2>Usuarios</h2>
@@ -168,13 +182,13 @@
         </tbody>
       </table>
     </div>
-  </main>
+  </main> -->
 
 
 
 
   <!-- Modal usuarios -->
-  <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -212,10 +226,10 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- Modal productos -->
-  <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -258,10 +272,10 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- Modal Categorias -->
-  <div class="modal fade" id="modalCategoria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- <div class="modal fade" id="modalCategoria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -286,5 +300,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>

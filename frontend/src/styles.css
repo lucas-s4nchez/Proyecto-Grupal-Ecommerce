@@ -54,3 +54,15 @@ a {
 .text-md {
   font-size: 1.6rem;
 }
+
+/* boton flotante */
+.fab {
+  position: fixed;
+  z-index: 999;
+  bottom: 2rem;
+  right: 2rem;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  border: none;
+}

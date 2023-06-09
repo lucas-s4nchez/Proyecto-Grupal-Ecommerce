@@ -1,0 +1,101 @@
+<div class="overflow-scroll mt-5">
+  <div class="d-flex gap-4 mb-3 text-md justify-content-between">
+    <h2 class="text-xl">Usuarios</h2>
+    <button type="button" class="fab btn btn-primary" title="Agregar usuario" data-bs-toggle="modal"
+      data-bs-target="#modalUsuario">
+      <i class="fa-solid fa-plus text-md"></i>
+    </button>
+  </div>
+
+  <table class=" mt-4 table table-responsive table-striped ">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>John</td>
+        <td>Doe</td>
+        <td>john@example.com</td>
+        <td>dhuisyd871#hash914yh</td>
+        <td class="d-flex gap-2">
+          <button title="Eliminar usuario" class="btn text-danger text-md"><i
+              class="fa-solid fa-trash-can"></i></button>
+          <button title="Actualizar usuario" class="btn text-primary text-md"><i
+              class="fa-solid fa-pen-to-square"></i></button>
+        </td>
+      </tr>
+      <tr>
+        <td>Smith</td>
+        <td>Thomas</td>
+        <td>smith@example.com</td>
+        <td>dopksyd871#hash914yh</td>
+        <td class="d-flex gap-2">
+          <button title="Eliminar usuario" class="btn text-danger text-md"><i
+              class="fa-solid fa-trash-can"></i></button>
+          <button title="Actualizar usuario" class="btn text-primary text-md"><i
+              class="fa-solid fa-pen-to-square"></i></button>
+        </td>
+      </tr>
+      <tr>
+        <td>Merry</td>
+        <td>Jim</td>
+        <td>merry@example.com</td>
+        <td>dhassyd871#hash914yh</td>
+        <td class="d-flex gap-2">
+          <button title="Eliminar usuario" class="btn text-danger text-md"><i
+              class="fa-solid fa-trash-can"></i></button>
+          <button title="Actualizar usuario" class="btn text-primary text-md"><i
+              class="fa-solid fa-pen-to-square"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar usuario</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <form>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese su nombre">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="apellidoUsuario" placeholder="Ingrese su apellido">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Dirección Email</label>
+              <input type="email" class="form-control" id="emailUsuario" placeholder="usuario@example.com">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="passwordUsuario" placeholder="ingrese una contraseña">
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Administrador</label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary">Agregar usuario</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
