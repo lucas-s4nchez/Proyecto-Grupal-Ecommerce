@@ -20,6 +20,14 @@ export class ProductsComponent {
         console.log(errors);
       },
     });
+    this.productService.getData().subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (errors) => {
+        console.log(errors);
+      },
+    });
   }
 
   ngOnInit() {}

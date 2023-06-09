@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  user = null;
+  isLoading: boolean = false;
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
@@ -18,7 +18,6 @@ export class LoginComponent {
     private router: Router
   ) {}
 
-  isLoading: boolean = false;
   formLogin = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     password: [
@@ -43,22 +42,17 @@ export class LoginComponent {
       )
       .subscribe({
         next: (data) => {
-          const { message, token, user } = data;
+          const { message, refresh_token, token, user } = data;
 
           this.isLoading = false;
-          this.authService.isAuthenticated = true;
-          this.authService.user = user;
-          if (user.is_staff) {
-            this.authService.isAdmin = true;
-          }
-          localStorage.setItem('token', token);
-          localStorage.setItem('user', JSON.stringify(user));
+          this.authService.authenticatedUser(user, token, refresh_token);
+          this.authService.addLocalStorage(user, token, refresh_token);
           this.toastr.success(message);
           this.router.navigate(['/home']);
         },
         error: (errors) => {
           this.isLoading = false;
-          this.toastr.error(errors.error.message);
+          this.toastr.error(errors.error.error);
         },
       });
   }

@@ -1,9 +1,11 @@
-<main class="container py-5">
+<app-header></app-header>
+<div class="page">
+  <main class="container py-5">
     <div class="overflow-scroll">
-      <div class="d-flex gap-4 mb-3 ">  
-        <h2>Usuarios</h2> 
+      <div class="d-flex gap-4 mb-3 ">
+        <h2>Usuarios</h2>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalUsuario">
-            Agregar nuevo usuario
+          Agregar nuevo usuario
         </button>
       </div>
       <table class=" mt-4 table table-responsive table-striped">
@@ -52,10 +54,10 @@
 
       <hr>
 
-      <div class="d-flex gap-4 mb-3 ">  
-        <h2>Categorias</h2> 
+      <div class="d-flex gap-4 mb-3 ">
+        <h2>Categorias</h2>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCategoria">
-            Agregar Categoria
+          Agregar Categoria
         </button>
       </div>
       <table class="table table-responsive table-striped">
@@ -98,16 +100,16 @@
               <button class="btn btn-primary">Update</button>
             </td>
           </tr>
-          
+
         </tbody>
       </table>
 
       <hr>
 
-      <div class="d-flex gap-4 mb-3 ">  
-        <h2>Productos</h2> 
+      <div class="d-flex gap-4 mb-3 ">
+        <h2>Productos</h2>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalProducto">
-            Agregar producto
+          Agregar producto
         </button>
       </div>
       <table class="table table-responsive table-striped">
@@ -168,9 +170,9 @@
     </div>
   </main>
 
-  
 
-  
+
+
   <!-- Modal usuarios -->
   <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -180,33 +182,29 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            
-            <form>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="nombreUsuario" 
-                       placeholder="Ingrese su nombre">
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Apellido</label>
-                <input type="text" class="form-control" id="apellidoUsuario" 
-                       placeholder="Ingrese su apellido">
-              </div>
-                <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Dirección Email</label>
-                  <input type="email" class="form-control" id="emailUsuario"
-                         placeholder="usuario@example.com">
-                </div>
-                <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label" >Contraseña</label>
-                  <input type="password" class="form-control" id="passwordUsuario" 
-                  placeholder="ingrese una contraseña">
-                </div>
-                <div class="mb-3 form-check">
-                  <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                  <label class="form-check-label" for="exampleCheck1">Administrador</label>
-                </div>                
-              </form>
+
+          <form>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese su nombre">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="apellidoUsuario" placeholder="Ingrese su apellido">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Dirección Email</label>
+              <input type="email" class="form-control" id="emailUsuario" placeholder="usuario@example.com">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="passwordUsuario" placeholder="ingrese una contraseña">
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Administrador</label>
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -221,38 +219,38 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Productos</h1> 
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Productos</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form>
-                
-                <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label" >Nombre de producto</label>
-                  <input type="text" class="form-control" id="product-name">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label" >Descripción</label>
-                    <input type="text" class="form-control" id="product-descripcion">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label" >Precio</label>
-                    <input type="number" class="form-control" id="product-precio">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label" >Stock</label>
-                    <input type="number" class="form-control" id="product-stock">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label" >Categoria</label>
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Seleccione una categoria</option>
-                        <option value="1">bebida fria</option>
-                        <option value="2">bebida caliente</option>
-                        <option value="3">postres</option>
-                      </select>
-                </div>                                
-              </form>
+          <form>
+
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Nombre de producto</label>
+              <input type="text" class="form-control" id="product-name">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Descripción</label>
+              <input type="text" class="form-control" id="product-descripcion">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Precio</label>
+              <input type="number" class="form-control" id="product-precio">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Stock</label>
+              <input type="number" class="form-control" id="product-stock">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Categoria</label>
+              <select class="form-select" aria-label="Default select example">
+                <option selected>Seleccione una categoria</option>
+                <option value="1">bebida fria</option>
+                <option value="2">bebida caliente</option>
+                <option value="3">postres</option>
+              </select>
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -267,20 +265,20 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Categoria</h1> 
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar Categoria</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <form>
-                <div class="mb-3">
-                  <label for="exampleInputPassword1" class="form-label" >Nombre de Categoria</label>
-                  <input type="text" class="form-control" id="product-name">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label" >Descripción</label>
-                    <input type="text" class="form-control" id="product-descripcion">
-                </div>
-              </form>
+          <form>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Nombre de Categoria</label>
+              <input type="text" class="form-control" id="product-name">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Descripción</label>
+              <input type="text" class="form-control" id="product-descripcion">
+            </div>
+          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -289,3 +287,4 @@
       </div>
     </div>
   </div>
+</div>

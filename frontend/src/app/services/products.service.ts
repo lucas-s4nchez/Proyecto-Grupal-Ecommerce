@@ -9,6 +9,7 @@ import { Product } from '../interfaces/Products';
 })
 export class ProductsService {
   url: String = 'http://localhost:5000/';
+  url2: String = 'http://localhost:8000/';
   constructor(private http: HttpClient) {}
 
   getProducts(): Observable<Product[]> {
@@ -35,5 +36,9 @@ export class ProductsService {
         return product;
       })
     );
+  }
+
+  getData(): Observable<any> {
+    return this.http.get<any>(this.url2 + 'api/v1/products/products');
   }
 }

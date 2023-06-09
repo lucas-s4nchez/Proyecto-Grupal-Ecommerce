@@ -28,6 +28,10 @@
         <a routerLink="/auth/register" routerLinkActive="menu__link--active" class="menu__link">Registrarse <i
             class="fa-solid fa-user-plus"></i></a>
       </li>
+      <li class="menu__item" [hidden]="!authService.isAdmin">
+        <a routerLink="/admin" routerLinkActive="menu__link--active" class="menu__link">Admin <i
+            class="fa-solid fa-chart-line"></i></a>
+      </li>
       <li class="menu__item" [hidden]="!authService.isAuthenticated">
         <button class="btn btn-danger text-md" (click)="startLogout()">Salir <i
             class="fa-solid fa-right-from-bracket"></i></button>

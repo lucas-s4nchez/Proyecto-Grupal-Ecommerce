@@ -93,12 +93,12 @@ class Login(TokenObtainPairView):
                 user_serializer = CustomUserTokenSerializer(user)
                 return Response({
                     'token': login_serializer.validated_data.get('access'),
-                    'refresh-token': login_serializer.validated_data.get('refresh'),
+                    'refresh_token': login_serializer.validated_data.get('refresh'),
                     'user': user_serializer.data,
                     'message': 'Inicio de Sesion Existoso'
                 }, status=status.HTTP_200_OK)
-            return Response({'error': 'Contraseña o nombre de usuario incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({'error': 'Contraseña o nombre de usuario incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Contraseña o email incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Contraseña o email incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
 
 class Logout(GenericAPIView):
     serializer_class = CustomUserTokenSerializer
