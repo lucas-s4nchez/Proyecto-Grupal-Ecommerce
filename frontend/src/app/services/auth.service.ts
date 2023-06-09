@@ -88,8 +88,11 @@ export class AuthService {
       password: password,
     });
   }
-  startLogout(): Observable<any> {
-    return this.http.post(this.url + 'api/v1/auth/logout', {});
+  startLogout() {
+    // Eliminar los tokens del local storage
+    this.removeLocalStorage();
+    // Actualizar las propiedades del servicio
+    this.notAuthenticatedUser();
   }
   startRefreshTokens() {
     const refreshToken = localStorage.getItem('refresh_token');

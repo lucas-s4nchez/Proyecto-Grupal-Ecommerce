@@ -8,8 +8,14 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent {
+  constructor(
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) {}
   isMenuOpen = false;
-  constructor(public authService: AuthService, private toastr: ToastrService) {}
+  isAuthenticated = this.authService.isAuthenticated;
+  isAdmin = this.authService.isAdmin;
+
   refreshToken() {
     // se ejecuta solo cuando hay un usuario autenticado
     if (this.authService.isAuthenticated) {
@@ -33,13 +39,8 @@ export class HeaderComponent {
           error: (errors) => {
             // Manejar el error de refresco de tokens
             if (errors.status === 401) {
+              this.authService.startLogout();
               this.toastr.success('La sesión ha terminado');
-
-              // Eliminar los tokens del local storage
-              this.authService.removeLocalStorage();
-
-              // Actualizar las propiedades del servicio
-              this.authService.notAuthenticatedUser();
             }
           },
         });
@@ -49,19 +50,11 @@ export class HeaderComponent {
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
-  startLogout() {
-    this.authService.startLogout().subscribe({
-      next: (data) => {
-        // Eliminar los tokens del local storage
-        this.authService.removeLocalStorage();
-        // Actualizar las propiedades del servicio
-        this.authService.notAuthenticatedUser();
-        this.toastr.success(data.message);
-      },
-      error: (errors) => {
-        console.log(errors);
-      },
-    });
+  logout() {
+    this.authService.startLogout();
+    this.toastr.success('La sesión ha terminado');
+    this.isAuthenticated = this.authService.isAuthenticated;
+    this.isAdmin = this.authService.isAdmin;
   }
 
   ngOnInit() {

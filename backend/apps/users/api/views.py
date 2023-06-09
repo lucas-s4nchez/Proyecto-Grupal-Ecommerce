@@ -1,11 +1,9 @@
 from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework import viewsets
-from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny
 
@@ -99,17 +97,6 @@ class Login(TokenObtainPairView):
                 }, status=status.HTTP_200_OK)
             return Response({'error': 'Contraseña o email incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
         return Response({'error': 'Contraseña o email incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
-
-class Logout(GenericAPIView):
-    serializer_class = CustomUserTokenSerializer
-
-    def post(self, request, *args, **kwargs):
-        
-        user = request.user
-        if user:
-            RefreshToken.for_user(user)
-            return Response({'message': 'Sesión cerrada correctamente.'}, status=status.HTTP_200_OK)
-        return Response({'error': 'No existe este usuario.'}, status=status.HTTP_400_BAD_REQUEST)
 
 class Register(APIView):
     model = CustomUser
