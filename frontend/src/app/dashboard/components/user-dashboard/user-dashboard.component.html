@@ -10,11 +10,14 @@
   <table class=" mt-4 table table-responsive table-striped ">
     <thead>
       <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Password</th>
-        <th>Actions</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Correo electrónico</th>
+        <th>Contraseña</th>
+        <th>Administrador</th>
+        <th>Estado</th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -23,9 +26,13 @@
         <td>Doe</td>
         <td>john@example.com</td>
         <td>dhuisyd871#hash914yh</td>
-        <td class="d-flex gap-2">
+        <td>false</td>
+        <td>true</td>
+        <td>
           <button title="Eliminar usuario" class="btn text-danger text-md"><i
               class="fa-solid fa-trash-can"></i></button>
+        </td>
+        <td>
           <button title="Actualizar usuario" class="btn text-primary text-md"><i
               class="fa-solid fa-pen-to-square"></i></button>
         </td>
@@ -35,9 +42,13 @@
         <td>Thomas</td>
         <td>smith@example.com</td>
         <td>dopksyd871#hash914yh</td>
-        <td class="d-flex gap-2">
+        <td>false</td>
+        <td>true</td>
+        <td>
           <button title="Eliminar usuario" class="btn text-danger text-md"><i
               class="fa-solid fa-trash-can"></i></button>
+        </td>
+        <td>
           <button title="Actualizar usuario" class="btn text-primary text-md"><i
               class="fa-solid fa-pen-to-square"></i></button>
         </td>
@@ -47,9 +58,13 @@
         <td>Jim</td>
         <td>merry@example.com</td>
         <td>dhassyd871#hash914yh</td>
-        <td class="d-flex gap-2">
+        <td>false</td>
+        <td>true</td>
+        <td>
           <button title="Eliminar usuario" class="btn text-danger text-md"><i
               class="fa-solid fa-trash-can"></i></button>
+        </td>
+        <td>
           <button title="Actualizar usuario" class="btn text-primary text-md"><i
               class="fa-solid fa-pen-to-square"></i></button>
         </td>
@@ -59,10 +74,10 @@
 
   <!-- Modal -->
   <div class="modal fade" id="modalUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar usuario</h1>
+        <div class="modal-header p-4">
+          <h1 class="modal-title  text-md-center " id="exampleModalLabel">Agregar usuario</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -70,19 +85,20 @@
           <form>
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="nombreUsuario" placeholder="Ingrese su nombre">
+              <input type="text" class="form-control text-md" id="nombreUsuario" placeholder="Ingrese su nombre">
             </div>
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Apellido</label>
-              <input type="text" class="form-control" id="apellidoUsuario" placeholder="Ingrese su apellido">
+              <input type="text" class="form-control text-md" id="apellidoUsuario" placeholder="Ingrese su apellido">
             </div>
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Dirección Email</label>
-              <input type="email" class="form-control" id="emailUsuario" placeholder="usuario@example.com">
+              <input type="email" class="form-control text-md" id="emailUsuario" placeholder="usuario@example.com">
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="passwordUsuario" placeholder="ingrese una contraseña">
+              <input type="password" class="form-control text-md" id="passwordUsuario"
+                placeholder="Ingrese una contraseña">
             </div>
             <div class="mb-3 form-check">
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -91,8 +107,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary">Agregar usuario</button>
+          <button type="button" class="btn btn-secondary text-md" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary text-md">Agregar usuario</button>
         </div>
       </div>
     </div>

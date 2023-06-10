@@ -1,1 +1,95 @@
-<p>category-dashboard works!</p>
+<div class="overflow-scroll mt-5">
+  <div class="d-flex gap-4 mb-3 text-md justify-content-between">
+    <h2 class="text-xl">Categorias</h2>
+    <button type="button" class="fab btn btn-primary" title="Agregar categoria" data-bs-toggle="modal"
+      data-bs-target="#modalCategoria">
+      <i class="fa-solid fa-plus text-md"></i>
+    </button>
+  </div>
+  <table class=" mt-4 table table-responsive table-striped ">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th class="d-inline-block" style="width: 300px;">Description</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Bebidas friass</td>
+        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus ab consectetur consequuntur animi.
+        </td>
+        <td>
+          <button title="Eliminar categoria" class="btn text-danger text-md"><i
+              class="fa-solid fa-trash-can"></i></button>
+        </td>
+        <td>
+          <button title="Actualizar categoria" class="btn text-primary text-md"><i
+              class="fa-solid fa-pen-to-square"></i></button>
+        </td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Bebidas calientes</td>
+        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus ab consectetur consequuntur animi.
+        </td>
+        <td>
+          <button title="Eliminar categoria" class="btn text-danger text-md"><i
+              class="fa-solid fa-trash-can"></i></button>
+        </td>
+        <td>
+          <button title="Actualizar categoria" class="btn text-primary text-md"><i
+              class="fa-solid fa-pen-to-square"></i></button>
+        </td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>postres</td>
+        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus ab consectetur consequuntur animi.
+        </td>
+        <td>
+          <button title="Eliminar categoria" class="btn text-danger text-md"><i
+              class="fa-solid fa-trash-can"></i></button>
+        </td>
+        <td>
+          <button title="Actualizar categoria" class="btn text-primary text-md"><i
+              class="fa-solid fa-pen-to-square"></i></button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <!--  modal -->
+  <div class="modal fade" id="modalCategoria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header p-4">
+          <h1 class="modal-title  text-md-center " id="exampleModalLabel">Agregar Categoria</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Nombre de Categoria</label>
+              <input type="text" class="form-control text-md" id="product-name"
+                placeholder="Ingresa el nombre de la categoría">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Descripción</label>
+              <input type="text" class="form-control text-md" id="product-descripcion"
+                placeholder="Ingresa la descripción de la categoría">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary text-md" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary text-md">Agregar Categoria</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,127 @@
-<p>product-dashboard works!</p>
+<div class="overflow-scroll mt-5">
+  <div class="d-flex gap-4 mb-3 text-md justify-content-between">
+    <h2 class="text-xl">Productos</h2>
+    <button type="button" class="fab btn btn-primary" title="Agregar producto" data-bs-toggle="modal"
+      data-bs-target="#modalProducto">
+      <i class="fa-solid fa-plus text-md"></i>
+    </button>
+  </div>
+  <table class=" mt-4 table table-responsive table-striped ">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th class="d-inline-block" style="width: 300px;">Description</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Category</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Cappuccino</td>
+        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus ab consectetur consequuntur animi.
+        </td>
+        <td>450</td>
+        <td>600</td>
+        <td>bebida</td>
+        <td>
+          <button title="Eliminar producto" class="btn text-danger text-md"><i
+              class="fa-solid fa-trash-can"></i></button>
+        </td>
+        <td>
+          <button title="Actualizar producto" class="btn text-primary text-md"><i
+              class="fa-solid fa-pen-to-square"></i></button>
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Americano</td>
+        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus ab consectetur consequuntur animi.
+        </td>
+        <td>350</td>
+        <td>500</td>
+        <td>bebida</td>
+        <td>
+          <button title="Eliminar producto" class="btn text-danger text-md"><i
+              class="fa-solid fa-trash-can"></i></button>
+        </td>
+        <td>
+          <button title="Actualizar producto" class="btn text-primary text-md"><i
+              class="fa-solid fa-pen-to-square"></i></button>
+        </td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Chocotorta</td>
+        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus ab consectetur
+          consequuntur animi.
+        </td>
+        <td>400</td>
+        <td>10</td>
+        <td>comida</td>
+        <td>
+          <button title="Eliminar producto" class="btn text-danger text-md"><i
+              class="fa-solid fa-trash-can"></i></button>
+        </td>
+        <td>
+          <button title="Actualizar producto" class="btn text-primary text-md"><i
+              class="fa-solid fa-pen-to-square"></i></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- modal -->
+  <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header p-4">
+          <h1 class="modal-title  text-md-center " id="exampleModalLabel">Agregar Productos</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Nombre de producto</label>
+              <input type="text" class="form-control text-md" id="product-name"
+                placeholder="Ingrese el nombre del producto">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Descripción</label>
+              <input type="text" class="form-control text-md" id="product-descripcion"
+                placeholder="Ingrese la descripción del producto">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Precio</label>
+              <input type="number" class="form-control text-md" id="product-precio"
+                placeholder="Ingrese el precio del producto">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Stock</label>
+              <input type="number" class="form-control text-md" id="product-stock"
+                placeholder="Ingrese la cantidad disponible del producto">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Categoria</label>
+              <select class="form-select text-md" aria-label="Default select example">
+                <option selected>--- Seleccione una categoria ---</option>
+                <option value="1">bebida fria</option>
+                <option value="2">bebida caliente</option>
+                <option value="3">postres</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary text-md" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary text-md">Agregar Producto</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

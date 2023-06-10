@@ -8,6 +8,7 @@ import { UserDashboardComponent } from './components/user-dashboard/user-dashboa
 import { ProductDashboardComponent } from './components/product-dashboard/product-dashboard.component';
 import { CategoryDashboardComponent } from './components/category-dashboard/category-dashboard.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { HomeDashboardComponent } from './components/home-dashboard/home-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     UserDashboardComponent,
     ProductDashboardComponent,
     CategoryDashboardComponent,
+    HomeDashboardComponent,
   ],
   imports: [
     CommonModule,
