@@ -9,6 +9,7 @@ import { ProductDashboardComponent } from './components/product-dashboard/produc
 import { CategoryDashboardComponent } from './components/category-dashboard/category-dashboard.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { HomeDashboardComponent } from './components/home-dashboard/home-dashboard.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { HomeDashboardComponent } from './components/home-dashboard/home-dashboa
     CommonModule,
     DashboardRoutingModule,
     SharedModule,
+    ReactiveFormsModule,
     RouterLink,
     RouterLinkActive,
   ],

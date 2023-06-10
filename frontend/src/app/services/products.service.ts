@@ -38,7 +38,10 @@ export class ProductsService {
     );
   }
 
-  getData(): Observable<any> {
+  listProducts(): Observable<any> {
     return this.http.get<any>(this.url2 + 'api/v1/products/products');
+  }
+  createProduct(product: any): Observable<any> {
+    return this.http.post(this.url2 + 'api/v1/products/products/', product);
   }
 }

@@ -20,7 +20,7 @@ export class ProductsComponent {
         console.log(errors);
       },
     });
-    this.productService.getData().subscribe({
+    this.productService.listProducts().subscribe({
       next: (data) => {
         console.log(data);
       },

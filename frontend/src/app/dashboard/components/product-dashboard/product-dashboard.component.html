@@ -6,63 +6,34 @@
       <i class="fa-solid fa-plus text-md"></i>
     </button>
   </div>
-  <table class=" mt-4 table table-responsive table-striped ">
+  <div class="alert alert-info" role="alert" *ngIf="!products.length">
+    Todavía no agregaste ningún producto, agrega uno!
+  </div>
+  <table class=" mt-4 table table-responsive table-striped " [hidden]="!products.length">
     <thead>
       <tr>
+        <th></th>
         <th>Id</th>
-        <th>Name</th>
-        <th class="d-inline-block" style="width: 300px;">Description</th>
-        <th>Price</th>
+        <th>Nombre</th>
+        <th class="d-inline-block" style="width: 300px;">Descripción</th>
+        <th>Precio</th>
         <th>Stock</th>
-        <th>Category</th>
+        <th>Categoría</th>
         <th></th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>1</td>
-        <td>Cappuccino</td>
-        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus ab consectetur consequuntur animi.
-        </td>
-        <td>450</td>
-        <td>600</td>
-        <td>bebida</td>
+      <tr *ngFor="let product of products">
         <td>
-          <button title="Eliminar producto" class="btn text-danger text-md"><i
-              class="fa-solid fa-trash-can"></i></button>
+          <img class="product__image" [src]="product.image" [alt]="product.name">
         </td>
-        <td>
-          <button title="Actualizar producto" class="btn text-primary text-md"><i
-              class="fa-solid fa-pen-to-square"></i></button>
-        </td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Americano</td>
-        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus ab consectetur consequuntur animi.
-        </td>
-        <td>350</td>
-        <td>500</td>
-        <td>bebida</td>
-        <td>
-          <button title="Eliminar producto" class="btn text-danger text-md"><i
-              class="fa-solid fa-trash-can"></i></button>
-        </td>
-        <td>
-          <button title="Actualizar producto" class="btn text-primary text-md"><i
-              class="fa-solid fa-pen-to-square"></i></button>
-        </td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Chocotorta</td>
-        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus ab consectetur
-          consequuntur animi.
-        </td>
-        <td>400</td>
-        <td>10</td>
-        <td>comida</td>
+        <td>{{product.id}}</td>
+        <td>{{product.name}}</td>
+        <td>{{product.description}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.stock}}</td>
+        <td>{{product.category_product}}</td>
         <td>
           <button title="Eliminar producto" class="btn text-danger text-md"><i
               class="fa-solid fa-trash-can"></i></button>
@@ -75,6 +46,7 @@
     </tbody>
   </table>
 
+
   <!-- modal -->
   <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -84,42 +56,74 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form>
+          <form [formGroup]="formProduct" (ngSubmit)="addNewProduct()" (ngReset)="resetFormProduct()"
+            enctype="multipart/form-data">
 
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Nombre de producto</label>
-              <input type="text" class="form-control text-md" id="product-name"
+              <input type="text" formControlName="name" name="name" class="form-control text-md" id="product-name"
                 placeholder="Ingrese el nombre del producto">
+              <div class="fs-5 text-danger mt-2"
+                [hidden]="formProductState.name.valid || formProductState.name.pristine">
+                <span *ngIf="formProductState.name.errors?.['required']">El nombre es obligatorio</span>
+              </div>
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Descripción</label>
-              <input type="text" class="form-control text-md" id="product-descripcion"
-                placeholder="Ingrese la descripción del producto">
+              <input type="text" formControlName="description" name="description" class="form-control text-md"
+                id="product-descripcion" placeholder="Ingrese la descripción del producto">
+              <div class="fs-5 text-danger mt-2"
+                [hidden]="formProductState.description.valid || formProductState.description.pristine">
+                <span *ngIf="formProductState.description.errors?.['required']">La descripción es obligatoria</span>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Imagen</label>
+              <input type="file" formControlName="image" name="image" class="form-control text-md"
+                id="product-descripcion" placeholder="Ingrese la image del producto" (change)="onFileChange($event)">
+              <div class="fs-5 text-danger mt-2"
+                [hidden]="formProductState.image.valid || formProductState.image.pristine">
+                <span *ngIf="formProductState.image.errors?.['required']">La imagen obligatoria</span>
+              </div>
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Precio</label>
-              <input type="number" class="form-control text-md" id="product-precio"
+              <input type="number" formControlName="price" name="price" class="form-control text-md" id="product-precio"
                 placeholder="Ingrese el precio del producto">
+              <div class="fs-5 text-danger mt-2"
+                [hidden]="formProductState.price.valid || formProductState.price.pristine">
+                <span *ngIf="formProductState.price.errors?.['required']">El precio es obligatorio</span>
+              </div>
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Stock</label>
-              <input type="number" class="form-control text-md" id="product-stock"
+              <input type="number" formControlName="stock" name="stock" class="form-control text-md" id="product-stock"
                 placeholder="Ingrese la cantidad disponible del producto">
+              <div class="fs-5 text-danger mt-2"
+                [hidden]="formProductState.stock.valid || formProductState.stock.pristine">
+                <span *ngIf="formProductState.stock.errors?.['required']">El stock es obligatorio</span>
+              </div>
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Categoria</label>
-              <select class="form-select text-md" aria-label="Default select example">
-                <option selected>--- Seleccione una categoria ---</option>
+              <select formControlName="category_product" name="category_product" class="form-select text-md"
+                aria-label="Default select example">
+                <option selected value="">--- Seleccione una categoria ---</option>
                 <option value="1">bebida fria</option>
                 <option value="2">bebida caliente</option>
                 <option value="3">postres</option>
               </select>
+              <div class="fs-5 text-danger mt-2"
+                [hidden]="formProductState.category_product.valid || formProductState.category_product.pristine">
+                <span *ngIf="formProductState.category_product.errors?.['required']">La categoría es obligatoria</span>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="reset" class="btn btn-secondary text-md" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary text-md" id="submit"
+                [disabled]="formProduct.invalid || isLoading">Agregar Producto</button>
             </div>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary text-md" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary text-md">Agregar Producto</button>
         </div>
       </div>
     </div>
