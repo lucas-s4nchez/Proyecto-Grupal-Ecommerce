@@ -7,6 +7,10 @@
   margin-bottom: 5rem;
   z-index: 999;
 }
+.menu--dropdown {
+  padding: 1.3rem;
+  font-size: 1.3rem;
+}
 .navbar {
   width: 95%;
   max-width: 120rem;
@@ -55,7 +59,7 @@
   color: var(--white);
 }
 .menu__link--active {
-  color: var(--primary);
+  color: var(--primary) !important;
 }
 .menu__link:hover {
   color: var(--primary);
