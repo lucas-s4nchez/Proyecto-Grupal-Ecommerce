@@ -1,8 +1,7 @@
-<div class="overflow-scroll mt-5">
+<div class="overflow-x-scroll mt-5">
   <div class="d-flex gap-4 mb-3 text-md justify-content-between">
     <h2 class="text-xl">Categorias</h2>
-    <button type="button" class="fab btn btn-primary" title="Agregar categoria" data-bs-toggle="modal"
-      data-bs-target="#modalCategoria">
+    <button type="button" class="fab btn btn-primary" title="Agregar categoria" (click)="openModal(modalContent)">
       <i class="fa-solid fa-plus text-md"></i>
     </button>
   </div>
@@ -20,7 +19,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let category of categories">
+      <tr *ngFor="let category of categoryList">
         <td>{{category.id}}</td>
         <td>{{category.name}}</td>
         <td>{{category.description}}</td>
@@ -35,43 +34,45 @@
       </tr>
     </tbody>
   </table>
+</div>
 
-  <!--  modal -->
-  <div class="modal fade" id="modalCategoria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header p-4">
-          <h1 class="modal-title  text-md-center " id="exampleModalLabel">Agregar Categoria</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="formCategory" (ngSubmit)="addNewCategory()" (ngReset)="resetFormCategory()">
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Nombre de Categoria</label>
-              <input type="text" formControlName="name" name="name" class="form-control text-md" id="product-name"
-                placeholder="Ingresa el nombre de la categoría">
-              <div class="fs-5 text-danger mt-2"
-                [hidden]="formCategoryState.name.valid || formCategoryState.name.pristine">
-                <span *ngIf="formCategoryState.name.errors?.['required']">El nombre es obligatorio</span>
-              </div>
-            </div>
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Descripción</label>
-              <textarea type="text" formControlName="description" name="description" class="form-control text-md"
-                id="product-descripcion" placeholder="Ingresa la descripción de la categoría"></textarea>
-              <div class="fs-5 text-danger mt-2"
-                [hidden]="formCategoryState.description.valid || formCategoryState.description.pristine">
-                <span *ngIf="formCategoryState.description.errors?.['required']">La descripción es obligatoria</span>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="reset" class="btn btn-secondary text-md" data-bs-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-primary text-md" id="submit"
-                [disabled]="formCategory.invalid || isLoading">Agregar Categoria</button>
-            </div>
-          </form>
+<div class="d-flex justify-content-center my-5">
+  <ngb-pagination class="d-flex align-items-lg-start" [collectionSize]="collectionSize" [(page)]="page"
+    [pageSize]="pageSize" (pageChange)="refreshCategoryList()" size="lg" [maxSize]="3" [rotate]="true"
+    [ellipses]="false" [boundaryLinks]="true">
+  </ngb-pagination>
+</div>
+
+<!--  modal -->
+<ng-template #modalContent>
+  <div class="modal-header p-4">
+    <h1 class="modal-title  text-md-center ">Agregar Categoria</h1>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formCategory" (ngSubmit)="addNewCategory()">
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Nombre de Categoria</label>
+        <input type="text" formControlName="name" name="name" class="form-control text-md" id="product-name"
+          placeholder="Ingresa el nombre de la categoría">
+        <div class="fs-5 text-danger mt-2" [hidden]="formCategoryState.name.valid || formCategoryState.name.pristine">
+          <span *ngIf="formCategoryState.name.errors?.['required']">El nombre es obligatorio</span>
         </div>
       </div>
-    </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Descripción</label>
+        <textarea type="text" formControlName="description" name="description" class="form-control text-md"
+          id="product-descripcion" placeholder="Ingresa la descripción de la categoría"></textarea>
+        <div class="fs-5 text-danger mt-2"
+          [hidden]="formCategoryState.description.valid || formCategoryState.description.pristine">
+          <span *ngIf="formCategoryState.description.errors?.['required']">La descripción es obligatoria</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="reset" class="btn btn-secondary text-md" (click)="closeModal()">Cancelar</button>
+        <button type="submit" class="btn btn-primary text-md" id="submit"
+          [disabled]="formCategory.invalid || isLoading || isSubmitting">Agregar Categoria</button>
+      </div>
+    </form>
   </div>
-</div>
+</ng-template>
