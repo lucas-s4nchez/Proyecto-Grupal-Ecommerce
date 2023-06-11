@@ -6,22 +6,24 @@
       <i class="fa-solid fa-plus text-md"></i>
     </button>
   </div>
-  <table class=" mt-4 table table-responsive table-striped ">
+  <div class="alert alert-info" role="alert" *ngIf="!categories.length">
+    Todavía no agregaste ningúna categoría, agrega una!
+  </div>
+  <table class=" mt-4 table table-responsive table-striped " [hidden]="!categories.length">
     <thead>
       <tr>
         <th>Id</th>
-        <th>Name</th>
+        <th>Nombre</th>
         <th class="d-inline-block" style="width: 300px;">Description</th>
         <th></th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>1</td>
-        <td>Bebidas friass</td>
-        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus ab consectetur consequuntur animi.
-        </td>
+      <tr *ngFor="let category of categories">
+        <td>{{category.id}}</td>
+        <td>{{category.name}}</td>
+        <td>{{category.description}}</td>
         <td>
           <button title="Eliminar categoria" class="btn text-danger text-md"><i
               class="fa-solid fa-trash-can"></i></button>
@@ -31,35 +33,6 @@
               class="fa-solid fa-pen-to-square"></i></button>
         </td>
       </tr>
-      <tr>
-        <td>1</td>
-        <td>Bebidas calientes</td>
-        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus ab consectetur consequuntur animi.
-        </td>
-        <td>
-          <button title="Eliminar categoria" class="btn text-danger text-md"><i
-              class="fa-solid fa-trash-can"></i></button>
-        </td>
-        <td>
-          <button title="Actualizar categoria" class="btn text-primary text-md"><i
-              class="fa-solid fa-pen-to-square"></i></button>
-        </td>
-      </tr>
-      <tr>
-        <td>1</td>
-        <td>postres</td>
-        <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus ab consectetur consequuntur animi.
-        </td>
-        <td>
-          <button title="Eliminar categoria" class="btn text-danger text-md"><i
-              class="fa-solid fa-trash-can"></i></button>
-        </td>
-        <td>
-          <button title="Actualizar categoria" class="btn text-primary text-md"><i
-              class="fa-solid fa-pen-to-square"></i></button>
-        </td>
-      </tr>
-
     </tbody>
   </table>
 
@@ -72,22 +45,31 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form>
+          <form [formGroup]="formCategory" (ngSubmit)="addNewCategory()" (ngReset)="resetFormCategory()">
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Nombre de Categoria</label>
-              <input type="text" class="form-control text-md" id="product-name"
+              <input type="text" formControlName="name" name="name" class="form-control text-md" id="product-name"
                 placeholder="Ingresa el nombre de la categoría">
+              <div class="fs-5 text-danger mt-2"
+                [hidden]="formCategoryState.name.valid || formCategoryState.name.pristine">
+                <span *ngIf="formCategoryState.name.errors?.['required']">El nombre es obligatorio</span>
+              </div>
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Descripción</label>
-              <input type="text" class="form-control text-md" id="product-descripcion"
-                placeholder="Ingresa la descripción de la categoría">
+              <textarea type="text" formControlName="description" name="description" class="form-control text-md"
+                id="product-descripcion" placeholder="Ingresa la descripción de la categoría"></textarea>
+              <div class="fs-5 text-danger mt-2"
+                [hidden]="formCategoryState.description.valid || formCategoryState.description.pristine">
+                <span *ngIf="formCategoryState.description.errors?.['required']">La descripción es obligatoria</span>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="reset" class="btn btn-secondary text-md" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary text-md" id="submit"
+                [disabled]="formCategory.invalid || isLoading">Agregar Categoria</button>
             </div>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary text-md" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary text-md">Agregar Categoria</button>
         </div>
       </div>
     </div>

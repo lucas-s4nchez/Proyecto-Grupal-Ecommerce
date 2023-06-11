@@ -7,6 +7,13 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbPaginationModule,
+  NgbTypeaheadModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import { CategoriesService } from 'src/app/services/categories.service';
 import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
@@ -16,8 +23,14 @@ import { ProductsService } from 'src/app/services/products.service';
 })
 export class ProductDashboardComponent {
   isLoading: boolean = false;
+  isSubmitting: boolean = false;
   products: any = [];
+  productList: any = [];
+  categories: any = [];
   formData = new FormData();
+  page = 1;
+  pageSize = 3;
+  collectionSize = this.products.length;
   formProduct = this.fb.group({
     name: ['', [Validators.required]],
     description: ['', [Validators.required]],
@@ -28,22 +41,13 @@ export class ProductDashboardComponent {
   });
   constructor(
     private productService: ProductsService,
+    private categoryService: CategoriesService,
+    private modalService: NgbModal,
     private fb: FormBuilder,
-    private toastr: ToastrService,
-    private router: Router
+    private toastr: ToastrService
   ) {
-    this.productService.listProducts().subscribe({
-      next: (data) => {
-        this.isLoading = true;
-        console.log(data);
-        this.products = data;
-        this.isLoading = false;
-      },
-      error: (errors) => {
-        this.isLoading = false;
-        console.log(errors);
-      },
-    });
+    this.getProducts();
+    this.getCategories();
   }
   get formProductState() {
     return {
@@ -54,6 +58,53 @@ export class ProductDashboardComponent {
       stock: this.formProduct.get('stock') as FormControl,
       category_product: this.formProduct.get('category_product') as FormControl,
     };
+  }
+  getProducts() {
+    this.isLoading = true;
+    this.productService.listProducts().subscribe({
+      next: (data) => {
+        this.products = data;
+        this.collectionSize = this.products.length;
+        this.refreshProductList();
+        this.isLoading = false;
+      },
+      error: (errors) => {
+        this.isLoading = false;
+        console.log(errors);
+      },
+    });
+  }
+
+  getCategories() {
+    this.categoryService.getCategories().subscribe({
+      next: (data) => {
+        this.categories = data;
+      },
+      error: (errors) => {
+        console.log(errors);
+      },
+    });
+  }
+
+  refreshProductList() {
+    this.productList = this.products
+      .map((country: any, i: any) => ({
+        id: i + 1,
+        ...country,
+      }))
+      .slice(
+        (this.page - 1) * this.pageSize,
+        (this.page - 1) * this.pageSize + this.pageSize
+      );
+  }
+
+  openModal(content: any) {
+    this.modalService.open(content, { centered: true, backdrop: 'static' });
+  }
+
+  closeModal() {
+    this.modalService.dismissAll();
+    this.resetFormProduct();
   }
 
   setFormData() {
@@ -79,16 +130,23 @@ export class ProductDashboardComponent {
   }
 
   addNewProduct() {
+    this.isSubmitting = true;
     this.setFormData();
     this.productService.createProduct(this.formData).subscribe({
       next: (data) => {
-        console.log(data);
+        this.closeModal();
+        this.isSubmitting = false;
+        this.toastr.success(data.mensaje);
+        this.getProducts();
       },
       error: (errors) => {
         console.log(errors);
+        this.isSubmitting = false;
       },
+      complete: () => {},
     });
   }
+
   resetFormProduct() {
     this.formProduct.reset();
   }

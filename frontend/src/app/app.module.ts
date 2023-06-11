@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +23,8 @@ export function tokenGetter() {
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    NgbModalModule,
+    NgbModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
