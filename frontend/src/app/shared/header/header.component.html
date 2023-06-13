@@ -29,32 +29,10 @@
         <a routerLink="/auth/register" routerLinkActive="menu__link--active" class="menu__link">Registrarse <i
             class="fa-solid fa-user-plus"></i></a>
       </li>
-      <li class="menu__item dropdown" [hidden]="!isAdmin">
-        <a class="menu__link dropdown-toggle" routerLinkActive="menu__link--active" id="navbarDropdownMenuLink"
-          role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <li class="menu__item" [hidden]="!isAdmin">
+        <a routerLink="/admin" routerLinkActive="menu__link--active" class="menu__link">
           Admin <i class="fa-solid fa-chart-line"></i>
         </a>
-        <ul class="dropdown-menu menu--dropdown" style="background-color: var(--dark);"
-          aria-labelledby="navbarDropdownMenuLink">
-          <li class="menu__item">
-            <a class="menu__link text-secondary d-flex gap-1 align-items-center" routerLinkActive="menu__link--active"
-              routerLink="/admin" [routerLinkActiveOptions]="{ exact: true }">Inicio <i
-                class="fa-solid fa-house"></i></a>
-          </li>
-          <li class="menu__item">
-            <a class="menu__link text-secondary d-flex gap-1 align-items-center" routerLinkActive="menu__link--active"
-              routerLink="/admin/users">Usuarios <i class="fa-solid fa-users"></i></a>
-          </li>
-          <li class="menu__item">
-            <a class="menu__link text-secondary d-flex gap-1 align-items-center" routerLinkActive="menu__link--active"
-              routerLink="/admin/products">Productos
-              <i class="fa-solid fa-mug-hot"></i></a>
-          </li>
-          <li class="menu__item">
-            <a class="menu__link text-secondary d-flex gap-1 align-items-center" routerLinkActive="menu__link--active"
-              routerLink="/admin/categories">Categorias <i class="fa-solid fa-tags"></i></a>
-          </li>
-        </ul>
       </li>
       <li class="menu__item" [hidden]="!isAuthenticated">
         <button class="btn btn-danger text-md" (click)="logout()">Salir <i
