@@ -1,11 +1,11 @@
 <app-header></app-header>
 <div class="page">
-  <div>
-    <div *ngFor="let product of products">
-      <div>
+  <div class="box-products">
+    <div *ngFor="let product of products" class="box-for-products">
+      <div class="card-productos">
         <img [src]="product.img" alt="">
-        <h2>nombre: {{ product.name }}</h2>
-        <p>descripcion: {{ product.description }}</p>
+        <h2>Nombre: {{ product.name }}</h2>
+        <p>Descripción: {{ product.description }}</p>
         <p *ngIf="product.discount" class="text-decoration-line-through">antes: {{ product.price|currency }}</p>
         <p *ngIf="product.discount">precio: {{ product.discountedPrice|currency }}</p>
         <p *ngIf="product.discount">descuento: {{ product.discount }}</p>
