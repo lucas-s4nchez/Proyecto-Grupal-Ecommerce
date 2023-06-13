@@ -24,6 +24,8 @@ import { ProductsService } from 'src/app/services/products.service';
 export class ProductDashboardComponent {
   isLoading: boolean = false;
   isSubmitting: boolean = false;
+  isDeleting: boolean = false;
+  selectedProductId: number | null = null;
   products: any = [];
   productList: any = [];
   categories: any = [];
@@ -107,6 +109,24 @@ export class ProductDashboardComponent {
     this.resetFormProduct();
   }
 
+  openEditModal(product: any, content: any) {
+    product.image = '';
+    this.selectedProductId = product.id;
+    this.formProduct.patchValue(product);
+    this.modalService.open(content, {
+      centered: true,
+      backdrop: 'static',
+    });
+  }
+
+  openDeleteModal(id: any, content: any) {
+    this.selectedProductId = id;
+    this.modalService.open(content, {
+      centered: true,
+      backdrop: 'static',
+    });
+  }
+
   setFormData() {
     this.formData.append('name', this.formProductState.name.value);
     this.formData.append(
@@ -144,6 +164,40 @@ export class ProductDashboardComponent {
         this.isSubmitting = false;
       },
       complete: () => {},
+    });
+  }
+
+  updateProduct() {
+    this.isSubmitting = true;
+    this.setFormData();
+    const productId = this.selectedProductId;
+    this.productService.updateProduct(productId, this.formData).subscribe({
+      next: (data) => {
+        this.closeModal();
+        this.isSubmitting = false;
+        this.toastr.success('Producto actualizado correctamente');
+        this.getProducts();
+      },
+      error: (errors) => {
+        this.isSubmitting = false;
+        console.log(errors);
+      },
+    });
+  }
+
+  deleteProduct() {
+    this.isDeleting = true;
+    this.productService.deleteProduct(this.selectedProductId).subscribe({
+      next: (data) => {
+        this.isDeleting = false;
+        this.closeModal();
+        this.toastr.success('Producto eliminado');
+        this.getProducts();
+      },
+      error: (errors) => {
+        this.isDeleting = false;
+        console.log(errors);
+      },
     });
   }
 

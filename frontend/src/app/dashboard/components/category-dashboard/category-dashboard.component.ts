@@ -18,6 +18,8 @@ import { CategoriesService } from 'src/app/services/categories.service';
 export class CategoryDashboardComponent {
   isLoading: boolean = false;
   isSubmitting: boolean = false;
+  isDeleting: boolean = false;
+  selectedCategoryId: number | null = null;
   categories: any = [];
   categoryList: any = [];
   page = 1;
@@ -59,6 +61,57 @@ export class CategoryDashboardComponent {
     });
   }
 
+  addNewCategory() {
+    this.isSubmitting = true;
+    this.categoryService.createCategory(this.formCategory.value).subscribe({
+      next: (data) => {
+        this.closeModal();
+        this.isSubmitting = false;
+        this.toastr.success('Categoria creada correctamente');
+        this.getCategories();
+      },
+      error: (errors) => {
+        this.isSubmitting = false;
+        console.log(errors);
+      },
+    });
+  }
+
+  updateCategory() {
+    this.isSubmitting = true;
+    const categoryId = this.selectedCategoryId;
+    this.categoryService
+      .updateCategory(categoryId, this.formCategory.value)
+      .subscribe({
+        next: (data) => {
+          this.closeModal();
+          this.isSubmitting = false;
+          this.toastr.success('Categoria actualizada correctamente');
+          this.getCategories();
+        },
+        error: (errors) => {
+          this.isSubmitting = false;
+          console.log(errors);
+        },
+      });
+  }
+
+  deleteCategory() {
+    this.isDeleting = true;
+    this.categoryService.deleteCategory(this.selectedCategoryId).subscribe({
+      next: (data) => {
+        this.isDeleting = false;
+        this.closeModal();
+        this.toastr.success('Categoria eliminada');
+        this.getCategories();
+      },
+      error: (errors) => {
+        this.isDeleting = false;
+        console.log(errors);
+      },
+    });
+  }
+
   refreshCategoryList() {
     this.categoryList = this.categories
       .map((country: any, i: any) => ({
@@ -75,35 +128,31 @@ export class CategoryDashboardComponent {
     this.modalService.open(content, { centered: true, backdrop: 'static' });
   }
 
+  openEditModal(category: any, content: any) {
+    this.selectedCategoryId = category.id;
+    this.formCategory.patchValue({
+      name: category.name,
+      description: category.description,
+    });
+    this.modalService.open(content, {
+      centered: true,
+      backdrop: 'static',
+    });
+  }
+
+  openDeleteModal(id: any, content: any) {
+    this.selectedCategoryId = id;
+    this.modalService.open(content, {
+      centered: true,
+      backdrop: 'static',
+    });
+  }
+
   closeModal() {
     this.modalService.dismissAll();
-    this.resetFormProduct();
+    this.resetFormCategory();
   }
 
-  resetFormProduct() {
-    this.formCategory.reset();
-  }
-
-  addNewCategory() {
-    this.isSubmitting = true;
-    this.categoryService
-      .createCategory({
-        name: this.formCategoryState.name.value,
-        description: this.formCategoryState.description.value,
-      })
-      .subscribe({
-        next: (data) => {
-          this.closeModal();
-          this.isSubmitting = false;
-          this.toastr.success('Categoria creada correctamente');
-          this.getCategories();
-        },
-        error: (errors) => {
-          this.isSubmitting = false;
-          console.log(errors);
-        },
-      });
-  }
   resetFormCategory() {
     this.formCategory.reset();
   }

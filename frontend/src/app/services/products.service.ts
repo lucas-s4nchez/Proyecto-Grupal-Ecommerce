@@ -41,7 +41,19 @@ export class ProductsService {
   listProducts(): Observable<any> {
     return this.http.get<any>(this.url2 + 'api/v1/products/products');
   }
+
   createProduct(product: any): Observable<any> {
     return this.http.post(this.url2 + 'api/v1/products/products/', product);
+  }
+
+  updateProduct(id: any, data: any): Observable<any> {
+    return this.http.put<any>(
+      this.url2 + `api/v1/products/products/${id}/`,
+      data
+    );
+  }
+
+  deleteProduct(id: any): Observable<any> {
+    return this.http.delete<any>(this.url2 + `api/v1/products/products/${id}/`);
   }
 }
