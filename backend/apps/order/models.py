@@ -24,7 +24,7 @@ class Order(BaseModel):
         ordering = ('status',)
 
     def __str__(self):
-        return f'{self.get_status_display()} --owner : {self.owner}'
+        return f'orden id: {self.id} --estado: {self.get_status_display()} --owner : {self.owner} '
     
 
 class OrderItem(BaseModel):

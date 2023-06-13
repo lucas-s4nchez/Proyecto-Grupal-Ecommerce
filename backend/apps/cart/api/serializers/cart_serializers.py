@@ -13,7 +13,7 @@ class CartSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cart
-        fields = ('user','items','total_items','total',)
+        fields = ("id",'user','items','total_items','total',)
 
     def get_total_items(self, obj):
         return obj.items.count()
