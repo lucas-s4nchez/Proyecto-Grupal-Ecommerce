@@ -22,6 +22,8 @@ import { UsersService } from 'src/app/services/users.service';
 export class UserDashboardComponent {
   isLoading: boolean = false;
   isSubmitting: boolean = false;
+  isDeleting: boolean = false;
+  selectedUserId: number | null = null;
   users: any = [];
   userList: any = [];
   page = 1;
@@ -86,6 +88,24 @@ export class UserDashboardComponent {
     this.modalService.open(content, { centered: true, backdrop: 'static' });
   }
 
+  openEditModal(user: any, content: any) {
+    this.selectedUserId = user.id;
+    user.password = '';
+    this.formUser.patchValue(user);
+    this.modalService.open(content, {
+      centered: true,
+      backdrop: 'static',
+    });
+  }
+
+  openDeleteModal(id: any, content: any) {
+    this.selectedUserId = id;
+    this.modalService.open(content, {
+      centered: true,
+      backdrop: 'static',
+    });
+  }
+
   closeModal() {
     this.modalService.dismissAll();
     this.resetFormUser();
@@ -93,26 +113,52 @@ export class UserDashboardComponent {
 
   addNewUser() {
     this.isSubmitting = true;
-    this.userService
-      .createUser({
-        name: this.formUserState.name.value,
-        last_name: this.formUserState.last_name.value,
-        email: this.formUserState.email.value,
-        password: this.formUserState.password.value,
-      })
-      .subscribe({
-        next: (data) => {
-          this.closeModal();
-          this.isSubmitting = false;
-          this.toastr.success(data.message);
-          this.getUsers();
-        },
-        error: (errors) => {
-          console.log(errors);
-          this.isSubmitting = false;
-        },
-        complete: () => {},
-      });
+    this.userService.createUser(this.formUser.value).subscribe({
+      next: (data) => {
+        this.closeModal();
+        this.isSubmitting = false;
+        this.toastr.success(data.message);
+        this.getUsers();
+      },
+      error: (errors) => {
+        console.log(errors);
+        this.isSubmitting = false;
+      },
+      complete: () => {},
+    });
+  }
+
+  updateUser() {
+    this.isSubmitting = true;
+    const categoryId = this.selectedUserId;
+    this.userService.updateUser(categoryId, this.formUser.value).subscribe({
+      next: (data) => {
+        this.closeModal();
+        this.isSubmitting = false;
+        this.toastr.success('Usuario actualizado correctamente');
+        this.getUsers();
+      },
+      error: (errors) => {
+        this.isSubmitting = false;
+        console.log(errors);
+      },
+    });
+  }
+
+  deleteUser() {
+    this.isDeleting = true;
+    this.userService.deleteUser(this.selectedUserId).subscribe({
+      next: (data) => {
+        this.isDeleting = false;
+        this.closeModal();
+        this.toastr.success('Uusario eliminado');
+        this.getUsers();
+      },
+      error: (errors) => {
+        this.isDeleting = false;
+        console.log(errors);
+      },
+    });
   }
 
   resetFormUser() {

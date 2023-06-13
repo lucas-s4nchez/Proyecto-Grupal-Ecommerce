@@ -31,12 +31,12 @@
           <td>{{category.name}}</td>
           <td>{{category.description}}</td>
           <td>
-            <button title="Eliminar categoria" class="btn text-danger text-md"><i
-                class="fa-solid fa-trash-can"></i></button>
+            <button title="Eliminar categoria" class="btn text-danger text-md"
+              (click)="openDeleteModal(category.id, modalDeleteContent)"><i class="fa-solid fa-trash-can"></i></button>
           </td>
           <td>
-            <button title="Actualizar categoria" class="btn text-primary text-md"><i
-                class="fa-solid fa-pen-to-square"></i></button>
+            <button title="Actualizar categoria" class="btn text-primary text-md"
+              (click)="openEditModal(category, modalEditContent)"><i class="fa-solid fa-pen-to-square"></i></button>
           </td>
         </tr>
       </tbody>
@@ -50,7 +50,7 @@
     </ngb-pagination>
   </div>
 
-  <!--  modal -->
+  <!--  modal para agregar categoria-->
   <ng-template #modalContent>
     <div class="modal-header p-4">
       <h1 class="modal-title  text-md-center ">Agregar Categoria</h1>
@@ -80,12 +80,70 @@
           <button type="submit" class="btn btn-primary text-md" id="submit"
             [disabled]="formCategory.invalid || isLoading || isSubmitting"><span *ngIf="!isSubmitting">Agregar
               Categoría</span>
-            <span *ngIf="isSubmitting" class="spinner-border" role="status" aria-hidden="true"></span>
+            <span *ngIf="isSubmitting" class="spinner-border mx-2" role="status" aria-hidden="true"></span>
             <span *ngIf="isSubmitting">
               Cargando...
             </span></button>
         </div>
       </form>
     </div>
+  </ng-template>
+
+  <!-- modal para editar categoria  -->
+  <ng-template #modalEditContent>
+    <div class="modal-header p-4">
+      <h1 class="modal-title  text-md-center">Editar Categoria</h1>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formCategory" (ngSubmit)="updateCategory()">
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Nombre de Categoria</label>
+          <input type="text" formControlName="name" name="name" class="form-control text-md" id="product-name"
+            placeholder="Ingresa el nombre de la categoría">
+          <div class="fs-5 text-danger mt-2" [hidden]="formCategoryState.name.valid || formCategoryState.name.pristine">
+            <span *ngIf="formCategoryState.name.errors?.['required']">El nombre es obligatorio</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">Descripción</label>
+          <textarea type="text" formControlName="description" name="description" class="form-control text-md"
+            id="product-descripcion" placeholder="Ingresa la descripción de la categoría"></textarea>
+          <div class="fs-5 text-danger mt-2"
+            [hidden]="formCategoryState.description.valid || formCategoryState.description.pristine">
+            <span *ngIf="formCategoryState.description.errors?.['required']">La descripción es obligatoria</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary text-md" (click)="closeModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary text-md" id="submit"
+            [disabled]="formCategory.invalid || isLoading || isSubmitting">
+            <span *ngIf="!isSubmitting">Editar Categoría</span>
+            <span *ngIf="isSubmitting" class="spinner-border mx-2" role="status" aria-hidden="true"></span>
+            <span *ngIf="isSubmitting">Guardando...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </ng-template>
+
+  <!-- modal para eliminar categoria  -->
+  <ng-template #modalDeleteContent>
+    <div class="modal-header p-4">
+      <h1 class="modal-title  text-md-center">Eliminar Categoria</h1>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+    </div>
+    <div class="modal-body">
+      <span>¿Deseas eliminar definitivamente esta categoría?</span>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary text-md" (click)="closeModal()">Cancelar</button>
+      <button type="button" class="btn btn-danger text-md" id="submit" (click)="deleteCategory()"
+        [disabled]="isDeleting"><span *ngIf="!isDeleting">Eliminar</span>
+        <span *ngIf="isDeleting" class="spinner-border mx-2" role="status" aria-hidden="true"></span>
+        <span *ngIf="isDeleting">Borrando...</span></button>
+    </div>
+
   </ng-template>
 </div>
