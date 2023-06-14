@@ -29,3 +29,8 @@ class CartSerializer(serializers.ModelSerializer):
         items_data = CartItemSerializer(items_queryset, many=True).data
         total = sum(float(item['product']['price']) * item['quantity'] for item in items_data)
         return total
+    
+    def create(self, validated_data):
+        user = self.context['request'].user
+        validated_data['user'] = user
+        return super().create(validated_data)
