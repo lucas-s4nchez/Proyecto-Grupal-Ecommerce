@@ -9,7 +9,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 class CustomUserTokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('email','name','last_name','is_staff')
+        fields = ('id','email','name','last_name','is_staff')
 
 class CustomUserListSerializer(serializers.ModelSerializer):
     class Meta:
