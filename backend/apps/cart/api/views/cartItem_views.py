@@ -11,7 +11,7 @@ from rest_framework.response import Response
 
 class CartItemViewSet(viewsets.ModelViewSet):
     
-    http_method_names=['get','post','patch','delete']
+    http_method_names=['get','post','patch','delete', "options", "head"]
 
     def get_queryset(self):
       return CartItem.objects.filter(cart_id=self.kwargs["cart_pk"], product__state=True)

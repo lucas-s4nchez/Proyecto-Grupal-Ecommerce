@@ -6,7 +6,7 @@ from apps.cart.api.serializers.cart_serializers import CartSerializer
 from apps.cart.models import Cart
 
 class CartViewSets(viewsets.ModelViewSet):
-    http_method_names=['get','post','delete']
+    http_method_names=['get','post','delete', "options", "head"]
     queryset = Cart.objects.all()
     serializer_class= CartSerializer
 
