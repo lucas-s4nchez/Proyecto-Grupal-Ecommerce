@@ -15,7 +15,7 @@ class Order(BaseModel):
 
 
 
-    status = models.CharField(max_length=50, choices= STATUS_CHOICES, default= 'STATUS_PENDING')
+    status = models.CharField(max_length=50, choices= STATUS_CHOICES, default= 'P')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
 
     class Meta:
@@ -24,7 +24,7 @@ class Order(BaseModel):
         ordering = ('status',)
 
     def __str__(self):
-        return f'{self.get_status_display()} --owner : {self.owner}'
+        return f'orden id: {self.id} --estado: {self.get_status_display()} --owner : {self.owner} '
     
 
 class OrderItem(BaseModel):

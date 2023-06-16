@@ -10,14 +10,6 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
     def get_sub_total(self, order_item):
         sub_total= order_item.quantity * order_item.product.price
-
-        if order_item.product.stock >= order_item.quantity:
-
-            order_item.product.stock -= order_item.quantity
-            order_item.product.save()
-        else:
-            return serializers.ValidationError("no hay suficiente stock del producto")
-        
         return sub_total
 
     class Meta:

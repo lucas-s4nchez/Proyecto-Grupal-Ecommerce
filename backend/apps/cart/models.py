@@ -23,7 +23,7 @@ class Cart(BaseModel):
 class CartItem(BaseModel):
     cart= models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
     product= models.ForeignKey(Product, on_delete=models.CASCADE, related_name="cartItems")
-    quantity = models.IntegerField(default=0)
+    quantity = models.PositiveSmallIntegerField(default=0)
     sub_total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     
     class Meta:
