@@ -1,0 +1,37 @@
+.about-us-section {
+    text-align: center;
+    margin: 20px;
+  }
+  
+  .about-us-img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .about-us-section p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  
+  @media (max-width: 768px) {
+    .about-us-section {
+      margin: 10px;
+    }
+  
+    .about-us-section p {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .about-us-section {
+      margin: 5px;
+    }
+  
+    .about-us-section p {
+      font-size: 12px;
+    }
+  }
+  
+  
