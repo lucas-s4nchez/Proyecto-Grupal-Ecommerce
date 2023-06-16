@@ -1,21 +1,20 @@
 <app-header></app-header>
 <div class="page">
   <div *ngIf="product">
-    <div class="row w-100"> 
-  <div class="col-md-4">
-    <img [src]="product.img" alt="">
+    <div class="row w-100">
+      <div class="col-md-4">
+        <img [src]="product.img" alt="">
+      </div>
+      <div class="col-md-8">
+        <h2>Nombre: {{ product.name }}</h2>
+        <p>Descripción: {{ product.description }}</p>
+        <p class="">Precio: {{ product.price|currency }}</p>
+        <p>Categoria: {{product.category}}</p>
+      </div>
+    </div>
+    <div *ngIf="productNotFound">
+      <h2>{{productNotFound}}</h2>
+    </div>
   </div>
-  <div class="col-md-7">
-    <h2>nombre: {{ product.name }}</h2>
-    <p>descripcion: {{ product.description }}</p>
-    <p class="">precio: {{ product.price|currency }}</p>
-    <p>categoria: {{product.category}}</p>
-  </div>
-  </div>
-
-  <div *ngIf="productNotFound">
-    <h2>{{productNotFound}}</h2>
-  </div>
-</div>
 </div>
 <app-footer></app-footer>
