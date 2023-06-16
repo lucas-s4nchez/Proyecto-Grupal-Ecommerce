@@ -8,10 +8,7 @@
   <div class="col-md-7">
     <h2>nombre: {{ product.name }}</h2>
     <p>descripcion: {{ product.description }}</p>
-    <p *ngIf="product.discount" class="text-decoration-line-through">antes: {{ product.price|currency }}</p>
-    <p *ngIf="product.discount">precio: {{ product.discountedPrice|currency }}</p>
-    <p *ngIf="!product.discount" class="card__price">precio: {{ product.price|currency }}</p>
-    <p *ngIf="product.discount">descuento: {{ product.discount }}%</p>
+    <p class="">precio: {{ product.price|currency }}</p>
     <p>categoria: {{product.category}}</p>
   </div>
   </div>

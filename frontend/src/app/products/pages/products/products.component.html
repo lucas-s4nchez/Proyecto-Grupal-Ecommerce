@@ -5,11 +5,9 @@
       <div class="card-productos">
         <img [src]="product.img" alt="">
         <h2>Nombre: {{ product.name }}</h2>
-        <p>Descripción: {{ product.description }}</p>
-        <p *ngIf="product.discount" class="text-decoration-line-through">antes: {{ product.price|currency }}</p>
-        <p *ngIf="product.discount">precio: {{ product.discountedPrice|currency }}</p>
-        <p *ngIf="product.discount">descuento: {{ product.discount }}</p>
-        <p>categoria: {{product.category}}</p>
+        
+        <p class="">Precio: {{ product.price|currency }}</p>
+        
         <button (click)="goToProductDetails(product.id)">Ver mas</button>
       </div>
     </div>
