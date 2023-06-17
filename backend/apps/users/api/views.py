@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate
+from django.db import transaction
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -38,7 +39,9 @@ class UserViewSet(viewsets.GenericViewSet):
         user_serializer =self.serializer_class(data=request.data)
         print(user_serializer)
         if user_serializer.is_valid():
-            user_serializer.save()
+            user = user_serializer.save()
+            # Crear un carrito para el usuario recién registrado
+            Cart.objects.create(user=user)
             return Response({
                 'message': 'Usuario registrado correctamente.'
             }, status=status.HTTP_201_CREATED)
@@ -66,14 +69,23 @@ class UserViewSet(viewsets.GenericViewSet):
         }, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
-        user_destroy = self.model.objects.filter(id=pk).update(is_active=False)
-        if user_destroy == 1:
-            return Response({
-                'message': 'Usuario eliminado correctamente'
-            })
-        return Response({
-            'message': 'No existe el usuario que desea eliminar'
-        }, status=status.HTTP_404_NOT_FOUND)
+      try:
+          with transaction.atomic():
+              user = self.get_object(pk)
+              # Desactivar el usuario
+              user.is_active = False
+              user.save()
+              # Actualizar el estado del carrito asociado al usuario
+              try:
+                  cart = Cart.objects.get(user=user)
+                  cart.state = False
+                  cart.save()
+              except Cart.DoesNotExist:
+                  pass
+          return Response({'message': 'Usuario eliminado correctamente'})
+      except self.model.DoesNotExist:
+          return Response({'message': 'No existe el usuario que desea eliminar'}, status=status.HTTP_404_NOT_FOUND)
+
 
 class Login(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
