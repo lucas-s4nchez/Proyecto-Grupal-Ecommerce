@@ -1,9 +1,8 @@
-from apps.cart.models import CartItem
+from apps.cart.models import CartItem,Cart
 from apps.products.models import Product
 
 from rest_framework import serializers
-from rest_framework.response import Response
-from apps.products.api.serializers.product_serializers import ProductSerializer, SimpleProductSerializer
+from apps.products.api.serializers.product_serializers import  SimpleProductSerializer
 
 class CartItemSerializer(serializers.ModelSerializer):
 
@@ -18,37 +17,34 @@ class CartItemSerializer(serializers.ModelSerializer):
         return cartitem.quantity * cartitem.product.price
     
 
-class AddCartItemSerializer(serializers.ModelSerializer):
+class AddCartItemSerializer(serializers.Serializer):
     product_id = serializers.IntegerField()
+    quantity = serializers.IntegerField()
 
     def validate_product_id(self, value):
-        if not Product.objects.filter(pk=value, state=True).exists():
-            raise serializers.ValidationError("No hay ningún producto con este id")
+        try:
+            product = Product.objects.get(id=value)
+            if not product.state:
+                raise serializers.ValidationError("El producto no está disponible.")
+        except Product.DoesNotExist:
+            raise serializers.ValidationError("El producto no existe.")
+
         return value
 
-    def save(self, **kwargs):
-        cart_id = self.context['cart_id']
-        product_id = self.validated_data['product_id']
-        quantity = self.validated_data['quantity']
+    def create(self, validated_data):
+        user = self.context['request'].user
+        cart = Cart.objects.get(user=user)
+        product_id = validated_data['product_id']
+        quantity = validated_data['quantity']
 
-        try:
-            cartitem= CartItem.objects.get(product_id=product_id, cart_id=cart_id)
-            cartitem.quantity += quantity
-            cartitem.save()
+        cart_item, created = CartItem.objects.get_or_create(cart=cart, product_id=product_id, defaults={'quantity': quantity})
 
-            self.instance = cartitem
-        except:
-            
-            self.instance = CartItem.objects.create(cart_id=cart_id, **self.validated_data)
+        if not created:
+            cart_item.quantity += quantity
+            cart_item.save()
 
-        return self.instance
+        return cart_item
 
 
-    class Meta:
-        model = CartItem
-        fields = ('id','product_id','quantity')
-    
-class UpdateCartItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CartItem
-        fields=('quantity',)
+class UpdateCartItemSerializer(serializers.Serializer):
+    quantity = serializers.IntegerField(min_value=1)
