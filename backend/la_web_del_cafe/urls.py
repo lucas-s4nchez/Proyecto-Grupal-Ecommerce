@@ -9,6 +9,6 @@ urlpatterns = [
     path('api/v1/category/', include('apps.products.api.urls')),# enlazo la ruta mediante urls
     path('api/v1/products/', include('apps.products.api.routers')), # estoy enlazando la ruta de app product mediante routers
     path('api/v1/cart/', include('apps.cart.api.urls')),
-    path('api/v1/order/', include('apps.order.api.routers')),
+    path('api/v1/order/', include('apps.order.api.urls')),
     path('api/v1/invoice/', include('apps.invoice.api.routers'))
 ]
