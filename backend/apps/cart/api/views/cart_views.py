@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from apps.cart.models import Cart
@@ -8,6 +9,9 @@ class CartView(APIView):
 
     def get(self, request):
       user = request.user
-      cart = Cart.objects.get(user=user)
-      serializer = CartSerializer(cart)
-      return Response(serializer.data)
+      try:
+        cart = Cart.objects.get(user=user)
+        serializer = CartSerializer(cart)
+        return Response(serializer.data)
+      except Cart.DoesNotExist:
+          return Response({'error': 'El usuario no tiene un carrito.'}, status=status.HTTP_404_NOT_FOUND)
