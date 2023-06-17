@@ -10,6 +10,7 @@ from rest_framework.permissions import AllowAny
 from apps.users.models import CustomUser
 from apps.users.api.serializers import CustomUserSerializer, CustomUserListSerializer, CustomUserTokenSerializer, CustomTokenObtainPairSerializer
 from django.shortcuts import get_object_or_404
+from apps.cart.models import Cart
 
 
 
@@ -106,7 +107,9 @@ class Register(APIView):
     def post(self, request):
         user_serializer =self.serializer_class(data=request.data)
         if user_serializer.is_valid():
-            user_serializer.save()
+            user = user_serializer.save()
+            # Crear un carrito para el usuario recién registrado
+            Cart.objects.create(user=user)
             return Response({
                 'message': 'Usuario registrado correctamente.'
             }, status=status.HTTP_201_CREATED)
