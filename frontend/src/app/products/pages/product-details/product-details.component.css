@@ -25,12 +25,11 @@
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(2.1px);
     -webkit-backdrop-filter: blur(2.1px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .caja-img img:hover{
-    -ms-transform: scale(1.5); /* IE 9 */
-    -webkit-transform: scale(1.5); /* Safari 3-8 */
+    -ms-transform: scale(1.5); 
+    -webkit-transform: scale(1.5);
     transform: scale(1.5); 
 }
 
@@ -85,5 +84,6 @@
 }
 
 .generaltext button:hover{
-    box-shadow: 20px 20px 10px #7f5539;
+    background-color: #2d2d2d;
+    box-shadow: 10px 10px 10px gray;
 }
