@@ -18,7 +18,7 @@
     line-height: 1.5;
   }
   
-<<<<<<< HEAD
+
   
   .about-us-section::after {
     content: "";
@@ -32,8 +32,8 @@
   
   @media (max-width: 768px) {
     .about-us-section {
-      margin: 10px;
-=======
+      margin: 10px;}
+
   /* Media queries */
   @media (max-width: 768px) {
     .about-us-section {
@@ -42,7 +42,7 @@
   
     .about-us-section img {
       margin-bottom: 10px;
->>>>>>> 45adf58cd6e8d19fca49619a2bff3b949af6544f
+
     }
   
     .about-us-section p {
@@ -52,11 +52,10 @@
   
   @media (max-width: 480px) {
     .about-us-section {
-<<<<<<< HEAD
+
       margin: 5px;
-=======
       padding: 5px;
->>>>>>> 45adf58cd6e8d19fca49619a2bff3b949af6544f
+
     }
   
     .about-us-section p {
@@ -64,4 +63,4 @@
     }
   }
   
-  
+}
