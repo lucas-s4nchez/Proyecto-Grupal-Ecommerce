@@ -17,4 +17,28 @@ export class CartService {
   setCart(cart: any) {
     this.cart = cart;
   }
+
+  addProductToCart(productId: any, quantity: any): Observable<any> {
+    return this.http.post(this.url + `api/v1/cart/cart/items`, {
+      product_id: productId,
+      quantity: quantity,
+    });
+  }
+
+  updateQuantityProduct(cartItemId: any, quantity: any): Observable<any> {
+    return this.http.patch<any>(
+      this.url + `api/v1/cart/cart/items/${cartItemId}/`,
+      { quantity: quantity }
+    );
+  }
+
+  removeProductFromCart(cartItemId: any): Observable<any> {
+    return this.http.delete<any>(
+      this.url + `api/v1/cart/cart/items/${cartItemId}/`
+    );
+  }
+
+  removeAllProductsFromCart(): Observable<any> {
+    return this.http.delete<any>(this.url + `api/v1/cart/cart/items`);
+  }
 }

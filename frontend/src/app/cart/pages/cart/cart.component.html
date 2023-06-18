@@ -1,14 +1,62 @@
 <app-header></app-header>
 <div class="page">
-  <div class="cart-content">
-    <hr>
-    <div class="cart-total">
-      <h3 class="cart-total__h3">
-        Total: $12222
-      </h3>
-      <Button class="btn btn-success text-md">
-        Continuar compra
-      </Button>
+  <div class="d-flex align-items-center w-100 justify-content-center" *ngIf="isLoading">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <div class="cart-content" *ngIf="!isLoading">
+    <div *ngIf="cart.items.length">
+      <div *ngFor="let item of cart.items" class="card mb-3">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <div class="d-flex align-items-center gap-2">
+              <div>
+                <img [src]="item.product.image" [alt]="item.product.name" style="width: 10rem;">
+              </div>
+              <div>
+                <div class="d-flex flex-column mb-3">
+                  <h3 class="card-title text-uppercase">{{ item.product.name }}</h3>
+                  <span class="text-secondary" style="font-size: 1.4rem;">Precio: {{item.product.price|currency}}</span>
+                  <span class="text-secondary" style="font-size: 1.4rem;">Sub total: {{item.sub_total|currency}}</span>
+                </div>
+                <div class="d-flex align-items-center gap-2" role="group">
+                  <button title="Quitar unidad del producto" class="btn btn-primary"
+                    (click)="decreaseQuantity(item.id, item.quantity)" [disabled]="isChangeQuantity || isDeleting"><i
+                      class="fa-solid fa-minus"></i></button>
+                  <p class="card-text m-0">{{ item.quantity }}</p>
+                  <button title="Agregar unidad del producto" class="btn btn-primary"
+                    (click)="increaseQuantity(item.id, item.quantity)" [disabled]="isChangeQuantity || isDeleting"><i
+                      class="fa-solid fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+            <button title="Remover producto del carrito" class="btn text-danger text-md"
+              (click)="removeProductFromCart(item.id)" [disabled]="isChangeQuantity || isDeleting"><i
+                class="fa-solid fa-trash-can"></i></button>
+          </div>
+
+
+        </div>
+      </div>
+      <hr>
+      <div class="cart-footer">
+        <h3 class="cart-footer__h3">
+          Total: {{cart.total|currency}}
+        </h3>
+        <div class="d-flex justify-content-between w-100">
+          <Button class="btn btn-danger text-md" (click)="removeAllProductsFromCart()"
+            [disabled]="isChangeQuantity || isDeleting">
+            Vaciar carrito <i class="fa-solid fa-trash-can"></i>
+          </Button>
+          <Button class="btn btn-success text-md" [disabled]="isChangeQuantity || isDeleting">
+            Continuar compra
+          </Button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!cart.items.length" class="alert alert-info" role="alert">
+      <p class="text-center">No tienes ningún producto en tu carrito.</p>
     </div>
   </div>
 </div>
