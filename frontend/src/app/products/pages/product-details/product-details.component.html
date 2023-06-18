@@ -12,7 +12,7 @@
           <h2>{{ product.name }}</h2>
           <p class="generaltext__parrafo1"><b>Descripción:</b> {{ product.description }}</p>
           <p class="generaltext__parrafo2"><b>Categoría:</b> {{product.category}}</p>
-          <p class="price-estilo">Precio: {{ product.price|currency }}</p>
+          <p class="price-estilo">{{ product.price|currency }}</p>
           <button>Agregar Carrito 🛒</button>
         </div>
       </div>
