@@ -25,25 +25,10 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ("id", "created_date", "status", "owner", "items", "total_items", "total_order")
 
-class CreateOrderSerializer(serializers.Serializer):
-    cart_id = serializers.IntegerField()
+class UpdateOrderStatusSerializer(serializers.Serializer):
+    status = serializers.ChoiceField(choices=Order.STATUS_CHOICES)
 
-    def save(self, **kwargs):
-        cart_id = self.validated_data["cart_id"]
-        user_id = self.context["user_id"]
-        # Verificar si hay ítems en el carrito
-        cart_items_exist = CartItem.objects.filter(cart_id=cart_id).exists()
-        if not cart_items_exist:
-            raise ValidationError("No hay ítems en el carrito para generar la orden.")
-        
-        with transaction.atomic():
-          order = Order.objects.create(owner_id = user_id)
-          cartitems = CartItem.objects.filter(cart_id = cart_id)
-          orderitems = [OrderItem(order=order, product=item.product, quantity = item.quantity)for item in cartitems]
-          OrderItem.objects.bulk_create(orderitems)
-          CartItem.objects.filter(cart_id=cart_id).delete()
-
-class UpdateOrderSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Order 
-        fields = ["status"]
+    def update(self, instance, validated_data):
+        instance.status = validated_data['status']
+        instance.save()
+        return instance
