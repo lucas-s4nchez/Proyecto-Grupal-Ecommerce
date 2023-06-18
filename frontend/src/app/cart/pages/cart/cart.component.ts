@@ -8,15 +8,12 @@ import { CartService } from 'src/app/services/cart.service';
 })
 export class CartComponent {
   cart: any = null;
-
   constructor(private cartService: CartService) {
-    this.getUserCart();
-  }
-
-  getUserCart() {
     this.cartService.getCart().subscribe({
       next: (data) => {
-        console.log(data);
+        this.cartService.setCart(data);
+        this.cart = this.cartService.cart;
+        console.log(this.cart);
       },
       error: (errors) => {
         console.log(errors);
