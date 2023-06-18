@@ -1,0 +1,199 @@
+<div class=" page d-flex justify-content-center" *ngIf="isLoading">
+  <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<div *ngIf="!isLoading">
+  <div class="overflow-x-scroll mt-5">
+    <div class="d-flex gap-4 mb-3 text-md justify-content-between">
+      <h2 class="text-xl">Usuarios</h2>
+      <button type="button" class="fab btn btn-primary" title="Agregar usuario" (click)="openModal(modalContent)">
+        <i class="fa-solid fa-plus text-md"></i>
+      </button>
+    </div>
+
+    <div class="alert alert-info" role="alert" *ngIf="!users.length">
+      Todavía no agregaste ningún usuario, agrega uno!
+    </div>
+
+    <table class=" mt-4 table table-responsive table-striped " [hidden]="!users.length">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Correo electrónico</th>
+          <th>Administrador</th>
+          <th>Estado</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of userList">
+          <td>{{user.id}}</td>
+          <td>{{user.name}}</td>
+          <td>{{user.last_name}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user.is_staff}}</td>
+          <td>{{user.is_active}}</td>
+          <td>
+            <button title="Eliminar usuario" class="btn text-danger text-md"
+              (click)="openDeleteModal(user.id, modalDeleteContent)"><i class="fa-solid fa-trash-can"></i></button>
+          </td>
+          <td>
+            <button title="Actualizar usuario" class="btn text-primary text-md"
+              (click)="openEditModal(user, modalEditContent)"><i class="fa-solid fa-pen-to-square"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex justify-content-center my-5">
+    <ngb-pagination class="d-flex align-items-lg-start" [collectionSize]="collectionSize" [(page)]="page"
+      [pageSize]="pageSize" (pageChange)="refreshUserList()" size="lg" [maxSize]="3" [rotate]="true" [ellipses]="false"
+      [boundaryLinks]="true">
+    </ngb-pagination>
+  </div>
+
+  <!-- Modal crear usuario -->
+  <ng-template #modalContent>
+    <div class="modal-header p-4">
+      <h1 class="modal-title  text-md-center ">Agregar usuario</h1>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formUser" (ngSubmit)="addNewUser()">
+        <div class="mb-3">
+          <label for="user-name" class="form-label">Nombre</label>
+          <input type="text" formControlName="name" name="name" class="form-control text-md" id="user-name"
+            placeholder="Ingrese su nombre">
+          <div class="fs-5 text-danger mt-2" [hidden]="formUserState.name.valid || formUserState.name.pristine">
+            <span *ngIf="formUserState.name.errors?.['required']">El nombre es obligatorio</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="user-last-name" class="form-label">Apellido</label>
+          <input type="text" formControlName="last_name" name="last_name" class="form-control text-md"
+            id="user-last-name" placeholder="Ingrese su apellido">
+          <div class="fs-5 text-danger mt-2"
+            [hidden]="formUserState.last_name.valid || formUserState.last_name.pristine">
+            <span *ngIf="formUserState.last_name.errors?.['required']">El apellido es obligatorio</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="user-email" class="form-label">Dirección Email</label>
+          <input type="email" formControlName="email" name="email" class="form-control text-md" id="user-email"
+            placeholder="usuario@example.com">
+          <div class="fs-5 text-danger mt-2" [hidden]="formUserState.email.valid || formUserState.email.pristine">
+            <span *ngIf="formUserState.email.errors?.['required']">El correo electrónico es obligatorio</span>
+            <span *ngIf="formUserState.email.errors?.['email']">El correo electrónico no es válido</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="user-password" class="form-label">Contraseña</label>
+          <input type="password" formControlName="password" name="password" class="form-control text-md"
+            id="user-password" placeholder="Ingrese una contraseña">
+          <div class="fs-5 text-danger mt-2" [hidden]="formUserState.password.valid || formUserState.password.pristine">
+            <span *ngIf="formUserState.password.errors?.['required']">La contraseña es obligatoria</span>
+            <span *ngIf="formUserState.password.errors?.['minlength']">La contraseña debe tener entre 6 y 20
+              caracteres</span>
+            <span *ngIf="formUserState.password.errors?.['maxlength']">La contraseña debe tener entre 6 y 20
+              caracteres</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="reset" class="btn btn-secondary text-md" (click)="closeModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary text-md" id="submit"
+            [disabled]="formUser.invalid || isLoading || isSubmitting">
+            <span *ngIf="!isSubmitting">Agregar Usuario</span>
+            <span *ngIf="isSubmitting" class="spinner-border" role="status" aria-hidden="true"></span>
+            <span *ngIf="isSubmitting">
+              Cargando...
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+  <!-- modal para editar usuario  -->
+  <ng-template #modalEditContent>
+    <div class="modal-header p-4">
+      <h1 class="modal-title  text-md-center">Editar Usuario</h1>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formUser" (ngSubmit)="updateUser()">
+        <div class="mb-3">
+          <label for="user-name" class="form-label">Nombre</label>
+          <input type="text" formControlName="name" name="name" class="form-control text-md" id="user-name"
+            placeholder="Ingrese su nombre">
+          <div class="fs-5 text-danger mt-2" [hidden]="formUserState.name.valid || formUserState.name.pristine">
+            <span *ngIf="formUserState.name.errors?.['required']">El nombre es obligatorio</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="user-last-name" class="form-label">Apellido</label>
+          <input type="text" formControlName="last_name" name="last_name" class="form-control text-md"
+            id="user-last-name" placeholder="Ingrese su apellido">
+          <div class="fs-5 text-danger mt-2"
+            [hidden]="formUserState.last_name.valid || formUserState.last_name.pristine">
+            <span *ngIf="formUserState.last_name.errors?.['required']">El apellido es obligatorio</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="user-email" class="form-label">Dirección Email</label>
+          <input type="email" formControlName="email" name="email" class="form-control text-md" id="user-email"
+            placeholder="usuario@example.com">
+          <div class="fs-5 text-danger mt-2" [hidden]="formUserState.email.valid || formUserState.email.pristine">
+            <span *ngIf="formUserState.email.errors?.['required']">El correo electrónico es obligatorio</span>
+            <span *ngIf="formUserState.email.errors?.['email']">El correo electrónico no es válido</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="user-password" class="form-label">Contraseña</label>
+          <input type="password" formControlName="password" name="password" class="form-control text-md"
+            id="user-password" placeholder="Ingrese una contraseña">
+          <div class="fs-5 text-danger mt-2" [hidden]="formUserState.password.valid || formUserState.password.pristine">
+            <span *ngIf="formUserState.password.errors?.['required']">La contraseña es obligatoria</span>
+            <span *ngIf="formUserState.password.errors?.['minlength']">La contraseña debe tener entre 6 y 20
+              caracteres</span>
+            <span *ngIf="formUserState.password.errors?.['maxlength']">La contraseña debe tener entre 6 y 20
+              caracteres</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary text-md" (click)="closeModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary text-md" id="submit"
+            [disabled]="formUser.invalid || isLoading || isSubmitting">
+            <span *ngIf="!isSubmitting">Editar Usuario</span>
+            <span *ngIf="isSubmitting" class="spinner-border mx-2" role="status" aria-hidden="true"></span>
+            <span *ngIf="isSubmitting">Guardando...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </ng-template>
+
+  <!-- modal para eliminar usuario  -->
+  <ng-template #modalDeleteContent>
+    <div class="modal-header p-4">
+      <h1 class="modal-title  text-md-center">Eliminar Usuario</h1>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+    </div>
+    <div class="modal-body">
+      <span>¿Deseas eliminar definitivamente este usuario?</span>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary text-md" (click)="closeModal()">Cancelar</button>
+      <button type="button" class="btn btn-danger text-md" id="submit" (click)="deleteUser()"
+        [disabled]="isDeleting"><span *ngIf="!isDeleting">Eliminar</span>
+        <span *ngIf="isDeleting" class="spinner-border mx-2" role="status" aria-hidden="true"></span>
+        <span *ngIf="isDeleting">Borrando...</span></button>
+    </div>
+
+  </ng-template>
+</div>

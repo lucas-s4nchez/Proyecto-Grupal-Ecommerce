@@ -1,0 +1,236 @@
+<div class=" page d-flex justify-content-center" *ngIf="isLoading">
+  <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div *ngIf="!isLoading">
+  <div class="overflow-x-scroll mt-5">
+    <div class="d-flex gap-4 mb-3 text-md justify-content-between">
+      <h2 class="text-xl">Productos</h2>
+      <button type="button" class="fab btn btn-primary" title="Agregar producto" (click)="openModal(modalContent)">
+        <i class="fa-solid fa-plus text-md"></i>
+      </button>
+    </div>
+    <div class="alert alert-info" role="alert" *ngIf="!products.length">
+      Todavía no agregaste ningún producto, agrega uno!
+    </div>
+    <table class=" mt-4 table table-responsive table-striped " [hidden]="!products.length">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Id</th>
+          <th>Nombre</th>
+          <th class="d-inline-block" style="min-width: 200px;">Descripción</th>
+          <th>Precio</th>
+          <th>Stock</th>
+          <th>Categoría</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of productList">
+          <td>
+            <img class="product__image" [src]="product.image" [alt]="product.name">
+          </td>
+          <td>{{product.id}}</td>
+          <td>{{product.name}}</td>
+          <td>{{product.description}}</td>
+          <td>{{product.price}}</td>
+          <td>{{product.stock}}</td>
+          <td>{{product.category_product}}</td>
+          <td>
+            <button title="Eliminar producto" class="btn text-danger text-md"
+              (click)="openDeleteModal(product.id, modalDeleteContent)"><i class="fa-solid fa-trash-can"></i></button>
+          </td>
+          <td>
+            <button title="Actualizar producto" class="btn text-primary text-md"
+              (click)="openEditModal(product, modalEditContent)"><i class="fa-solid fa-pen-to-square"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="d-flex justify-content-center my-5">
+    <ngb-pagination class="d-flex align-items-lg-start" [collectionSize]="collectionSize" [(page)]="page"
+      [pageSize]="pageSize" (pageChange)="refreshProductList()" size="lg" [maxSize]="3" [rotate]="true"
+      [ellipses]="false" [boundaryLinks]="true">
+    </ngb-pagination>
+  </div>
+
+  <!-- modal para crear producto -->
+  <ng-template #modalContent>
+    <div class="modal-header p-4">
+      <h1 class="modal-title  text-md-center ">Agregar Productos</h1>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formProduct" (ngSubmit)="addNewProduct()" enctype="multipart/form-data">
+
+        <div class="mb-3">
+          <label for="product-name" class="form-label">Nombre de producto</label>
+          <input type="text" formControlName="name" name="name" class="form-control text-md" id="product-name"
+            placeholder="Ingrese el nombre del producto">
+          <div class="fs-5 text-danger mt-2" [hidden]="formProductState.name.valid || formProductState.name.pristine">
+            <span *ngIf="formProductState.name.errors?.['required']">El nombre es obligatorio</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="product-description" class="form-label">Descripción</label>
+          <input type="text" formControlName="description" name="description" class="form-control text-md"
+            id="product-description" placeholder="Ingrese la descripción del producto">
+          <div class="fs-5 text-danger mt-2"
+            [hidden]="formProductState.description.valid || formProductState.description.pristine">
+            <span *ngIf="formProductState.description.errors?.['required']">La descripción es obligatoria</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="product-image" class="form-label">Imagen</label>
+          <input type="file" formControlName="image" name="image" class="form-control text-md" id="product-image"
+            placeholder="Ingrese la image del producto" (change)="onFileChange($event)">
+          <div class="fs-5 text-danger mt-2" [hidden]="formProductState.image.valid || formProductState.image.pristine">
+            <span *ngIf="formProductState.image.errors?.['required']">La imagen obligatoria</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="product-price" class="form-label">Precio</label>
+          <input type="number" formControlName="price" name="price" class="form-control text-md" id="product-price"
+            placeholder="Ingrese el precio del producto">
+          <div class="fs-5 text-danger mt-2" [hidden]="formProductState.price.valid || formProductState.price.pristine">
+            <span *ngIf="formProductState.price.errors?.['required']">El precio es obligatorio</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="product-stock" class="form-label">Stock</label>
+          <input type="number" formControlName="stock" name="stock" class="form-control text-md" id="product-stock"
+            placeholder="Ingrese la cantidad disponible del producto">
+          <div class="fs-5 text-danger mt-2" [hidden]="formProductState.stock.valid || formProductState.stock.pristine">
+            <span *ngIf="formProductState.stock.errors?.['required']">El stock es obligatorio</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="product-category" class="form-label">Categoria</label>
+          <select formControlName="category_product" name="category_product" class="form-select text-md"
+            id="product-category">
+            <option selected value="">--- Seleccione una categoria ---</option>
+            <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+          </select>
+          <div class="fs-5 text-danger mt-2"
+            [hidden]="formProductState.category_product.valid || formProductState.category_product.pristine">
+            <span *ngIf="formProductState.category_product.errors?.['required']">La categoría es
+              obligatoria</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="reset" class="btn btn-secondary text-md" (click)="closeModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary text-md" id="submit"
+            [disabled]="formProduct.invalid || isLoading || isSubmitting"><span *ngIf="!isSubmitting">Agregar
+              Producto</span>
+            <span *ngIf="isSubmitting" class="spinner-border" role="status" aria-hidden="true"></span>
+            <span *ngIf="isSubmitting">
+              Cargando...
+            </span></button>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+
+  <!-- modal para editar producto  -->
+  <ng-template #modalEditContent>
+    <div class="modal-header p-4">
+      <h1 class="modal-title  text-md-center">Editar Producto</h1>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formProduct" (ngSubmit)="updateProduct()" enctype="multipart/form-data">
+
+        <div class="mb-3">
+          <label for="product-name" class="form-label">Nombre de producto</label>
+          <input type="text" formControlName="name" name="name" class="form-control text-md" id="product-name"
+            placeholder="Ingrese el nombre del producto">
+          <div class="fs-5 text-danger mt-2" [hidden]="formProductState.name.valid || formProductState.name.pristine">
+            <span *ngIf="formProductState.name.errors?.['required']">El nombre es obligatorio</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="product-description" class="form-label">Descripción</label>
+          <input type="text" formControlName="description" name="description" class="form-control text-md"
+            id="product-description" placeholder="Ingrese la descripción del producto">
+          <div class="fs-5 text-danger mt-2"
+            [hidden]="formProductState.description.valid || formProductState.description.pristine">
+            <span *ngIf="formProductState.description.errors?.['required']">La descripción es obligatoria</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="product-image" class="form-label">Imagen</label>
+          <input type="file" formControlName="image" name="image" class="form-control text-md" id="product-image"
+            placeholder="Ingrese la image del producto" (change)="onFileChange($event)">
+          <div class="fs-5 text-danger mt-2" [hidden]="formProductState.image.valid || formProductState.image.pristine">
+            <span *ngIf="formProductState.image.errors?.['required']">La imagen obligatoria</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="product-price" class="form-label">Precio</label>
+          <input type="number" formControlName="price" name="price" class="form-control text-md" id="product-price"
+            placeholder="Ingrese el precio del producto">
+          <div class="fs-5 text-danger mt-2" [hidden]="formProductState.price.valid || formProductState.price.pristine">
+            <span *ngIf="formProductState.price.errors?.['required']">El precio es obligatorio</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="product-stock" class="form-label">Stock</label>
+          <input type="number" formControlName="stock" name="stock" class="form-control text-md" id="product-stock"
+            placeholder="Ingrese la cantidad disponible del producto">
+          <div class="fs-5 text-danger mt-2" [hidden]="formProductState.stock.valid || formProductState.stock.pristine">
+            <span *ngIf="formProductState.stock.errors?.['required']">El stock es obligatorio</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="product-category" class="form-label">Categoria</label>
+          <select formControlName="category_product" name="category_product" class="form-select text-md"
+            id="product-category">
+            <option selected value="">--- Seleccione una categoria ---</option>
+            <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+          </select>
+          <div class="fs-5 text-danger mt-2"
+            [hidden]="formProductState.category_product.valid || formProductState.category_product.pristine">
+            <span *ngIf="formProductState.category_product.errors?.['required']">La categoría es
+              obligatoria</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="reset" class="btn btn-secondary text-md" (click)="closeModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary text-md" id="submit"
+            [disabled]="formProduct.invalid || isLoading || isSubmitting">
+            <span *ngIf="!isSubmitting">Editar Producto</span>
+            <span *ngIf="isSubmitting" class="spinner-border mx-2" role="status" aria-hidden="true"></span>
+            <span *ngIf="isSubmitting">Guardando...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </ng-template>
+
+  <!-- modal para eliminar producto  -->
+  <ng-template #modalDeleteContent>
+    <div class="modal-header p-4">
+      <h1 class="modal-title  text-md-center">Eliminar Producto</h1>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+    </div>
+    <div class="modal-body">
+      <span>¿Deseas eliminar definitivamente este producto?</span>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary text-md" (click)="closeModal()">Cancelar</button>
+      <button type="button" class="btn btn-danger text-md" id="submit" (click)="deleteProduct()"
+        [disabled]="isDeleting"><span *ngIf="!isDeleting">Eliminar</span>
+        <span *ngIf="isDeleting" class="spinner-border mx-2" role="status" aria-hidden="true"></span>
+        <span *ngIf="isDeleting">Borrando...</span></button>
+    </div>
+
+  </ng-template>
+
+</div>

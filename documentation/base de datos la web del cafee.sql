@@ -18,19 +18,33 @@ CREATE TABLE `categoria` (
   PRIMARY KEY (`id_categoria`));
   
 CREATE TABLE `Stock` (
+<<<<<<< HEAD
   `id_stock` INT NOT NULL AUTO_INCREMENT,
   `stock` TINYINT NOT NULL,
   PRIMARY KEY (`id_stock`));
+=======
+  `id_strock` INT NOT NULL AUTO_INCREMENT,
+  `stock` TINYINT NOT NULL,
+  PRIMARY KEY (`id_strock`));
+>>>>>>> 45adf58cd6e8d19fca49619a2bff3b949af6544f
   
 CREATE TABLE `producto` (
   `id_producto` INT NOT NULL AUTO_INCREMENT,
   `id_categoria` INT NOT NULL,
+<<<<<<< HEAD
   `id_stock` INT NOT NULL,
+=======
+  `id_strock` INT NOT NULL,
+>>>>>>> 45adf58cd6e8d19fca49619a2bff3b949af6544f
   `precio_producto` DECIMAL(10,2) NOT NULL,
   `nombre` VARCHAR(10) NOT NULL,
   PRIMARY KEY (`id_producto`),
   CONSTRAINT `id_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`),
+<<<<<<< HEAD
   CONSTRAINT `fk_id_stock` FOREIGN KEY (`id_stock`) REFERENCES `Stock` (`id_stock`));
+=======
+  CONSTRAINT `fk_id_stock` FOREIGN KEY (`id_strock`) REFERENCES `Stock` (`id_strock`));
+>>>>>>> 45adf58cd6e8d19fca49619a2bff3b949af6544f
   
 CREATE TABLE `carrito` (
   `id_carrito` INT NOT NULL AUTO_INCREMENT,
