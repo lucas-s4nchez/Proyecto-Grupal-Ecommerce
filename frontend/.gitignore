@@ -8,6 +8,8 @@
 
 # Node
 /node_modules
+/node_modules/.package-lock.json
+/node_modules/_ngcc_entry_points__.json
 npm-debug.log
 yarn-error.log
 
