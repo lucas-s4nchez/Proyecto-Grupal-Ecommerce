@@ -1,16 +1,17 @@
-from datetime import datetime
-from django.contrib.sessions.models import Session
+from django.contrib.auth import authenticate
+from django.db import transaction
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
+
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import AllowAny
 
 from apps.users.models import CustomUser
-from apps.users.api.serializers import CustomUserSerializer, CustomUserListSerializer, CustomUserTokenSerializer
-from apps.users.authentication_mixins import Authentication
+from apps.users.api.serializers import CustomUserSerializer, CustomUserListSerializer, CustomUserTokenSerializer, CustomTokenObtainPairSerializer
 from django.shortcuts import get_object_or_404
+from apps.cart.models import Cart
 
 
 
@@ -38,7 +39,9 @@ class UserViewSet(viewsets.GenericViewSet):
         user_serializer =self.serializer_class(data=request.data)
         print(user_serializer)
         if user_serializer.is_valid():
-            user_serializer.save()
+            user = user_serializer.save()
+            # Crear un carrito para el usuario recién registrado
+            Cart.objects.create(user=user)
             return Response({
                 'message': 'Usuario registrado correctamente.'
             }, status=status.HTTP_201_CREATED)
@@ -66,65 +69,59 @@ class UserViewSet(viewsets.GenericViewSet):
         }, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
-        user_destroy = self.model.objects.filter(id=pk).update(is_active=False)
-        if user_destroy == 1:
-            return Response({
-                'message': 'Usuario eliminado correctamente'
-            })
-        return Response({
-            'message': 'No existe el usuario que desea eliminar'
-        }, status=status.HTTP_404_NOT_FOUND)
-    
-class Login(ObtainAuthToken):
+      try:
+          with transaction.atomic():
+              user = self.get_object(pk)
+              # Desactivar el usuario
+              user.is_active = False
+              user.save()
+              # Actualizar el estado del carrito asociado al usuario
+              try:
+                  cart = Cart.objects.get(user=user)
+                  cart.state = False
+                  cart.save()
+              except Cart.DoesNotExist:
+                  pass
+          return Response({'message': 'Usuario eliminado correctamente'})
+      except self.model.DoesNotExist:
+          return Response({'message': 'No existe el usuario que desea eliminar'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class Login(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
     def post(self, request, *args, **kwargs):
-        login_serializer = self.serializer_class(
-            data=request.data, context={'request': request})
-        if login_serializer.is_valid():
-            user = login_serializer.validated_data['user']
-            if user.is_active:
-                token, created = Token.objects.get_or_create(user=user)
+        email = request.data.get('email', '')
+        password = request.data.get('password', '')
+        user = authenticate(
+            email=email,
+            password=password
+        )
+
+        if user:
+            login_serializer = self.serializer_class(data=request.data)
+            if login_serializer.is_valid():
                 user_serializer = CustomUserTokenSerializer(user)
-                if created:
-                    return Response({
-                        'token': token.key,
-                        'user': user_serializer.data,
-                        'message': 'Inicio de sesión exitoso'
-                    }, status=status.HTTP_201_CREATED)
-                else:
-                    """
-                    #borrar sesiones anteriores
-                    all_sessions = Session.objects.filter(
-                        expire_date__gte=datetime.now())
-                    if all_sessions.exists():
-                        for session in all_sessions:
-                            session_data = session.get_decoded()
-                            if user.id == int(session_data.get('_auth_user_id')):
-                                session.delete()
-                    #borrar token
-                    token.delete()
-                    token = Token.objects.create(user=user)
-                    return Response({
-                        'token': token.key,
-                        'user': user_serializer.data,
-                        'message': 'Inicio de sesión exitoso'
-                    }, status=status.HTTP_201_CREATED)
-                    """
-                    return Response({'message': 'Ya se ha iniciado sesion con este usuario'}, status=status.HTTP_409_CONFLICT)
-            else:
-                return Response({'message': 'No puedes iniciar sesion.'}, status=status.HTTP_401_UNAUTHORIZED)
-        else:
-            return Response({'message': 'Email o contraseña incorrectos.'}, status=status.HTTP_400_BAD_REQUEST)
-        return Response({'message': 'Hola desde response'}, status=status.HTTP_200_OK)
+                return Response({
+                    'token': login_serializer.validated_data.get('access'),
+                    'refresh_token': login_serializer.validated_data.get('refresh'),
+                    'user': user_serializer.data,
+                    'message': 'Inicio de Sesion Existoso'
+                }, status=status.HTTP_200_OK)
+            return Response({'error': 'Contraseña o email incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Contraseña o email incorrectos'}, status=status.HTTP_400_BAD_REQUEST)
 
 class Register(APIView):
     model = CustomUser
     serializer_class = CustomUserSerializer
+    permission_classes=(AllowAny,)
     
     def post(self, request):
         user_serializer =self.serializer_class(data=request.data)
         if user_serializer.is_valid():
-            user_serializer.save()
+            user = user_serializer.save()
+            # Crear un carrito para el usuario recién registrado
+            Cart.objects.create(user=user)
             return Response({
                 'message': 'Usuario registrado correctamente.'
             }, status=status.HTTP_201_CREATED)
@@ -132,36 +129,3 @@ class Register(APIView):
             'message': 'Hay errores en el registro',
             'errors': user_serializer.errors
         }, status=status.HTTP_400_BAD_REQUEST)
-
-class Logout(APIView):
-    def post(self, request, *args, **kwargs):
-        try:
-            token = request.data['token']
-            token = Token.objects.filter(key=token).first()
-            if token:
-                user = token.user
-
-                all_sessions = Session.objects.filter(
-                    expire_date__gte=datetime.now())
-                if all_sessions.exists():
-                    for session in all_sessions:
-                        session_data = session.get_decoded()
-                        if user.id == int(session_data.get('_auth_user_id')):
-                            session.delete()
-                token.delete()
-
-                session_message = 'Sesiones de usuario eliminadas'
-                token_message = 'token eliminado'
-                return Response({'token_message': token_message, 'session_message': session_message}, status=status.HTTP_200_OK)
-            return Response({'message': 'No se ha encontrado un usuario con estas credenciales'}, status=status.HTTP_400_BAD_REQUEST)
-        except:
-            return Response({'message': 'No se ha encontrado token en la petición'}, status=status.HTTP_409_CONFLICT)
-
-class UserToken(APIView):
-    def get(self,request,*args,**kwargs):
-        email = request.GET.get('email')
-        try:
-            user_token = Token.objects.get(user = CustomUserTokenSerializer().Meta.model.objects.filter(email = email).first())
-            return Response({'token':user_token.key})
-        except:
-            return Response({'error':'Credenciales enviadas incorrectas'}, status=status.HTTP_400_BAD_REQUEST)

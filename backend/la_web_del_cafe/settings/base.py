@@ -2,6 +2,8 @@
 from pathlib import Path
 import os
 from decouple import config
+from datetime import timedelta
+import cloudinary_storage
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,12 +32,18 @@ LOCAL_APPS = [
     'apps.base',
     'apps.users',
     'apps.products',
+    'apps.cart',
+    'apps.order',
+    'apps.invoice',
 ]
 
 THIRD_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 INSTALLED_APPS = BASE_APPS + LOCAL_APPS + THIRD_APPS
@@ -90,7 +98,20 @@ AUTH_USER_MODEL = 'users.CustomUser'
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
-TOKEN_EXPIRED_AFTER_SECONDS = 25
+
+# configuracion de rest_framework
+REST_FRAMEWORK = {
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    # 'DEFAULT_PERMISSION_CLASSES':(
+    #     'rest_framework.permissions.IsAuthenticated',
+    # )
+    
+}
+
+#cors settings
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
@@ -99,6 +120,23 @@ CORS_ORIGINS_WHITELIST = [
     "http://localhost:4200",
 ]
 
+#cloudinary settings
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config("CLOUD_NAME"),
+    'API_KEY': config("API_KEY"),
+    'API_SECRET': config("API_SECRET")
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# configuración de simple_jwt
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=14),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": False,
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

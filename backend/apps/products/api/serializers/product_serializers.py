@@ -16,9 +16,15 @@ class ProductSerializer(serializers.ModelSerializer):
             'id': instance.id,
             "name": instance.name,
             "description": instance.description,
+            "image": instance.image.url if instance.image and instance.image.url else '', #modifique esta parte, para que en caso de no haber imagen deje una cadena vacia
             "price": instance.price,
             "stock": instance.stock,
             "category_product": instance.category_product.name if instance.category_product is not None else '',
         }
         
 
+class SimpleProductSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Product
+        fields = ('id', 'name','price','state')

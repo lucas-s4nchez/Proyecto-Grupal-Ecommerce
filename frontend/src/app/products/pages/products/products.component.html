@@ -1,15 +1,17 @@
 <app-header></app-header>
-<div class="page">
-  <div>
-    <div class="" *ngFor="let product of products">
-      <div>
-        <img [src]="product.img" alt="">
-        <h2>nombre: {{ product.name }}</h2>
-        <p>descripcion: {{ product.description }}</p>
-        <p>precio: {{ product.price }}</p>
-        <p *ngIf="product.discount">descuento: {{ product.discount }}</p>
-        <p>categoria: {{product.category}}</p>
-        <button (click)="goToProductDetails(product.id)">Ver mas</button>
+<div class="box">
+  <div *ngFor="let product of products">
+    <div class="card">
+      <div class="card__img-box">
+        <img [src]="product.img" alt="{{product.name}}">
+      </div>
+      <div class="card__info">
+        <h2 class="card__title">{{ product.name }}</h2>
+        <div class="card__price-details">
+          <p *ngIf="product.discount" class="card__price">precio: {{ product.discountedPrice|currency }}</p>
+          <p *ngIf="!product.discount" class="card__price">precio: {{ product.price|currency }}</p>
+        </div>
+        <button class="card__button" (click)="goToProductDetails(product.id)">Ver más</button>
       </div>
     </div>
   </div>

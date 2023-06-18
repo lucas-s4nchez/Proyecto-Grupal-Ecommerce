@@ -1,3 +1,5 @@
+@import "ngx-toastr/toastr";
+
 /* You can add global styles to this file, and also import other style files */
 :root {
   --primary: #dfab60;
@@ -17,6 +19,7 @@ body {
   font-size: 1.6rem;
   line-height: 1.5;
   color: var(--dark);
+  overflow-x: hidden;
 }
 img {
   max-width: 100%;
@@ -36,12 +39,35 @@ a {
   max-width: 120rem;
   margin: 0 auto;
 }
-[class*="page"] {
+.page {
   width: 95%;
   max-width: 120rem;
-  margin: 0 auto;
+  margin: auto;
   padding-top: 12rem;
+  min-height: 80vh;
+  display: flex;
 }
 [class*="section"] {
   margin-block: 5rem;
+}
+
+.text-md {
+  font-size: 1.6rem;
+}
+
+.overflow-x-scroll {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+/* boton flotante */
+.fab {
+  position: fixed;
+  z-index: 999;
+  bottom: 2rem;
+  right: 2rem;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  border: none;
 }

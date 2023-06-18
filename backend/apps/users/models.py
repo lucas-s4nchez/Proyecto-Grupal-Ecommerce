@@ -39,4 +39,4 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return f'{self.email}'
+        return f'{self.name} {self.last_name}'
