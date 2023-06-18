@@ -12,14 +12,11 @@
     grid-template-columns: 1fr 1fr;
 }
 
-
-
-
-
 .text-details{
-    width: 90%;
-    height: 50vh;
-    border: 2px solid gray;
+    width: auto;
+    height: auto;
+    border: 2px solid #8b5e34;
+    background-color: #f2f4f3;
     box-shadow: 20px 20px 50px grey;
     border-radius: 15px;
     font-size: 20px;
@@ -28,4 +25,38 @@
 
 .generaltext{
     margin: 45px 0 0 0;
+    color: #2d2d2d;
+}
+
+.generaltext h2{
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-transform: capitalize;
+    font-size: 35px;
+    color: #2d2d2d;
+}
+
+.generaltext__parrafo1{
+    padding: 15px 0 0px 0;
+}
+
+.generaltext__parrafo2{
+    padding: 0 0 12px 0;
+}
+
+.price-estilo{
+    padding: 0 0 10px 0;
+    text-align: left;
+    font-size: 35px;
+    font-weight: bold;
+    color: #2d2d2d;
+}
+
+.generaltext button{
+    color: #fff;
+    padding: 3px 5px 5px 5px;
+    margin: 0 0 5px 10px;
+    font-size: 20px;
+    border-radius: 10px;
+    border-style: none;
+    background-color: #774936;
 }
