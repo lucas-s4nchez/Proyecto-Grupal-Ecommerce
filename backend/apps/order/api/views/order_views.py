@@ -1,33 +1,17 @@
+from django.conf import settings
 from apps.order.api.serializers.order_serializers import OrderSerializer,UpdateOrderStatusSerializer
 from apps.order.models import Order,OrderItem
-from apps.cart.models import CartItem
+from apps.cart.models import CartItem,Cart
+from django.shortcuts import get_object_or_404
 
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
+from django.http import HttpResponse,HttpResponseNotFound
+from django.views.decorators.csrf import csrf_exempt
 
+import mercadopago
 
-# class OrderViewSet(viewsets.ModelViewSet):
-#     http_method_names = ["get", "patch", "post", "delete", "options", "head"]
-#     permission_classes = [IsAuthenticated]
-#     serializer_class = OrderSerializer
-#     queryset = Order.objects.all()
-
-#     def get_serializer_class(self):
-#         if self.request.method == 'POST':
-#             return CreateOrderSerializer
-#         elif self.request.method == 'PATCH':
-#             return UpdateOrderSerializer
-#         return OrderSerializer
-    
-#     def get_queryset(self):
-#         user = self.request.user
-#         if user.is_staff:
-#             return Order.objects.all()
-#         return Order.objects.filter(owner=user)
-    
-#     def get_serializer_context(self):
-#         return {"user_id":self.request.user.id}
 
 class OrderView(APIView):
     Model=Order
@@ -47,6 +31,9 @@ class OrderView(APIView):
     def post(self, request):
         cart_id = request.data.get('cart_id')
 
+        # Verificar si el carrito existe
+        cart = get_object_or_404(Cart, id=cart_id)
+
         # Verificar si hay ítems en el carrito
         cart_items_exist = CartItem.objects.filter(cart_id=cart_id).exists()
         if not cart_items_exist:
@@ -60,12 +47,44 @@ class OrderView(APIView):
         orderitems = [OrderItem(order=order, product=item.product, quantity = item.quantity)for item in cartitems]
         OrderItem.objects.bulk_create(orderitems)
 
-        # Opcionalmente, eliminar los items del carrito
-        CartItem.objects.filter(cart_id=cart_id).delete()
+        # Generar la preferencia de pago con Mercado Pago
+        sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
+        preference_data = {
+            "items": [],
+            'external_reference':  f'order_id: {str(order.id)}, cart_id: {str(cart_id)}',  # Referencia personalizada, en este caso el ID de la orden y el carrito
+            'back_urls': {
+                'success': 'http://localhost:8000/api/v1/order/payment/success',
+                'failure': '',
+                'pending': '',
+            },
+            'notification_url':'https://fe62-168-196-24-185.sa.ngrok.io/api/v1/order/payment/webhook',
+            'installments': 1,  # Configuración para el pago de una sola cuota
+        }
 
-        # Serializar y devolver la orden creada
-        serializer = OrderSerializer(order)
-        return Response(serializer.data, status=201)
+        # Agregar los items del carrito a la preferencia de pago
+        for item in cartitems:
+            preference_data["items"].append({
+                "title": item.product.name,
+                "quantity": item.quantity,
+                "currency_id": "ARS",  # Moneda (puedes ajustarlo según tu caso)
+                "unit_price": float(item.product.price),  # Precio unitario
+            })
+
+        try:
+            # Crea la preferencia de pago
+            preference_response = sdk.preference().create(preference_data)
+            preference = preference_response["response"]
+
+            # Serializar y devolver la orden y la url de mercado pago
+            data = {
+                'order': OrderSerializer(order).data,
+                'init_point': preference['init_point'],
+            }
+            
+            return Response(data, status=status.HTTP_201_CREATED)
+
+        except Exception as e:
+            return Response({'error': 'Ocurrió un error al generar la preferencia de pago.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     def patch(self, request, order_id):
         try:
@@ -84,3 +103,49 @@ class OrderView(APIView):
                 return Response({'error': 'El campo "status" es requerido.'}, status=400)
         else:
             return Response(serializer.errors, status=400)
+        
+@csrf_exempt
+def mercadopago_webhook(request):
+    # Procesa los datos del webhook
+    payment_type = request.GET.get('type')
+    # si el parametro de la url "type=payment" existe
+    if payment_type == 'payment':
+        try:
+            # obtengo el id del pago desde el parametro de la url "data.id"
+            payment_id = request.GET.get('data.id')
+            mp = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
+            # mediante el id del pago obtengo toda la información de pago
+            data = mp.payment().get(payment_id=payment_id)
+            # si el ststus del pago fue '200' y tambien fue aprobado
+            if data['status'] == 200 and data['response']['status'] == 'approved':
+                # 'external_reference' contiene el id de la orden y el carrito
+                external_reference = data['response']['external_reference']
+                # Buscar el índice de inicio y fin de order_id y cart_id
+                start_order_id = external_reference.find('order_id:') + len('order_id:')
+                end_order_id = external_reference.find(',', start_order_id)
+                start_cart_id = external_reference.find('cart_id:') + len('cart_id:')
+                end_cart_id = len(external_reference)
+                # Extraer los valores de order_id y cart_id
+                order_id = external_reference[start_order_id:end_order_id].strip()
+                cart_id = external_reference[start_cart_id:end_cart_id].strip()
+                try:
+                    # Actualizar el estado de pago de la orden
+                    orden = Order.objects.get(id=order_id)
+                    orden.paid = True
+                    orden.save()
+                    # Eliminar los items del carrito
+                    cartitems = CartItem.objects.filter(cart_id = cart_id)
+                    cartitems.delete()
+                except Order.DoesNotExist:
+                    print('La orden no existe')
+                    return HttpResponseNotFound('La orden no existe')
+            return HttpResponse(status=200)
+        except Exception as e:
+            # Maneja otras excepciones
+            print('Error:', e)
+            return HttpResponse(status=400)
+    return HttpResponse()
+
+def success(request):
+    print('success')
+    return HttpResponse({'message':'success'},status=200)

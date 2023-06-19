@@ -3,7 +3,11 @@ from.base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'fe62-168-196-24-185.sa.ngrok.io',
+]
 
 DATABASES = {
     'sqlite': {

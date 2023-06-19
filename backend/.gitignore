@@ -23,3 +23,6 @@ venv.bak/
 
 # Visual Studio Code # 
 .vscode/* 
+
+#Others
+ngrok.exe
