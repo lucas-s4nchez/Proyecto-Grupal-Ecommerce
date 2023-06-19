@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Product } from 'src/app/interfaces/Products';
+import { CartService } from 'src/app/services/cart.service';
 import { ProductsService } from 'src/app/services/products.service';
 
 @Component({
@@ -15,7 +16,8 @@ export class ProductDetailsComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private productService: ProductsService
+    private productService: ProductsService,
+    private cartService: CartService
   ) {
     this.route.params.subscribe((params: Params) => {
       this.productId = +params['id'];
@@ -33,4 +35,15 @@ export class ProductDetailsComponent {
     });
   }
   ngOnInit(): void {}
+
+  addProductToCart(productId: any, quantity: any) {
+    this.cartService.addProductToCart(productId, quantity).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (errors) => {
+        console.log(errors);
+      },
+    });
+  }
 }
