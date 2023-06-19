@@ -1,28 +1,38 @@
 from django.conf import settings
-from apps.order.api.serializers.order_serializers import OrderSerializer,UpdateOrderStatusSerializer
-from apps.order.models import Order,OrderItem
-from apps.cart.models import CartItem,Cart
+from apps.order.api.serializers.order_serializers import OrderSerializer, UpdateOrderStatusSerializer
+from apps.order.models import Order, OrderItem
+from apps.cart.models import CartItem, Cart
 from django.shortcuts import get_object_or_404
 
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from django.http import HttpResponse,HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseNotFound
 from django.views.decorators.csrf import csrf_exempt
 
 import mercadopago
 
 
 class OrderView(APIView):
-    Model=Order
+    Model = Order
 
-    def get(self, request):
+    def get(self, request, order_id=None):
         user = request.user
         if user.is_staff:
-            # Si el usuario es administrador, obtener todas las órdenes
+            # Si el usuario es administrador y se proporciona un order_id, obtener la orden específica
+            if order_id is not None:
+                order = get_object_or_404(Order, id=order_id)
+                serializer = OrderSerializer(order)
+                return Response(serializer.data)
+            # Si el usuario es administrador, y no se proporciona un order_id, obtener todas las órdenes
             orders = Order.objects.all()
         else:
-            # Si el usuario es normal, obtener solo sus órdenes
+            # Si el usuario es normal y se proporciona un order_id, obtener la orden específica del usuario
+            if order_id is not None:
+                order = get_object_or_404(Order, id=order_id, owner=user)
+                serializer = OrderSerializer(order)
+                return Response(serializer.data)
+            # Si el usuario es normal y no se proporciona un order_id, obtener solo sus órdenes
             orders = Order.objects.filter(owner=user)
 
         serializer = OrderSerializer(orders, many=True)
@@ -43,21 +53,23 @@ class OrderView(APIView):
         order = Order.objects.create(owner=request.user)
 
         # Crear instancias de OrderItem para cada item en el carrito
-        cartitems = CartItem.objects.filter(cart_id = cart_id)
-        orderitems = [OrderItem(order=order, product=item.product, quantity = item.quantity)for item in cartitems]
+        cartitems = CartItem.objects.filter(cart_id=cart_id)
+        orderitems = [OrderItem(
+            order=order, product=item.product, quantity=item.quantity)for item in cartitems]
         OrderItem.objects.bulk_create(orderitems)
 
         # Generar la preferencia de pago con Mercado Pago
         sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
         preference_data = {
             "items": [],
-            'external_reference':  f'order_id: {str(order.id)}, cart_id: {str(cart_id)}',  # Referencia personalizada, en este caso el ID de la orden y el carrito
+            # Referencia personalizada, en este caso el ID de la orden y el carrito
+            'external_reference':  f'order_id: {str(order.id)}, cart_id: {str(cart_id)}',
             'back_urls': {
-                'success': 'http://localhost:8000/api/v1/order/payment/success',
-                'failure': '',
-                'pending': '',
+                'success': 'http://localhost:4200/payment/success',
+                'failure': 'http://localhost:4200/payment/failure',
+                'pending': 'http://localhost:4200/payment/pending',
             },
-            'notification_url':'https://fe62-168-196-24-185.sa.ngrok.io/api/v1/order/payment/webhook',
+            'notification_url': 'https://6981-168-196-24-185.sa.ngrok.io/api/v1/order/payment/webhook',
             'installments': 1,  # Configuración para el pago de una sola cuota
         }
 
@@ -66,7 +78,8 @@ class OrderView(APIView):
             preference_data["items"].append({
                 "title": item.product.name,
                 "quantity": item.quantity,
-                "currency_id": "ARS",  # Moneda (puedes ajustarlo según tu caso)
+                # Moneda (puedes ajustarlo según tu caso)
+                "currency_id": "ARS",
                 "unit_price": float(item.product.price),  # Precio unitario
             })
 
@@ -80,19 +93,20 @@ class OrderView(APIView):
                 'order': OrderSerializer(order).data,
                 'init_point': preference['init_point'],
             }
-            
+
             return Response(data, status=status.HTTP_201_CREATED)
 
         except Exception as e:
             return Response({'error': 'Ocurrió un error al generar la preferencia de pago.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    
+
     def patch(self, request, order_id):
         try:
             order = Order.objects.get(id=order_id)
         except Order.DoesNotExist:
             return Response({'error': 'La orden no existe.'}, status=400)
 
-        serializer = UpdateOrderStatusSerializer(order, data=request.data, partial=True)
+        serializer = UpdateOrderStatusSerializer(
+            order, data=request.data, partial=True)
         if serializer.is_valid():
             status = serializer.validated_data.get('status')
             if status is not None:
@@ -103,7 +117,8 @@ class OrderView(APIView):
                 return Response({'error': 'El campo "status" es requerido.'}, status=400)
         else:
             return Response(serializer.errors, status=400)
-        
+
+
 @csrf_exempt
 def mercadopago_webhook(request):
     # Procesa los datos del webhook
@@ -121,12 +136,15 @@ def mercadopago_webhook(request):
                 # 'external_reference' contiene el id de la orden y el carrito
                 external_reference = data['response']['external_reference']
                 # Buscar el índice de inicio y fin de order_id y cart_id
-                start_order_id = external_reference.find('order_id:') + len('order_id:')
+                start_order_id = external_reference.find(
+                    'order_id:') + len('order_id:')
                 end_order_id = external_reference.find(',', start_order_id)
-                start_cart_id = external_reference.find('cart_id:') + len('cart_id:')
+                start_cart_id = external_reference.find(
+                    'cart_id:') + len('cart_id:')
                 end_cart_id = len(external_reference)
                 # Extraer los valores de order_id y cart_id
-                order_id = external_reference[start_order_id:end_order_id].strip()
+                order_id = external_reference[start_order_id:end_order_id].strip(
+                )
                 cart_id = external_reference[start_cart_id:end_cart_id].strip()
                 try:
                     # Actualizar el estado de pago de la orden
@@ -134,7 +152,7 @@ def mercadopago_webhook(request):
                     orden.paid = True
                     orden.save()
                     # Eliminar los items del carrito
-                    cartitems = CartItem.objects.filter(cart_id = cart_id)
+                    cartitems = CartItem.objects.filter(cart_id=cart_id)
                     cartitems.delete()
                 except Order.DoesNotExist:
                     print('La orden no existe')
@@ -146,6 +164,7 @@ def mercadopago_webhook(request):
             return HttpResponse(status=400)
     return HttpResponse()
 
+
 def success(request):
     print('success')
-    return HttpResponse({'message':'success'},status=200)
+    return HttpResponse({'message': 'success'}, status=200)

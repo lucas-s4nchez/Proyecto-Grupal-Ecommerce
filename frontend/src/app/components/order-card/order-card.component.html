@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="card-header">
+    Detalle de la orden
+  </div>
+  <div class="card-body">
+    <h5 class="card-title text-md mb-3">Order ID: {{ myOrder.id }}</h5>
+    <p class="text-md ">Fecha: {{ myOrder.created_date|date:'dd/MM/yyyy' }}</p>
+    <p class="card-text">Entrega: {{ myOrder.delivered ? 'Entregado' : 'Pendiente' }}</p>
+    <p class="card-text">Pago: {{ myOrder.paid ? 'Acreditado' : 'Pendiente' }}</p>
+    <p class="card-text">Estado de la orden: {{ myOrder.status === 'P' ? 'Pendiente' : 'Completado' }}</p>
+    <h6 class="card-subtitle mb-2 text-muted text-md">Productos:</h6>
+    <ul class="list-group">
+      <li *ngFor="let item of myOrder.items" class="list-group-item">
+        <div class="d-flex">
+          <div>
+            <img [src]="item.product.image" alt="Product Image" style="width: 10rem;">
+          </div>
+          <div>
+            <h6 class="text-md text-uppercase">{{ item.product.name }}</h6>
+            <p class="text-mutted">Cantidad: {{ item.quantity }}</p>
+            <p class="text-mutted">Subtotal: {{ item.sub_total }}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

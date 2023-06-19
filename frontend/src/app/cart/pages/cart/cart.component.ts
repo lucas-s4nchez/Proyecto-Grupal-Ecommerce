@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
+import { FormArrayName } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CartService } from 'src/app/services/cart.service';
+import { OrdersService } from 'src/app/services/orders.service';
 
 @Component({
   selector: 'app-cart',
@@ -10,8 +13,13 @@ export class CartComponent {
   isLoading = false;
   isChangeQuantity = false;
   isDeleting = false;
+  isPaying = false;
   cart: any = null;
-  constructor(private cartService: CartService) {
+  constructor(
+    private cartService: CartService,
+    private orderService: OrdersService,
+    private router: Router
+  ) {
     this.getCartData();
   }
 
@@ -89,6 +97,20 @@ export class CartComponent {
       error: (errors) => {
         console.log(errors);
         this.isDeleting = false;
+      },
+    });
+  }
+
+  createOrder() {
+    this.isPaying = true;
+    this.orderService.createOrder({ cart_id: this.cart.id }).subscribe({
+      next: (data) => {
+        window.location.href = data.init_point;
+        this.isPaying = false;
+      },
+      error: (errors) => {
+        console.log(errors);
+        this.isPaying = false;
       },
     });
   }

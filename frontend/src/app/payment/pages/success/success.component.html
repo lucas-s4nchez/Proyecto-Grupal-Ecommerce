@@ -1,0 +1,16 @@
+<app-header></app-header>
+<div class="page">
+  <div class=" page d-flex justify-content-center" *ngIf="isLoading">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <div class="w-100" *ngIf="!isLoading">
+    <div class="w-100 h-auto alert alert-success text-center" role="alert">
+      <p>El pago se ha completado satisfactoriamente!</p>
+    </div>
+    <app-order-card [myOrder]="order"></app-order-card>
+    <button class="btn btn-primary text-md mt-4" (click)="redirect()">Ir a mis compras</button>
+  </div>
+</div>
+<app-footer></app-footer>

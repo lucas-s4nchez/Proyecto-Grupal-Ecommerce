@@ -30,6 +30,16 @@ const routes: Routes = [
     canActivate: [IsAuthenticatedGuard],
   },
   {
+    path: 'my-account',
+    loadChildren: () =>
+      import('./account/account.module').then((m) => m.AccountModule),
+  },
+  {
+    path: 'payment',
+    loadChildren: () =>
+      import('./payment/payment.module').then((m) => m.PaymentModule),
+  },
+  {
     path: 'admin',
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),

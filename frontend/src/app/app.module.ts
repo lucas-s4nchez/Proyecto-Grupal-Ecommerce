@@ -10,6 +10,8 @@ import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { PaymentModule } from './payment/payment.module';
+import { ComponentModule } from './components/components.module';
 
 export function tokenGetter() {
   const token = localStorage.getItem('token');

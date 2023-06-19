@@ -17,9 +17,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'fe62-168-196-24-185.sa.ngrok.io',
+    '6981-168-196-24-185.sa.ngrok.io',
 ]
-
 
 
 # Application definition
@@ -106,30 +105,31 @@ ACCOUNT_USERNAME_REQUIRED = False
 
 # configuracion de rest_framework
 REST_FRAMEWORK = {
-    
+
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     # 'DEFAULT_PERMISSION_CLASSES':(
     #     'rest_framework.permissions.IsAuthenticated',
     # )
-    
+
 }
 
-#cors settings
+# cors settings
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
-    'https://fe62-168-196-24-185.sa.ngrok.io'
+    'https://6981-168-196-24-185.sa.ngrok.io'
 ]
 CORS_ORIGINS_WHITELIST = [
     "http://localhost:4200",
-    'https://fe62-168-196-24-185.sa.ngrok.io'
+    'https://6981-168-196-24-185.sa.ngrok.io'
 ]
-CORS_ORIGIN_ALLOW_ALL = False  # Asegúrate de que esté configurado en False si lo estás usando
+# Asegúrate de que esté configurado en False si lo estás usando
+CORS_ORIGIN_ALLOW_ALL = False
 
 
-#cloudinary settings
+# cloudinary settings
 
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': config("CLOUD_NAME"),
@@ -147,8 +147,8 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": False,
 }
 
-#token de mercado pago
-MERCADOPAGO_ACCESS_TOKEN =  config("ACCESS_TOKEN_MP")
+# token de mercado pago
+MERCADOPAGO_ACCESS_TOKEN = config("ACCESS_TOKEN_MP")
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
