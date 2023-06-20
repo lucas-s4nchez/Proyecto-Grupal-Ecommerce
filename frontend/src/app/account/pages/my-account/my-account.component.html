@@ -11,10 +11,13 @@
     <div class="card p-4">
       <h3>Mis compras</h3>
       <hr>
-      <div class="d-flex flex-column gap-2">
+      <div class="alert alert-info" *ngIf="!orders.length">
+        <p>Aún no tienes ninguna compra!</p>
+      </div>
+      <div class="d-flex flex-column gap-2" *ngIf="orders.length">
         <div *ngFor="let order of orders" class="d-flex justify-content-between align-items-center bg-light p-2">
-          <p class="fw-bolder text-sm m-0">Order ID: {{ order.id }}</p>
-          <button class="btn btn-info text-md" (click)="openModal(order, modalContent)">Ver más</button>
+          <p class="fw-bolder text-sm m-0">#Orden: {{ order.id }}</p>
+          <button class="btn btn-primary text-md" (click)="openModal(order, modalContent)">Ver más</button>
         </div>
       </div>
     </div>

@@ -109,12 +109,14 @@ class OrderView(APIView):
             order, data=request.data, partial=True)
         if serializer.is_valid():
             status = serializer.validated_data.get('status')
-            if status is not None:
+            delivered = serializer.validated_data.get('delivered')
+            if status is not None and delivered is not None:
                 order.status = status
+                order.delivered = delivered
                 order.save()
-                return Response({'message': f'El estado de la orden se actualizó correctamente.'})
+                return Response({'message': 'El estado de la orden se actualizó correctamente.'})
             else:
-                return Response({'error': 'El campo "status" es requerido.'}, status=400)
+                return Response({'error': 'Los campos "status" y "delivered" son requeridos.'}, status=400)
         else:
             return Response(serializer.errors, status=400)
 

@@ -22,7 +22,7 @@ export class OrdersService {
   }
 
   updateOrder(orderId: any, data: any): Observable<any> {
-    return this.http.put<any>(
+    return this.http.patch<any>(
       this.url + `api/v1/order/order/${orderId}/`,
       data
     );
