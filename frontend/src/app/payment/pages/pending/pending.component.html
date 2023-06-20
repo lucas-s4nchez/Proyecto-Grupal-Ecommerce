@@ -1,5 +1,10 @@
 <app-header></app-header>
 <div class="page">
-  <p>Se está procesando el pago</p>
+  <div class="w-100" >
+    <div class="w-100 h-auto alert alert-warning text-center" role="alert">
+      <p>El pago se esta procesando!</p>
+    </div>
+     <button class="btn btn-primary text-md mt-4" (click)="redirect()">Ir al inicio</button>
+  </div>
 </div>
 <app-footer></app-footer>
