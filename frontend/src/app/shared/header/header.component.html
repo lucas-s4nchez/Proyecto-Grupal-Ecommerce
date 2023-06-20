@@ -17,9 +17,12 @@
       <li class="menu__item">
         <a routerLink="/products" routerLinkActive="menu__link--active" class="menu__link">Productos</a>
       </li>
-      <li class="menu__item">
+      <li class="menu__item" [hidden]="!isAuthenticated || isAdmin">
         <a routerLink="/cart" routerLinkActive="menu__link--active" class="menu__link">Carrito <i
             class="fa-solid fa-cart-shopping"></i></a>
+      </li>
+      <li class="menu__item" [hidden]="!isAuthenticated || isAdmin">
+        <a routerLink="/my-account" routerLinkActive="menu__link--active" class="menu__link">Mi cuenta </a>
       </li>
       <li class="menu__item" [hidden]="isAuthenticated">
         <a routerLink="/auth/login" routerLinkActive="menu__link--active" class="menu__link">Ingresar <i

@@ -22,17 +22,17 @@
                 </div>
                 <div class="d-flex align-items-center gap-2" role="group">
                   <button title="Quitar unidad del producto" class="btn btn-primary"
-                    (click)="decreaseQuantity(item.id, item.quantity)" [disabled]="isChangeQuantity || isDeleting"><i
-                      class="fa-solid fa-minus"></i></button>
+                    (click)="decreaseQuantity(item.id, item.quantity)"
+                    [disabled]="isChangeQuantity || isDeleting || isPaying"><i class="fa-solid fa-minus"></i></button>
                   <p class="card-text m-0">{{ item.quantity }}</p>
                   <button title="Agregar unidad del producto" class="btn btn-primary"
-                    (click)="increaseQuantity(item.id, item.quantity)" [disabled]="isChangeQuantity || isDeleting"><i
-                      class="fa-solid fa-plus"></i></button>
+                    (click)="increaseQuantity(item.id, item.quantity)"
+                    [disabled]="isChangeQuantity || isDeleting || isPaying"><i class="fa-solid fa-plus"></i></button>
                 </div>
               </div>
             </div>
             <button title="Remover producto del carrito" class="btn text-danger text-md"
-              (click)="removeProductFromCart(item.id)" [disabled]="isChangeQuantity || isDeleting"><i
+              (click)="removeProductFromCart(item.id)" [disabled]="isChangeQuantity || isDeleting || isPaying"><i
                 class="fa-solid fa-trash-can"></i></button>
           </div>
 
@@ -46,11 +46,20 @@
         </h3>
         <div class="d-flex justify-content-between w-100">
           <Button class="btn btn-danger text-md" (click)="removeAllProductsFromCart()"
-            [disabled]="isChangeQuantity || isDeleting">
-            Vaciar carrito <i class="fa-solid fa-trash-can"></i>
+            [disabled]="isChangeQuantity || isDeleting || isPaying">
+            <span *ngIf="!isDeleting">Vaciar carrito <i class="fa-solid fa-trash-can"></i></span>
+            <span *ngIf="isDeleting" class="spinner-border mx-2" role="status" aria-hidden="true"></span>
+            <span *ngIf="isDeleting">
+              Borrando...
+            </span>
           </Button>
-          <Button class="btn btn-success text-md" [disabled]="isChangeQuantity || isDeleting">
-            Continuar compra
+          <Button class="btn btn-success text-md" [disabled]="isChangeQuantity || isDeleting || isPaying"
+            (click)="createOrder()">
+            <span *ngIf="!isPaying">Continuar compra</span>
+            <span *ngIf="isPaying" class="spinner-border mx-2" role="status" aria-hidden="true"></span>
+            <span *ngIf="isPaying">
+              Cargando...
+            </span>
           </Button>
         </div>
       </div>

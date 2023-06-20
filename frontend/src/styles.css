@@ -54,6 +54,9 @@ a {
 .text-md {
   font-size: 1.6rem;
 }
+.text-sm {
+  font-size: 1.3rem;
+}
 
 .overflow-x-scroll {
   overflow-x: scroll;

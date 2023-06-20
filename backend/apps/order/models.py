@@ -17,6 +17,8 @@ class Order(BaseModel):
 
     status = models.CharField(max_length=50, choices= STATUS_CHOICES, default= 'P')
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
+    paid = models.BooleanField(default=False)
+    delivered = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Orden"

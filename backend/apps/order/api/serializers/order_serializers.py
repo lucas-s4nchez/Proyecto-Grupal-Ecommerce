@@ -23,7 +23,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ("id", "created_date", "status", "owner", "items", "total_items", "total_order")
+        fields = ("id", "created_date", "status", "owner", "items", "total_items", "total_order",'paid','delivered')
 
 class UpdateOrderStatusSerializer(serializers.Serializer):
     status = serializers.ChoiceField(choices=Order.STATUS_CHOICES)
