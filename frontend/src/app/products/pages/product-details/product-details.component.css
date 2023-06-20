@@ -70,7 +70,7 @@
 
 .generaltext button{
     color: #fff;
-    padding: 3px 5px 5px 5px;
+    padding: 3px 5px 7px 10px;
     margin: 0 0 10px 0;
     font-size: 20px;
     border-radius: 10px;
@@ -80,6 +80,6 @@
 }
 
 .generaltext button:hover{
-    background-color: #2d2d2d;
-    box-shadow: 10px 10px 10px gray;
+    background-color: #008000;
+    box-shadow: 10px 10px 10px #004b23;
 }
