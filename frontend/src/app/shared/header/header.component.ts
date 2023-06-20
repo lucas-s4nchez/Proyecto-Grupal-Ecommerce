@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -10,7 +11,8 @@ import { AuthService } from 'src/app/services/auth.service';
 export class HeaderComponent {
   constructor(
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
   isMenuOpen = false;
   isAuthenticated = this.authService.isAuthenticated;
@@ -55,6 +57,7 @@ export class HeaderComponent {
     this.toastr.success('La sesión ha terminado');
     this.isAuthenticated = this.authService.isAuthenticated;
     this.isAdmin = this.authService.isAdmin;
+    this.router.navigate(['/']);
   }
 
   ngOnInit() {

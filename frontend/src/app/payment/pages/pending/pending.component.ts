@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pending',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./pending.component.css']
 })
 export class PendingComponent {
-
+  constructor(private router: Router){}
+  redirect() {
+    this.router.navigateByUrl('/home');
+  }
 }
