@@ -20,48 +20,6 @@
   </div>
 </section>
 
-<section class="section container">
-  <h2>Productos destacados</h2>
-  <div class="box">
-    <div *ngFor="let product of featuredProducts">
-      <div class="card">
-        <div class="card__img-box">
-          <img [src]="product.img" alt="{{product.name}}">
-        </div>
-        <div class="card__info">
-          <h2 class="card__title">{{ product.name }}</h2>
-          <div class="card__price-details">
-            <p *ngIf="product.discount" class="card__price">precio: {{ product.discountedPrice|currency }}</p>
-            <p *ngIf="!product.discount" class="card__price">precio: {{ product.price|currency }}</p>
-            <span class="card__discount" *ngIf="product.discount">{{product.discount}}% off</span>
-          </div>
-          <button class="card__button" (click)="goToProductDetails(product.id)">Ver más</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="container section">
-  <h2>Productos en oferta</h2>
-  <div class="box">
-    <div *ngFor="let product of discountedProducts">
-      <div class="card">
-        <div class="card__img-box">
-          <img [src]="product.img" alt="{{product.name}}">
-        </div>
-        <div class="card__info">
-          <h2 class="card__title">{{ product.name }}</h2>
-          <div class="card__price-details">
-            <p *ngIf="product.discount" class="card__price">precio: {{ product.discountedPrice|currency }}</p>
-            <span class="card__discount" *ngIf="product.discount">{{product.discount}}% off</span>
-          </div>
-          <button class="card__button" (click)="goToProductDetails(product.id)">Ver más</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <section class="container section">
   <div class="contact">
