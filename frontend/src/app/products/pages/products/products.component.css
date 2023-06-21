@@ -6,14 +6,13 @@
   flex-wrap: wrap;
   gap: 2rem;
   overflow: hidden;
-  padding: 120px 30px 0 30px;
+  padding-block: 1rem;
 }
-
 
 .card {
   width: 100%;
   min-width: 25rem;
-  max-width: 30rem;
+  max-width: 25rem;
   background-color: var(--white);
   border-radius: 1rem;
   border: none;
@@ -29,15 +28,16 @@
 }
 .card__info {
   padding: 1rem;
+  min-width: 25rem;
+  max-width: 25rem;
 }
 .card__title {
   font-size: 2rem;
   font-weight: 700;
+
+  width: auto;
+  max-width: 100%;
   text-transform: capitalize;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
 }
 .card__price-details {
   margin-top: 1rem;

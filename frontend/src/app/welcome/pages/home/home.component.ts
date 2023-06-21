@@ -13,17 +13,17 @@ export class HomeComponent {
   discountedProducts: Product[] = [];
 
   constructor(private router: Router, private productService: ProductsService) {
-    this.productService.getProducts().subscribe({
-      next: (data) => {
-        this.featuredProducts = data.filter((product: any) => product.featured);
-        this.discountedProducts = data.filter(
-          (product: any) => product.discount
-        );
-      },
-      error: (errors) => {
-        console.log(errors);
-      },
-    });
+    // this.productService.getProducts().subscribe({
+    //   next: (data) => {
+    //     this.featuredProducts = data.filter((product: any) => product.featured);
+    //     this.discountedProducts = data.filter(
+    //       (product: any) => product.discount
+    //     );
+    //   },
+    //   error: (errors) => {
+    //     console.log(errors);
+    //   },
+    // });
   }
 
   ngOnInit() {}

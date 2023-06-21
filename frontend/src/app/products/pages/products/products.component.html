@@ -1,19 +1,36 @@
 <app-header></app-header>
-<div class="box">
-  <div *ngFor="let product of products">
-    <div class="card">
-      <div class="card__img-box">
-        <img [src]="product.img" alt="{{product.name}}">
-      </div>
-      <div class="card__info">
-        <h2 class="card__title">{{ product.name }}</h2>
-        <div class="card__price-details">
-          <p *ngIf="product.discount" class="card__price">precio: {{ product.discountedPrice|currency }}</p>
-          <p *ngIf="!product.discount" class="card__price">precio: {{ product.price|currency }}</p>
+<div class="page">
+  <div class="page justify-content-center" *ngIf="isLoading">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <div class="w-100" *ngIf="!isLoading">
+    <div class="box" *ngIf="products.length">
+      <div *ngFor="let product of products">
+        <div class="card">
+          <div class="card__img-box">
+            <img [src]="product.image" alt="{{product.name}}">
+          </div>
+          <div class="card__info">
+            <span class="card__title">{{ product.name }}</span>
+            <div class="card__price-details">
+              <p *ngIf="product.discount" class="card__price">precio: {{ product.discountedPrice|currency }}</p>
+              <p *ngIf="!product.discount" class="card__price">precio: {{ product.price|currency }}</p>
+            </div>
+            <button class="card__button" (click)="goToProductDetails(product.id)">Ver más</button>
+          </div>
         </div>
-        <button class="card__button" (click)="goToProductDetails(product.id)">Ver más</button>
+      </div>
+    </div>
+    <div class="w-100 alert alert-info text-center" *ngIf="!products.length">
+      <p *ngIf="!isAdmin">No hay productos por el momento</p>
+      <div *ngIf="isAdmin">
+        <p>No hay productos por el momento, crea uno!</p>
+        <button class="btn btn-primary text-md" (click)="goToDashboard()">Ir al panel de administrador</button>
       </div>
     </div>
   </div>
+
 </div>
 <app-footer></app-footer>
