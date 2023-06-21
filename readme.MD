@@ -32,6 +32,8 @@ Además, como entorno de desarrollo se ha utilizado Visual Studio Code, un IDE p
 - Fernando Esteban Juarez
 - Hernan Ezequiel Juarez
 - Facundo Villalba
+## Link a video de presentación:
+- https://drive.google.com/file/d/1F2Kcmqt9fb2Y97dA42Cl3y07kojRvnjp/view?usp=drive_link
 
 ## Levantar el proyecto localmente
 
