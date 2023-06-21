@@ -1,9 +1,13 @@
-from.base import *
+from .base import *
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
+NGROK_HOST = config("NGROK_HOST", default='valor_por_defecto')
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    NGROK_HOST,
+]
 
 DATABASES = {
     'sqlite': {

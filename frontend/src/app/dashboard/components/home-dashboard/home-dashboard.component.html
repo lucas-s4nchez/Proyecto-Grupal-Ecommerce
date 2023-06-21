@@ -1,0 +1,131 @@
+<div id="page-content-wrapper">
+
+
+  <div class="w-100 my-3">
+    <div class="d-flex flex-column flex-md-row justify-content-between ">
+      <div class="col-md-3">
+        <div class="p-3 bg-light shadow-sm d-flex justify-content-around align-items-center rounded">
+          <div>
+            <h3 class="fs-2">{{products?.length}}</h3>
+            <p class="fs-5">Productos</p>
+          </div>
+          <i class="fas fa-gift fs-1 primary-text border rounded-circle p-4 text-bg-success"></i>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="p-3 bg-light shadow-sm d-flex justify-content-around align-items-center rounded">
+          <div>
+            <h3 class="fs-2">{{paidOrders.length}}</h3>
+            <p class="fs-5">Ventas</p>
+          </div>
+          <i class="fas fa-hand-holding-usd fs-1 primary-text border rounded-circle p-4 text-bg-success"></i>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="p-3 bg-light shadow-sm d-flex justify-content-around align-items-center rounded">
+          <div>
+            <h3 class="fs-2">{{deliveredOrders.length}}</h3>
+            <p class="fs-5">Entregas</p>
+          </div>
+          <i class="fas fa-truck fs-1 primary-text border rounded-circle p-4 text-bg-success"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class=" page d-flex justify-content-center" *ngIf="isLoading">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading">
+      <div class="overflow-x-scroll ">
+        <div class="row my-3 mx-auto">
+          <h3 class="fs-4 mb-3">Ordenes</h3>
+          <div class="alert alert-info w-100" role="alert" *ngIf="!orders.length">
+            Todavía no existe ningúna orden!
+          </div>
+          <table class=" mt-4 table table-responsive table-striped w-100" [hidden]="!orders.length">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>usuario</th>
+                <th>Estado de la orden</th>
+                <th>Estado de pago</th>
+                <th>Estado de la entrega</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let order of orderList">
+                <td>{{order.id}}</td>
+                <td>{{order.owner.email}}</td>
+                <td>{{order.status === 'P' ? 'Pendiente' : 'Terminada'}}</td>
+                <td>{{order.paid === true ? 'Acreditada' : 'Pendiente'}}</td>
+                <td>{{order.delivered === true ? 'Entregada' : 'Pendiente'}}</td>
+                <td>
+                  <button title="Actualizar orden" class="btn text-primary text-md"
+                    (click)="openEditModal(order, modalEditContent)"><i class="fa-solid fa-pen-to-square"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center my-5">
+      <ngb-pagination class="d-flex align-items-lg-start" [collectionSize]="collectionSize" [(page)]="page"
+        [pageSize]="pageSize" (pageChange)="refreshOrderList()" size="lg" [maxSize]="3" [rotate]="true"
+        [ellipses]="false" [boundaryLinks]="true">
+      </ngb-pagination>
+    </div>
+  </div>
+
+  <!-- modal para editar orden  -->
+  <ng-template #modalEditContent>
+    <div class="modal-header p-4">
+      <h1 class="modal-title  text-md-center">Editar Orden</h1>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formOrder" (ngSubmit)="updateOrder()">
+        <div class="mb-3">
+          <label for="status-order" class="form-label">Estado de la orden</label>
+          <select formControlName="status" name="status" class="form-select text-md" id="status-order">
+            <option selected value="">--- Seleccione una opción ---</option>
+            <option value="C">Terminada</option>
+            <option value="P">Pendiente</option>
+          </select>
+          <div class="fs-5 text-danger mt-2" [hidden]="formOrderState.status.valid || formOrderState.status.pristine">
+            <span *ngIf="formOrderState.status.errors?.['required']">Debes elegir una opción</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="status-delivered" class="form-label">Estado de la entrega</label>
+          <select formControlName="delivered" name="delivered" class="form-select text-md" id="status-delivered">
+            <option selected value="">--- Seleccione una opción ---</option>
+            <option [value]='true'>Entregada</option>
+            <option [value]='false'>Pendiente</option>
+          </select>
+          <div class="fs-5 text-danger mt-2"
+            [hidden]="formOrderState.delivered.valid || formOrderState.delivered.pristine">
+            <span *ngIf="formOrderState.delivered.errors?.['required']">Debes elegir una opción</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary text-md" (click)="closeModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary text-md" id="submit"
+            [disabled]="formOrder.invalid || isLoading || isSubmitting">
+            <span *ngIf="!isSubmitting">Editar Orden</span>
+            <span *ngIf="isSubmitting" class="spinner-border mx-2" role="status" aria-hidden="true"></span>
+            <span *ngIf="isSubmitting">Guardando...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </ng-template>
+</div>

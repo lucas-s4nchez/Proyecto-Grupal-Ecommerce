@@ -7,6 +7,7 @@
       <i [class]="isMenuOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars'"></i>
     </button>
     <ul [class.menu--active]="isMenuOpen" class="menu">
+
       <li class="menu__item">
         <a routerLink="/home" routerLinkActive="menu__link--active" class="menu__link">Inicio</a>
       </li>
@@ -16,22 +17,32 @@
       <li class="menu__item">
         <a routerLink="/products" routerLinkActive="menu__link--active" class="menu__link">Productos</a>
       </li>
-      <li class="menu__item">
+      <li class="menu__item" [hidden]="!isAuthenticated || isAdmin">
         <a routerLink="/cart" routerLinkActive="menu__link--active" class="menu__link">Carrito <i
             class="fa-solid fa-cart-shopping"></i></a>
       </li>
-      <li class="menu__item" [hidden]="authService.isAuthenticated">
+      <li class="menu__item" [hidden]="!isAuthenticated || isAdmin">
+        <a routerLink="/my-account" routerLinkActive="menu__link--active" class="menu__link">Mi cuenta </a>
+      </li>
+      <li class="menu__item" [hidden]="isAuthenticated">
         <a routerLink="/auth/login" routerLinkActive="menu__link--active" class="menu__link">Ingresar <i
             class="fa-solid fa-arrow-right-to-bracket"></i></a>
       </li>
-      <li class="menu__item" [hidden]="authService.isAuthenticated">
+      <li class="menu__item" [hidden]="isAuthenticated">
         <a routerLink="/auth/register" routerLinkActive="menu__link--active" class="menu__link">Registrarse <i
             class="fa-solid fa-user-plus"></i></a>
       </li>
-      <li class="menu__item" [hidden]="!authService.isAuthenticated">
-        <button class="btn btn-danger text-md" (click)="startLogout()">Salir <i
+      <li class="menu__item" [hidden]="!isAdmin">
+        <a routerLink="/admin" routerLinkActive="menu__link--active" class="menu__link">
+          Admin <i class="fa-solid fa-chart-line"></i>
+        </a>
+      </li>
+      <li class="menu__item" [hidden]="!isAuthenticated">
+        <button class="btn btn-danger text-md" (click)="logout()">Salir <i
             class="fa-solid fa-right-from-bracket"></i></button>
       </li>
+
     </ul>
   </nav>
+
 </header>

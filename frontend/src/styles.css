@@ -39,7 +39,7 @@ a {
   max-width: 120rem;
   margin: 0 auto;
 }
-[class*="page"] {
+.page {
   width: 95%;
   max-width: 120rem;
   margin: auto;
@@ -53,4 +53,24 @@ a {
 
 .text-md {
   font-size: 1.6rem;
+}
+.text-sm {
+  font-size: 1.3rem;
+}
+
+.overflow-x-scroll {
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+/* boton flotante */
+.fab {
+  position: fixed;
+  z-index: 999;
+  bottom: 2rem;
+  right: 2rem;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  border: none;
 }

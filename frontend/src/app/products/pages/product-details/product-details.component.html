@@ -1,17 +1,44 @@
 <app-header></app-header>
-<div class="page">
-  <div *ngIf="product">
-    <img [src]="product.img" alt="">
-    <h2>nombre: {{ product.name }}</h2>
-    <p>descripcion: {{ product.description }}</p>
-    <p *ngIf="product.discount" class="text-decoration-line-through">antes: {{ product.price|currency }}</p>
-    <p *ngIf="product.discount">precio: {{ product.discountedPrice|currency }}</p>
-    <p *ngIf="!product.discount" class="card__price">precio: {{ product.price|currency }}</p>
-    <p *ngIf="product.discount">descuento: {{ product.discount }}%</p>
-    <p>categoria: {{product.category}}</p>
-  </div>
-  <div *ngIf="productNotFound">
-    <h2>{{productNotFound}}</h2>
+<div class="background">
+  <div class="page">
+    <div class="page justify-content-center" *ngIf="isLoading">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+
+    <div class="w-100 d-flex" *ngIf="product">
+      <div class="w-100 d-flex flex-column flex-md-row gap-5 justify-content-center" *ngIf="!isLoading">
+        <div class="d-flex align-items-center justify-content-center">
+          <img [src]="product.image" [alt]="product.name" style="width: 20rem;">
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+          <div class=" text-details ">
+            <h2 class="text-capitalize fw-bolder">{{ product.name }}</h2>
+            <div class="generaltext__parrafos">
+              <p class="generaltext__parrafo1"><b>Descripción:</b> {{ product.description }}</p>
+              <p class="generaltext__parrafo2"><b>Categoría:</b> {{product.category_product}}</p>
+              <p class="generaltext__parrafo3"><b>Sku:</b> {{product.id}}</p>
+            </div>
+            <p class="price-estilo">{{ product.price|currency }}</p>
+            <button class="btn btn-success text-md" (click)="addProductToCart(product.id,1)"
+              [disabled]="!isAuthenticated || isAdmin">Agregar
+              Carrito
+              🛒</button>
+            <div class="alert alert-info w-100 mt-3" *ngIf="!isAuthenticated || isAdmin">
+              <p *ngIf="!isAdmin" class="text-sm">Para agregar un producto al carrito debes iniciar sesión</p>
+              <p *ngIf="isAdmin" class="text-sm">No puedes agregar al carrito si eres un administrador</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="productNotFound" class="w-100">
+      <div class="alert alert-danger w-100 text-center">
+        <p>{{productNotFound}}</p>
+      </div>
+    </div>
   </div>
 </div>
+
 <app-footer></app-footer>

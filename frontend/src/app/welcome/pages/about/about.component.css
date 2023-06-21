@@ -1,0 +1,45 @@
+.about-us-seccion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .about-us-seccion img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .about-us-seccion p {
+    font-size: 18px;
+    line-height: 1.5;
+  }
+  
+  /* Media queries */
+  @media (max-width: 768px) {
+    .about-us-seccion {
+      padding: 10px;
+    }
+  
+    .about-us-seccion img {
+      margin-bottom: 10px;
+    }
+  
+    .about-us-seccion p {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .about-us-seccion {
+      padding: 5px;
+    }
+  
+    .about-us-seccion p {
+      font-size: 12px;
+    }
+  }
+  
+  
