@@ -11,20 +11,6 @@ export class ProductsService {
   url: String = 'http://localhost:8000/';
   constructor(private http: HttpClient) {}
 
-  // getProducts(): Observable<Product[]> {
-  //   return this.http.get<Product[]>(this.url + 'products').pipe(
-  //     map((response) =>
-  //       response.map((product) => {
-  //         if (product.discount) {
-  //           product.discountedPrice =
-  //             product.price - (product.price * product.discount) / 100;
-  //         }
-  //         return product;
-  //       })
-  //     )
-  //   );
-  // }
-
   getProductById(id: number): Observable<any> {
     return this.http.get<any>(this.url + `api/v1/products/products/${id}`);
   }
