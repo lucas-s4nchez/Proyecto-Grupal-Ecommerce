@@ -32,7 +32,6 @@ export class MyAccountComponent {
     this.orderService.getOrders().subscribe({
       next: (data) => {
         this.orders = data;
-        console.log(this.orders);
         this.isLoading = false;
       },
       error: (errors) => {

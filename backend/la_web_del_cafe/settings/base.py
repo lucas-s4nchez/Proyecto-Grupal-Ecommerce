@@ -13,11 +13,11 @@ SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+NGROK_HOST = config("NGROK_HOST", default='valor_por_defecto')
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    '6981-168-196-24-185.sa.ngrok.io',
+    NGROK_HOST,
 ]
 
 
@@ -109,9 +109,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    # 'DEFAULT_PERMISSION_CLASSES':(
-    #     'rest_framework.permissions.IsAuthenticated',
-    # )
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
 
 }
 
@@ -119,11 +119,11 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:4200",
-    'https://6981-168-196-24-185.sa.ngrok.io'
+    'https://' + NGROK_HOST
 ]
 CORS_ORIGINS_WHITELIST = [
     "http://localhost:4200",
-    'https://6981-168-196-24-185.sa.ngrok.io'
+    'https://' + NGROK_HOST
 ]
 # Asegúrate de que esté configurado en False si lo estás usando
 CORS_ORIGIN_ALLOW_ALL = False

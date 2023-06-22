@@ -1,3 +1,4 @@
+from decouple import config
 from django.conf import settings
 from apps.order.api.serializers.order_serializers import OrderSerializer, UpdateOrderStatusSerializer
 from apps.order.models import Order, OrderItem
@@ -60,6 +61,8 @@ class OrderView(APIView):
 
         # Generar la preferencia de pago con Mercado Pago
         sdk = mercadopago.SDK(settings.MERCADOPAGO_ACCESS_TOKEN)
+        ngrok_host = config("NGROK_HOST", default='valor_por_defecto')
+        notification_url = 'https://' + ngrok_host + '/api/v1/order/payment/webhook'
         preference_data = {
             "items": [],
             # Referencia personalizada, en este caso el ID de la orden y el carrito
@@ -69,7 +72,7 @@ class OrderView(APIView):
                 'failure': 'http://localhost:4200/payment/failure',
                 'pending': 'http://localhost:4200/payment/pending',
             },
-            'notification_url': 'https://6981-168-196-24-185.sa.ngrok.io/api/v1/order/payment/webhook',
+            'notification_url': notification_url,
             'installments': 1,  # Configuración para el pago de una sola cuota
         }
 

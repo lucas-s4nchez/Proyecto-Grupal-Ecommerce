@@ -1,6 +1,11 @@
 <app-header></app-header>
 <div class="page">
-  <div class="d-flex flex-column gap-4 m-auto" style="max-width: 80rem; width: 100%;">
+  <div class=" page d-flex justify-content-center" *ngIf="isLoading">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  <div class="d-flex flex-column gap-4 m-auto" style="max-width: 80rem; width: 100%;" *ngIf="!isLoading">
     <div class="card p-4">
       <h3 class="text-md fw-bold">Mi información</h3>
       <hr>
@@ -11,6 +16,7 @@
     <div class="card p-4">
       <h3>Mis compras</h3>
       <hr>
+
       <div class="alert alert-info" *ngIf="!orders.length">
         <p>Aún no tienes ninguna compra!</p>
       </div>
